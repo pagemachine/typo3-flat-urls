@@ -2,6 +2,17 @@
 
 Flat URLs (like Stack Overflow) for TYPO3
 
+## Installation
+
+This extension is installable from various sources:
+
+1. Via [Composer](https://packagist.org/packages/pagemachine/typo3-flat-urls):
+
+        composer require pagemachine/typo3-flat-urls
+
+2. From the [TYPO3 Extension Repository](https://extensions.typo3.org/extension/flat_urls/)
+3. From [Github](https://github.com/pagemachine/typo3-flat-urls/releases)
+
 ## Purpose
 
 The purpose of this extension is to enforce so called "flat URLs" throughout the TYPO3 frontend. Thus instead of `my/deeply/nested/page/` you will always get URLs like `10/page/` (thus page UID and title), no matter the actual page hierarchy managed in the backend.
