@@ -35,6 +35,7 @@
   },
   "extra": {
     "typo3/cms": {
+      "extension-key": "flat_urls",
       "cms-package-dir": "{$vendor-dir}/typo3/cms",
       "web-dir": "web"
     }
@@ -47,11 +48,6 @@
   "autoload-dev": {
     "psr-4": {
       "Pagemachine\\FlatUrls\\Tests\\": "Tests/"
-    }
-  },
-  "extra": {
-    "typo3/cms": {
-      "extension-key": "flat_urls"
     }
   }
 }
