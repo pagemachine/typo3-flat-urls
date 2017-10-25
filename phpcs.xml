@@ -9,7 +9,6 @@
 
   <file>Classes</file>
   <file>Configuration/TCA</file>
-  <file>Migrations</file>
   <file>Tests</file>
   <file>ext_emconf.php</file>
   <file>ext_localconf.php</file>
@@ -17,10 +16,6 @@
 
   <rule ref="PSR2">
     <exclude name="Generic.Files.LineLength"/>
-  </rule>
-
-  <rule ref="PSR1.Classes.ClassDeclaration.MissingNamespace">
-    <exclude-pattern>*Migrations/Phinx/*.php</exclude-pattern>
   </rule>
 
   <rule ref="PSR1.Methods.CamelCapsMethodName.NotCamelCaps">
