@@ -1,0 +1,57 @@
+{
+  "name": "pagemachine/typo3-flat-urls",
+  "description": "Flat URLs (like Stack Overflow) for TYPO3",
+  "keywords": ["typo3", "urls", "flat", "stackoverflow"],
+  "type": "typo3-cms-extension",
+  "license": "GPL-3.0+",
+  "authors": [
+    {
+      "name": "Mathias Brodala",
+      "email": "mbrodala@pagemachine.de"
+    }
+  ],
+  "require": {
+    "php": "^7.0",
+    "dmitryd/typo3-realurl": "^2.0",
+    "typo3/cms": "^7.6 || ^8.7"
+  },
+  "require-dev": {
+    "cakephp/cakephp-codesniffer": "^3.0",
+    "jakub-onderka/php-console-highlighter": "^0.3.2",
+    "jakub-onderka/php-parallel-lint": "^0.9.2",
+    "nimut/testing-framework": "^1.1.0",
+    "phpunit/phpunit": "^5.7",
+    "sclable/xml-lint": "^0.2.2",
+    "slevomat/coding-standard": "^4.0",
+    "squizlabs/php_codesniffer": "^3.1"
+  },
+  "replace": {
+    "flat_urls": "self.version",
+    "typo3-ter/flat-urls": "self.version"
+  },
+  "config": {
+    "sort-packages": true,
+    "bin-dir": "bin"
+  },
+  "extra": {
+    "typo3/cms": {
+      "cms-package-dir": "{$vendor-dir}/typo3/cms",
+      "web-dir": "web"
+    }
+  },
+  "autoload": {
+    "psr-4": {
+      "Pagemachine\\FlatUrls\\": "Classes/"
+    }
+  },
+  "autoload-dev": {
+    "psr-4": {
+      "Pagemachine\\FlatUrls\\Tests\\": "Tests/"
+    }
+  },
+  "extra": {
+    "typo3/cms": {
+      "extension-key": "flat_urls"
+    }
+  }
+}
