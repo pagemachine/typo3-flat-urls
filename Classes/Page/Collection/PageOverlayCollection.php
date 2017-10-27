@@ -24,7 +24,7 @@ class PageOverlayCollection extends AbstractPageCollection
      * @param Page $page a page
      * @return PageOverlayCollection
      */
-    public function forPage(Page $page): PageOverlayCollection
+    public function forPage(Page $page): self
     {
         $this->page = $page;
 
