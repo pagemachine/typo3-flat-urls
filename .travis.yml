@@ -17,6 +17,7 @@ jobs:
   include:
     - php: 7.0
     - php: 7.1
+    - php: 7.1
       env: Other lints
       script:
         - bin/xmllint --pattern "*.xlf*,svg" Resources
