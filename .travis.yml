@@ -12,6 +12,7 @@ install:
 script:
   - bin/parallel-lint --exclude bin --exclude vendor --exclude web .
   - bin/phpunit
+  - bin/phpunit --configuration phpunit-functional.xml
 
 jobs:
   include:
