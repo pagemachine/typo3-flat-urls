@@ -85,7 +85,7 @@ class DataHandlerHook
         if (!empty($data['pid'])) {
             $pid = $data['pid'];
         } else {
-            $row = $this->databaseConnection->exec_SELECTgetSingleRow('pid', $table, 'uid = ' . (int) $uid);
+            $row = $this->databaseConnection->exec_SELECTgetSingleRow('pid', $table, 'uid = ' . (int)$uid);
             $pid = $row['pid'];
         }
 
