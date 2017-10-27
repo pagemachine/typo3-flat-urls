@@ -37,7 +37,7 @@ class PathSegmentEvaluator
         // Thanks to Dmitry Dulepov for this code
         $value = mb_strtolower($value, 'UTF-8');
         $value = strip_tags($value);
-        $value = preg_replace('/[ \t\x{00A0}\-+_]+/u', '-', $value);
+        $value = preg_replace('~[ \t\x{00A0}\-+_/]+~u', '-', $value);
         $value = $this->charsetConverter->specCharsToASCII('utf-8', $value);
         $value = preg_replace('/[^\p{L}0-9-]/u', '', $value);
         $value = preg_replace('/-{2,}/', '-', $value);

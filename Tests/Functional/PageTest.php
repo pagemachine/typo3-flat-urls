@@ -60,7 +60,7 @@ class PageTest extends FunctionalTestCase
         $dataMap = [
             'pages' => [
                 1 => [
-                    'title' => 'Here, check this out! Special & characters: ä',
+                    'title' => 'Here, check this out! Special & chars/characters: ä',
                 ],
             ],
         ];
@@ -72,6 +72,6 @@ class PageTest extends FunctionalTestCase
 
         $pageRecord = $this->getDatabaseConnection()->selectSingleRow('tx_realurl_pathsegment', 'pages', 'uid = 1');
 
-        $this->assertEquals('1/here-check-this-out-special-characters-ae', $pageRecord['tx_realurl_pathsegment']);
+        $this->assertEquals('1/here-check-this-out-special-chars-characters-ae', $pageRecord['tx_realurl_pathsegment']);
     }
 }
