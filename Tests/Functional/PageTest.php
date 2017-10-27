@@ -5,8 +5,8 @@ namespace Pagemachine\FlatUrls\Functional;
  * This file is part of the Pagemachine Flat URLs project.
  */
 
+use Nimut\TestingFramework\TestCase\FunctionalTestCase;
 use TYPO3\CMS\Core\DataHandling\DataHandler;
-use TYPO3\CMS\Core\Tests\FunctionalTestCase;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 
 /**
