@@ -72,5 +72,6 @@ class FlatUrlsCommandController extends CommandController
         }
 
         $this->output->progressFinish();
+        $this->output->outputLine();
     }
 }
