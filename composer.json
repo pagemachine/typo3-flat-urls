@@ -40,6 +40,22 @@
       "web-dir": "web"
     }
   },
+  "scripts": {
+    "lint:php": "parallel-lint --exclude bin --exclude vendor --exclude web .",
+    "lint:xml": "xmllint --pattern '*.xlf*,svg' Resources",
+    "lint:style": "phpcs",
+    "lint": [
+      "@lint:php",
+      "@lint:style",
+      "@lint:xml"
+    ],
+    "test:unit": "phpunit",
+    "test:functional": "phpunit --configuration phpunit-functional.xml",
+    "test": [
+      "@test:unit",
+      "@test:functional"
+    ]
+  },
   "autoload": {
     "psr-4": {
       "Pagemachine\\FlatUrls\\": "Classes/"
