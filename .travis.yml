@@ -27,7 +27,7 @@ jobs:
         - composer lint:style
 
     - stage: deploy
-      if: branch = master AND tag IS present
+      if: tag IS present
       php: 7.1
       before_install: skip
       install: skip
