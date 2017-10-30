@@ -52,7 +52,7 @@ class PageTest extends FunctionalTestCase
     /**
      * @test
      */
-    public function setsPathSegmentBasedOnPageTitle()
+    public function setsPathSegmentOfPages()
     {
         $this->importDataSet(__DIR__ . '/Fixtures/Database/pages.xml');
         $this->setUpBackendUserFromFixture(1);
@@ -81,5 +81,43 @@ class PageTest extends FunctionalTestCase
         $pageRecord2 = $this->getDatabaseConnection()->selectSingleRow('tx_realurl_pathsegment', 'pages', 'uid = 2');
 
         $this->assertEquals('2/foo-bar', $pageRecord2['tx_realurl_pathsegment']);
+    }
+
+    /**
+     * @test
+     */
+    public function setsPathSegmentOfPageOverlays()
+    {
+        $this->importDataSet(__DIR__ . '/Fixtures/Database/pages.xml');
+        $this->importDataSet(__DIR__ . '/Fixtures/Database/sys_language.xml');
+        $this->importDataSet(__DIR__ . '/Fixtures/Database/pages_language_overlay.xml');
+        $this->setUpBackendUserFromFixture(1);
+
+        $dataMap = [
+            'pages_language_overlay' => [
+                1 => [
+                    'title' => 'Deutsche Wurzel',
+                    'sys_language_uid' => 1,
+                ],
+                'NEWabc' => [
+                    'pid' => 1,
+                    'title' => 'Japanese Root',
+                    'sys_language_uid' => 2,
+                ],
+            ],
+        ];
+        /** @var \TYPO3\CMS\Core\DataHandling\DataHandler */
+        $dataHandler = GeneralUtility::makeInstance(DataHandler::class);
+        $dataHandler->stripslashes_values = false;
+        $dataHandler->start($dataMap, []);
+        $dataHandler->process_datamap();
+
+        $pageOverlayRecord1 = $this->getDatabaseConnection()->selectSingleRow('tx_realurl_pathsegment', 'pages_language_overlay', 'uid = 1');
+
+        $this->assertEquals('1/deutsche-wurzel', $pageOverlayRecord1['tx_realurl_pathsegment']);
+
+        $pageOverlayRecord2 = $this->getDatabaseConnection()->selectSingleRow('tx_realurl_pathsegment', 'pages_language_overlay', 'uid = 2');
+
+        $this->assertEquals('1/japanese-root', $pageOverlayRecord2['tx_realurl_pathsegment']);
     }
 }
