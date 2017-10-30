@@ -8,7 +8,7 @@ namespace Pagemachine\FlatUrls\Url;
 use Pagemachine\FlatUrls\Page\Page;
 use Pagemachine\FlatUrls\Page\PageInterface;
 use Pagemachine\FlatUrls\Page\PageOverlay;
-use TYPO3\CMS\Core\DataHandling\DataHandler;
+use TYPO3\CMS\Core\Charset\CharsetConverter;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 
 /**
@@ -17,16 +17,16 @@ use TYPO3\CMS\Core\Utility\GeneralUtility;
 class FlatUrlBuilder
 {
     /**
-     * @var DataHandler
+     * @var CharsetConverter
      */
-    protected $dataHandler;
+    private $charsetConverter;
 
     /**
-     * @param DataHandler|null $dataHandler
+     * @param CharsetConverter|null $charsetConverter
      */
-    public function __construct(DataHandler $dataHandler = null)
+    public function __construct(CharsetConverter $charsetConverter = null)
     {
-        $this->dataHandler = $dataHandler ?: GeneralUtility::makeInstance(DataHandler::class);
+        $this->charsetConverter = $charsetConverter ?: GeneralUtility::makeInstance(CharsetConverter::class);
     }
 
     /**
@@ -37,7 +37,7 @@ class FlatUrlBuilder
      */
     public function buildForPage(Page $page): string
     {
-        $titlePathSegment = $this->convertTitleToPathSegment($page, 'pages');
+        $titlePathSegment = $this->convertToPathSegment($page->getTitle());
         $flatUrl = sprintf('%d/%s', $page->getUid(), $titlePathSegment);
 
         return $flatUrl;
@@ -51,31 +51,30 @@ class FlatUrlBuilder
      */
     public function buildForPageOverlay(PageOverlay $pageOverlay): string
     {
-        $titlePathSegment = $this->convertTitleToPathSegment($pageOverlay, 'pages_language_overlay');
+        $titlePathSegment = $this->convertToPathSegment($pageOverlay->getTitle());
         $flatUrl = sprintf('%d/%s', $pageOverlay->getPid(), $titlePathSegment);
 
         return $flatUrl;
     }
 
     /**
-     * Convert a regular title to a path segment
+     * Convert a value to a path segment
      *
-     * @param PageInterface $page a page or page overlay
-     * @param string $table a table name
+     * @param string $value a regular human-readable text
      * @return string
      */
-    protected function convertTitleToPathSegment(PageInterface $page, $table): string
+    protected function convertToPathSegment(string $value): string
     {
-        $result = $this->dataHandler->checkValue(
-            $table,
-            'tx_realurl_pathsegment',
-            $page->getTitle(),
-            $page->getUid(),
-            'dummy',
-            $page->getPid(),
-            0
-        );
+        // Thanks to Dmitry Dulepov for this code
+        $value = mb_strtolower($value, 'UTF-8');
+        $value = strip_tags($value);
+        $value = preg_replace('~[ \t\x{00A0}\-+_/]+~u', '-', $value);
+        $value = $this->charsetConverter->specCharsToASCII('utf-8', $value);
+        $value = preg_replace('/[^\p{L}0-9-]/u', '', $value);
+        $value = preg_replace('/-{2,}/', '-', $value);
+        $value = trim($value, '-');
+        $value = strtolower($value);
 
-        return $result['value'];
+        return $value;
     }
 }
