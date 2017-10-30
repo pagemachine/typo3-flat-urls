@@ -6,7 +6,6 @@ namespace Pagemachine\FlatUrls\Url;
  */
 
 use Pagemachine\FlatUrls\Page\Page;
-use Pagemachine\FlatUrls\Page\PageInterface;
 use Pagemachine\FlatUrls\Page\PageOverlay;
 use TYPO3\CMS\Core\Charset\CharsetConverter;
 use TYPO3\CMS\Core\Utility\GeneralUtility;

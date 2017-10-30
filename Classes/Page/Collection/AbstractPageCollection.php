@@ -7,8 +7,8 @@ namespace Pagemachine\FlatUrls\Page\Collection;
 
 use Pagemachine\FlatUrls\Page\PageInterface;
 use TYPO3\CMS\Backend\Utility\BackendUtility;
-use TYPO3\CMS\Core\DataHandling\DataHandler;
 use TYPO3\CMS\Core\Database\DatabaseConnection;
+use TYPO3\CMS\Core\DataHandling\DataHandler;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 
 /**

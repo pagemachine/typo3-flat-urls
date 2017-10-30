@@ -9,12 +9,12 @@ use Pagemachine\FlatUrls\Page\Collection\PageOverlayCollection;
 use Pagemachine\FlatUrls\Page\Page;
 use Pagemachine\FlatUrls\Page\PageOverlay;
 use Prophecy\Argument;
-use TYPO3\CMS\Core\DataHandling\DataHandler;
 use TYPO3\CMS\Core\Database\ConnectionPool;
 use TYPO3\CMS\Core\Database\DatabaseConnection;
 use TYPO3\CMS\Core\Database\PreparedStatement;
 use TYPO3\CMS\Core\Database\Query\Expression\ExpressionBuilder;
 use TYPO3\CMS\Core\Database\Query\QueryBuilder;
+use TYPO3\CMS\Core\DataHandling\DataHandler;
 use TYPO3\CMS\Core\Tests\UnitTestCase;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 
