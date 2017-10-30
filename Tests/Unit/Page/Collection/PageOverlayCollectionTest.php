@@ -14,6 +14,7 @@ use TYPO3\CMS\Core\Database\DatabaseConnection;
 use TYPO3\CMS\Core\Database\PreparedStatement;
 use TYPO3\CMS\Core\Database\Query\Expression\ExpressionBuilder;
 use TYPO3\CMS\Core\Database\Query\QueryBuilder;
+use TYPO3\CMS\Core\DataHandling\DataHandler;
 use TYPO3\CMS\Core\Tests\UnitTestCase;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 
@@ -25,12 +26,17 @@ class PageOverlayCollectionTest extends UnitTestCase
     /**
      * @var PageOverlayCollection
      */
-    protected $pageCollection;
+    protected $pageOverlayCollection;
 
     /**
      * @var DatabaseConnection|\Prophecy\Prophecy\ObjectProphecy
      */
     protected $databaseConnection;
+
+    /**
+     * @var DataHandler|\Prophecy\Prophecy\ObjectProphecy
+     */
+    protected $dataHandler;
 
     /**
      * @var array|null
@@ -63,7 +69,8 @@ class PageOverlayCollectionTest extends UnitTestCase
         }
 
         $this->databaseConnection = $this->prophesize(DatabaseConnection::class);
-        $this->pageOverlayCollection = new PageOverlayCollection($this->databaseConnection->reveal());
+        $this->dataHandler = $this->prophesize(DataHandler::class);
+        $this->pageOverlayCollection = new PageOverlayCollection($this->databaseConnection->reveal(), $this->dataHandler->reveal());
     }
 
     /**
@@ -89,11 +96,18 @@ class PageOverlayCollectionTest extends UnitTestCase
         $pageOverlay->getUid()->willReturn(10);
         $pageOverlay->getPathSegment()->willReturn('test-foo');
 
-        $this->databaseConnection->exec_UPDATEquery('pages_language_overlay', 'uid = 10', [
-            'tx_realurl_pathsegment' => 'test-foo',
-        ])->shouldBeCalled();
+        $expected = [
+            'pages_language_overlay' => [
+                10 => [
+                    'tx_realurl_pathsegment' => 'test-foo',
+                ],
+            ],
+        ];
 
         $this->pageOverlayCollection->update($pageOverlay->reveal());
+
+        $this->dataHandler->start($expected, [])->shouldHaveBeenCalled();
+        $this->dataHandler->process_datamap()->shouldHaveBeenCalled();
     }
 
     /**

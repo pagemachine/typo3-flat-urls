@@ -9,7 +9,7 @@ use Pagemachine\FlatUrls\Page\Page;
 use Pagemachine\FlatUrls\Page\PageOverlay;
 use Pagemachine\FlatUrls\Url\FlatUrlBuilder;
 use Prophecy\Argument;
-use TYPO3\CMS\Core\DataHandling\DataHandler;
+use TYPO3\CMS\Core\Charset\CharsetConverter;
 use TYPO3\CMS\Core\Tests\UnitTestCase;
 
 /**
@@ -23,17 +23,15 @@ class FlatUrlBuilderTest extends UnitTestCase
     protected $flatUrlBuilder;
 
     /**
-     * @var DataHandler|ObjectProphecy
-     */
-    protected $dataHandler;
-
-    /**
      * Set up this testcase
      */
     protected function setUp()
     {
-        $this->dataHandler = $this->prophesize(DataHandler::class);
-        $this->flatUrlBuilder = new FlatUrlBuilder($this->dataHandler->reveal());
+        /** @var CharsetConverter */
+        $charsetConverter = $this->prophesize(CharsetConverter::class);
+        $charsetConverter->specCharsToASCII('utf-8', Argument::type('string'))->willReturnArgument(1);
+
+        $this->flatUrlBuilder = new FlatUrlBuilder($charsetConverter->reveal());
     }
 
     /**
@@ -43,12 +41,7 @@ class FlatUrlBuilderTest extends UnitTestCase
     {
         $page = $this->prophesize(Page::class);
         $page->getUid()->willReturn(10);
-        $page->getPid()->willReturn(9);
         $page->getTitle()->willReturn('The Page');
-
-        $this->dataHandler->checkValue('pages', 'tx_realurl_pathsegment', 'The Page', 10, Argument::any(), 9, Argument::any())->willReturn([
-            'value' => 'the-page',
-        ]);
 
         $this->assertEquals('10/the-page', $this->flatUrlBuilder->buildForPage($page->reveal()));
     }
@@ -59,14 +52,37 @@ class FlatUrlBuilderTest extends UnitTestCase
     public function buildsFlatUrlForPageOverlays()
     {
         $pageOverlay = $this->prophesize(PageOverlay::class);
-        $pageOverlay->getUid()->willReturn(11);
         $pageOverlay->getPid()->willReturn(10);
         $pageOverlay->getTitle()->willReturn('Die Seite');
 
-        $this->dataHandler->checkValue('pages_language_overlay', 'tx_realurl_pathsegment', 'Die Seite', 11, Argument::any(), 10, Argument::any())->willReturn([
-            'value' => 'die-seite',
-        ]);
-
         $this->assertEquals('10/die-seite', $this->flatUrlBuilder->buildForPageOverlay($pageOverlay->reveal()));
+    }
+
+    /**
+     * @test
+     * @dataProvider values
+     *
+     * @param string $pageTitle
+     * @param string $expected
+     */
+    public function convertsTitleToPathSegment(string $pageTitle, string $expected)
+    {
+        $page = $this->prophesize(Page::class);
+        $page->getUid()->willReturn(10);
+        $page->getTitle()->willReturn($pageTitle);
+
+        $this->assertEquals($expected, $this->flatUrlBuilder->buildForPage($page->reveal()));
+    }
+
+    /**
+     * @return array
+     */
+    public function values(): array
+    {
+        return [
+            'simple' => ['Foo BAR', '10/foo-bar'],
+            'with dashes' => ['a - b -- c -', '10/a-b-c'],
+            'with special characters' => ['a & b / c + d? e, f!', '10/a-b-c-d-e-f'],
+        ];
     }
 }

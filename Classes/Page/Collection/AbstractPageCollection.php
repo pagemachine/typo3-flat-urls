@@ -8,6 +8,8 @@ namespace Pagemachine\FlatUrls\Page\Collection;
 use Pagemachine\FlatUrls\Page\PageInterface;
 use TYPO3\CMS\Backend\Utility\BackendUtility;
 use TYPO3\CMS\Core\Database\DatabaseConnection;
+use TYPO3\CMS\Core\DataHandling\DataHandler;
+use TYPO3\CMS\Core\Utility\GeneralUtility;
 
 /**
  * Base class for page collections
@@ -20,11 +22,19 @@ abstract class AbstractPageCollection implements \IteratorAggregate, \Countable
     protected $databaseConnection;
 
     /**
-     * @param DatabaseConnection|null $databaseConnection
+     * @var DataHandler
      */
-    public function __construct(DatabaseConnection $databaseConnection = null)
+    protected $dataHandler;
+
+    /**
+     * @param DatabaseConnection|null $databaseConnection
+     * @param DataHandler|null $dataHandler
+     */
+    public function __construct(DatabaseConnection $databaseConnection = null, DataHandler $dataHandler = null)
     {
         $this->databaseConnection = $databaseConnection ?: $GLOBALS['TYPO3_DB'];
+        $this->dataHandler = $dataHandler ?: GeneralUtility::makeInstance(DataHandler::class);
+        $this->dataHandler->stripslashes_values = false;
     }
 
     /**
@@ -66,10 +76,17 @@ abstract class AbstractPageCollection implements \IteratorAggregate, \Countable
      */
     protected function updatePageRecord(PageInterface $page, array $extraData = [])
     {
-        $data = ['tx_realurl_pathsegment' => $page->getPathSegment()];
-        $data = array_replace($data, $extraData);
+        $data = [
+            $this->getTableName() => [
+                $page->getUid() => array_replace(
+                    ['tx_realurl_pathsegment' => $page->getPathSegment()],
+                    $extraData
+                ),
+            ],
+        ];
 
-        $this->databaseConnection->exec_UPDATEquery($this->getTableName(), 'uid = ' . (int)$page->getUid(), $data);
+        $this->dataHandler->start($data, []);
+        $this->dataHandler->process_datamap();
     }
 
     /**
