@@ -25,27 +25,27 @@ class DataHandlerHookTest extends UnitTestCase
     protected $dataHandlerHook;
 
     /**
-     * @var DatabaseConnection|ObjectProphecy
+     * @var DatabaseConnection|\Prophecy\Prophecy\ObjectProphecy
      */
     protected $databaseConnection;
 
     /**
-     * @var PageCollection|ObjectProphecy
+     * @var PageCollection|\Prophecy\Prophecy\ObjectProphecy
      */
     protected $pageCollection;
 
     /**
-     * @var PageOverlayCollection|ObjectProphecy
+     * @var PageOverlayCollection|\Prophecy\Prophecy\ObjectProphecy
      */
     protected $pageOverlayCollection;
 
     /**
-     * @var FlatUrlBuilder|ObjectProphecy
+     * @var FlatUrlBuilder|\Prophecy\Prophecy\ObjectProphecy
      */
     protected $flatUrlBuilder;
 
     /**
-     * @var DataHandler|ObjectProphecy
+     * @var DataHandler|\Prophecy\Prophecy\ObjectProphecy
      */
     protected $dataHandler;
 
