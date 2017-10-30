@@ -8,6 +8,7 @@ namespace Pagemachine\FlatUrls\Tests\Unit\Page\Collection;
 use Pagemachine\FlatUrls\Page\Collection\PageCollection;
 use Pagemachine\FlatUrls\Page\Page;
 use Prophecy\Argument;
+use TYPO3\CMS\Core\DataHandling\DataHandler;
 use TYPO3\CMS\Core\Database\ConnectionPool;
 use TYPO3\CMS\Core\Database\DatabaseConnection;
 use TYPO3\CMS\Core\Database\PreparedStatement;
@@ -30,6 +31,11 @@ class PageCollectionTest extends UnitTestCase
      * @var DatabaseConnection|\Prophecy\Prophecy\ObjectProphecy
      */
     protected $databaseConnection;
+
+    /**
+     * @var DataHandler|\Prophecy\Prophecy\ObjectProphecy
+     */
+    protected $dataHandler;
 
     /**
      * @var array|null
@@ -62,7 +68,8 @@ class PageCollectionTest extends UnitTestCase
         }
 
         $this->databaseConnection = $this->prophesize(DatabaseConnection::class);
-        $this->pageCollection = new PageCollection($this->databaseConnection->reveal());
+        $this->dataHandler = $this->prophesize(DataHandler::class);
+        $this->pageCollection = new PageCollection($this->databaseConnection->reveal(), $this->dataHandler->reveal());
     }
 
     /**
@@ -88,12 +95,19 @@ class PageCollectionTest extends UnitTestCase
         $page->getUid()->willReturn(10);
         $page->getPathSegment()->willReturn('test-foo');
 
-        $this->databaseConnection->exec_UPDATEquery('pages', 'uid = 10', [
-            'tx_realurl_pathsegment' => 'test-foo',
-            'tx_realurl_pathoverride' => 1,
-        ])->shouldBeCalled();
+        $expected = [
+            'pages' => [
+                10 => [
+                    'tx_realurl_pathsegment' => 'test-foo',
+                    'tx_realurl_pathoverride' => 1,
+                ],
+            ],
+        ];
 
         $this->pageCollection->update($page->reveal());
+
+        $this->dataHandler->start($expected, [])->shouldHaveBeenCalled();
+        $this->dataHandler->process_datamap()->shouldHaveBeenCalled();
     }
 
     /**
