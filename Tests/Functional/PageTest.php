@@ -54,13 +54,17 @@ class PageTest extends FunctionalTestCase
      */
     public function setsPathSegmentBasedOnPageTitle()
     {
-        $this->importDataSet('ntf://Database/pages.xml');
+        $this->importDataSet(__DIR__ . '/Fixtures/Database/pages.xml');
         $this->setUpBackendUserFromFixture(1);
 
         $dataMap = [
             'pages' => [
                 1 => [
                     'title' => 'Here, check this out! Special & chars/characters: ä',
+                ],
+                'NEWabc' => [
+                    'pid' => 1,
+                    'title' => 'Foo Bar',
                 ],
             ],
         ];
@@ -70,8 +74,12 @@ class PageTest extends FunctionalTestCase
         $dataHandler->start($dataMap, []);
         $dataHandler->process_datamap();
 
-        $pageRecord = $this->getDatabaseConnection()->selectSingleRow('tx_realurl_pathsegment', 'pages', 'uid = 1');
+        $pageRecord1 = $this->getDatabaseConnection()->selectSingleRow('tx_realurl_pathsegment', 'pages', 'uid = 1');
 
-        $this->assertEquals('1/here-check-this-out-special-chars-characters-ae', $pageRecord['tx_realurl_pathsegment']);
+        $this->assertEquals('1/here-check-this-out-special-chars-characters-ae', $pageRecord1['tx_realurl_pathsegment']);
+
+        $pageRecord2 = $this->getDatabaseConnection()->selectSingleRow('tx_realurl_pathsegment', 'pages', 'uid = 2');
+
+        $this->assertEquals('2/foo-bar', $pageRecord2['tx_realurl_pathsegment']);
     }
 }
