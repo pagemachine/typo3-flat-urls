@@ -26,7 +26,7 @@ class PageOverlayCollectionTest extends UnitTestCase
     /**
      * @var PageOverlayCollection
      */
-    protected $pageCollection;
+    protected $pageOverlayCollection;
 
     /**
      * @var DatabaseConnection|\Prophecy\Prophecy\ObjectProphecy
