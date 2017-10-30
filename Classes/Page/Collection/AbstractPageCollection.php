@@ -76,10 +76,14 @@ abstract class AbstractPageCollection implements \IteratorAggregate, \Countable
      */
     protected function updatePageRecord(PageInterface $page, array $extraData = [])
     {
-        $data[$this->getTableName()][$page->getUid()] = array_replace(
-            ['tx_realurl_pathsegment' => $page->getPathSegment()],
-            $extraData
-        );
+        $data = [
+            $this->getTableName() => [
+                $page->getUid() => array_replace(
+                    ['tx_realurl_pathsegment' => $page->getPathSegment()],
+                    $extraData
+                ),
+            ],
+        ];
 
         $this->dataHandler->start($data, []);
         $this->dataHandler->process_datamap();
