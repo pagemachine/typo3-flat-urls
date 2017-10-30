@@ -28,17 +28,17 @@ class FlatUrlsCommandControllerTest extends UnitTestCase
     protected $flatUrlsCommandController;
 
     /**
-     * @var PageCollection|ObjectProphecy
+     * @var PageCollection|\Prophecy\Prophecy\ObjectProphecy
      */
     protected $pageCollection;
 
     /**
-     * @var PageOverlayCollection|ObjectProphecy
+     * @var PageOverlayCollection|\Prophecy\Prophecy\ObjectProphecy
      */
     protected $pageOverlayCollection;
 
     /**
-     * @var FlatUrlBuilder|ObjectProphecy
+     * @var FlatUrlBuilder|\Prophecy\Prophecy\ObjectProphecy
      */
     protected $flatUrlBuilder;
 
