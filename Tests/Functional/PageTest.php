@@ -23,19 +23,6 @@ class PageTest extends FunctionalTestCase
     ];
 
     /**
-     * @return void
-     */
-    protected function setUp()
-    {
-        $rootPath = dirname(__FILE__, 3);
-        if (!is_link(ORIGINAL_ROOT . 'typo3conf/ext/flat_urls')) {
-            symlink($rootPath, ORIGINAL_ROOT . 'typo3conf/ext/flat_urls');
-        }
-
-        parent::setUp();
-    }
-
-    /**
      * Avoid serlialization of the test system object
      *
      * @see https://github.com/Nimut/testing-framework/pull/49
