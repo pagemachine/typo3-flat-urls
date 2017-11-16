@@ -13,14 +13,21 @@ script:
   - composer test
 
 stages:
-  - lint
   - test
   - deploy
 
 jobs:
   include:
+    - php: 7.0
+      env: TYPO3_VERSION=^7.6
+    - php: 7.1
+      env: TYPO3_VERSION=^7.6
+    - php: 7.0
+      env: TYPO3_VERSION=^8.7
+    - php: 7.1
+      env: TYPO3_VERSION=^8.7
+      
     - &lint
-      stage: lint
       php: 7.0
       env: PHP lint
       install:
@@ -34,25 +41,9 @@ jobs:
       env: XML lint
       script:
         - composer lint:xml
-
-    - stage: test
-      php: 7.0
-      env: TYPO3_VERSION=^7.6
-    - stage: test
-      php: 7.1
-      env: TYPO3_VERSION=^7.6
-    - stage: test
-      php: 7.0
-      env: TYPO3_VERSION=^8.7
-    - stage: test
-      php: 7.1
-      env: TYPO3_VERSION=^8.7
-
-    - stage: test
+    - <<: *lint
       php: 7.1
       env: Codestyle
-      install:
-        - composer install
       script:
         - composer lint:style
 
