@@ -43,6 +43,8 @@ class PageTest extends FunctionalTestCase
     {
         $this->importDataSet(__DIR__ . '/Fixtures/Database/pages.xml');
         $this->setUpBackendUserFromFixture(1);
+        $GLOBALS['LANG'] = GeneralUtility::makeInstance(\TYPO3\CMS\Lang\LanguageService::class);
+        $GLOBALS['LANG']->init(null);
 
         $dataMap = [
             'pages' => [
@@ -79,6 +81,8 @@ class PageTest extends FunctionalTestCase
         $this->importDataSet(__DIR__ . '/Fixtures/Database/sys_language.xml');
         $this->importDataSet(__DIR__ . '/Fixtures/Database/pages_language_overlay.xml');
         $this->setUpBackendUserFromFixture(1);
+        $GLOBALS['LANG'] = GeneralUtility::makeInstance(\TYPO3\CMS\Lang\LanguageService::class);
+        $GLOBALS['LANG']->init(null);
 
         $dataMap = [
             'pages_language_overlay' => [
