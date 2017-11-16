@@ -8,6 +8,7 @@ namespace Pagemachine\FlatUrls\Functional;
 use Nimut\TestingFramework\TestCase\FunctionalTestCase;
 use TYPO3\CMS\Core\DataHandling\DataHandler;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
+use TYPO3\CMS\Lang\LanguageService;
 
 /**
  * Testcase for Page processing
@@ -37,14 +38,23 @@ class PageTest extends FunctionalTestCase
     }
 
     /**
+     * @return void
+     */
+    protected function setUp()
+    {
+        parent::setUp();
+
+        $GLOBALS['LANG'] = GeneralUtility::makeInstance(LanguageService::class);
+        $GLOBALS['LANG']->init(null);
+    }
+
+    /**
      * @test
      */
     public function setsPathSegmentOfPages()
     {
         $this->importDataSet(__DIR__ . '/Fixtures/Database/pages.xml');
         $this->setUpBackendUserFromFixture(1);
-        $GLOBALS['LANG'] = GeneralUtility::makeInstance(\TYPO3\CMS\Lang\LanguageService::class);
-        $GLOBALS['LANG']->init(null);
 
         $dataMap = [
             'pages' => [
@@ -81,8 +91,6 @@ class PageTest extends FunctionalTestCase
         $this->importDataSet(__DIR__ . '/Fixtures/Database/sys_language.xml');
         $this->importDataSet(__DIR__ . '/Fixtures/Database/pages_language_overlay.xml');
         $this->setUpBackendUserFromFixture(1);
-        $GLOBALS['LANG'] = GeneralUtility::makeInstance(\TYPO3\CMS\Lang\LanguageService::class);
-        $GLOBALS['LANG']->init(null);
 
         $dataMap = [
             'pages_language_overlay' => [
