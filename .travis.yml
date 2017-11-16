@@ -7,14 +7,10 @@ cache:
     - $HOME/.composer/cache
 
 install:
-  - composer require typo3/cms="$TYPO3_VERSION" --update-with-dependencies
+  - composer require typo3/cms="$TYPO3_VERSION"
 
 script:
   - composer test
-
-stages:
-  - test
-  - deploy
 
 jobs:
   include:
