@@ -8,9 +8,9 @@ cache:
 
 install:
   - composer install
-  - composer require typo3/cms="$TYPO3_VERSION" --update-with-dependencies
 
 script:
+  - composer require typo3/cms="$TYPO3_VERSION" --update-with-dependencies
   - composer lint:php
   - composer test
 
