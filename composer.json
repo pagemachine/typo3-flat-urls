@@ -13,7 +13,10 @@
   "require": {
     "php": "^7.0",
     "dmitryd/typo3-realurl": "^2.0",
-    "typo3/cms": "^7.6 || ^8.7"
+    "typo3/cms-backend": "^7.6 || ^8.7",
+    "typo3/cms-core": "^7.6 || ^8.7",
+    "typo3/cms-extbase": "^7.6 || ^8.7",
+    "typo3/cms-frontend": "^7.6 || ^8.7"
   },
   "require-dev": {
     "cakephp/cakephp-codesniffer": "^3.0",
