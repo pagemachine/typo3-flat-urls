@@ -8,6 +8,7 @@ namespace Pagemachine\FlatUrls\Functional;
 use Nimut\TestingFramework\TestCase\FunctionalTestCase;
 use TYPO3\CMS\Core\DataHandling\DataHandler;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
+use TYPO3\CMS\Lang\LanguageService;
 
 /**
  * Testcase for Page processing
@@ -34,6 +35,17 @@ class PageTest extends FunctionalTestCase
         unset($objectVars['database']);
 
         return $objectVars;
+    }
+
+    /**
+     * @return void
+     */
+    protected function setUp()
+    {
+        parent::setUp();
+
+        $GLOBALS['LANG'] = GeneralUtility::makeInstance(LanguageService::class);
+        $GLOBALS['LANG']->init(null);
     }
 
     /**
