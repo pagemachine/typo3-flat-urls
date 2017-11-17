@@ -100,7 +100,7 @@ class UrlDecoderHook
      */
     protected function getLanguageId(): int
     {
-        $languageId = GeneralUtility::_GP('L') ?: 0;
+        $languageId = (int)GeneralUtility::_GP('L');
 
         return $languageId;
     }
