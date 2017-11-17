@@ -1,5 +1,5 @@
 <?php
-namespace Pagemachine\FlatUrls\Functional;
+namespace Pagemachine\FlatUrls\Tests\Functional;
 
 /*
  * This file is part of the Pagemachine Flat URLs project.
@@ -21,20 +21,6 @@ class PageTest extends FunctionalTestCase
         'typo3conf/ext/realurl',
         'typo3conf/ext/flat_urls',
     ];
-
-    /**
-     * Avoid serlialization of the test system object
-     *
-     * @see https://github.com/Nimut/testing-framework/pull/49
-     * @return array
-     */
-    public function __sleep()
-    {
-        $objectVars = parent::__sleep();
-        unset($objectVars['database']);
-
-        return $objectVars;
-    }
 
     /**
      * @return void
