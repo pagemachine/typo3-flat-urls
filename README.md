@@ -21,6 +21,8 @@ Page translations will use the same UID as their original page but with translat
 
 The flat URLs are achieved using RealURL and a fully managed path segment for every page. Whenever the title of a page is changed, its path segment is updated accordingly.
 
+Similar to Stack Overflow pages requested only by page UID will be redirected to their full URL. This means that e.g. https://example.org/10/ redirects to https://example.org/10/page/.
+
 ## Command
 
 If you have existing pages when adding this extension or if you want to ensure a clean state you can run the `flaturls:update` CLI command. It will process all pages and page translations, generate the path segments and enforces them.
