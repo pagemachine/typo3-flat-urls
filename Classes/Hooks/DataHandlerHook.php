@@ -93,8 +93,8 @@ class DataHandlerHook
 
         if ($table === 'pages') {
             $page = new Page();
-            $page->setUid($uid);
-            $page->setPid($pid);
+            $page->setUid((int)$uid);
+            $page->setPid((int)$pid);
             $page->setTitle($data['title']);
 
             $flatUrl = $this->flatUrlBuilder->buildForPage($page);
@@ -103,8 +103,8 @@ class DataHandlerHook
             $this->pageCollection->update($page);
         } else {
             $pageOverlay = new PageOverlay();
-            $pageOverlay->setUid($uid);
-            $pageOverlay->setPid($pid);
+            $pageOverlay->setUid((int)$uid);
+            $pageOverlay->setPid((int)$pid);
             $pageOverlay->setTitle($data['title']);
 
             $flatUrl = $this->flatUrlBuilder->buildForPageOverlay($pageOverlay);
