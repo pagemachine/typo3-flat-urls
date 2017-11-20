@@ -161,4 +161,14 @@ class PageCollectionTest extends UnitTestCase
 
         $this->assertEquals(10, count($this->pageCollection));
     }
+
+    /**
+     * @test
+     */
+    public function skipsCountErrors()
+    {
+        $this->databaseConnection->exec_SELECTcountRows('*', 'pages', Argument::cetera())->willReturn(false);
+
+        $this->assertSame(0, count($this->pageCollection));
+    }
 }

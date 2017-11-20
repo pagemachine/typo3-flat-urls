@@ -62,7 +62,7 @@ abstract class AbstractPageCollection implements \IteratorAggregate, \Countable
      */
     public function count(): int
     {
-        $count = $this->databaseConnection->exec_SELECTcountRows('*', $this->getTableName(), $this->getWhereClause());
+        $count = (int)$this->databaseConnection->exec_SELECTcountRows('*', $this->getTableName(), $this->getWhereClause());
 
         return $count;
     }

@@ -195,6 +195,16 @@ class PageOverlayCollectionTest extends UnitTestCase
     /**
      * @test
      */
+    public function skipsCountErrors()
+    {
+        $this->databaseConnection->exec_SELECTcountRows('*', 'pages_language_overlay', Argument::cetera())->willReturn(false);
+
+        $this->assertSame(0, count($this->pageOverlayCollection));
+    }
+
+    /**
+     * @test
+     */
     public function limitsCountToOverlaysOfPage()
     {
         $this->databaseConnection->exec_SELECTcountRows('*', 'pages_language_overlay', Argument::allOf(
