@@ -1,5 +1,5 @@
 <?php
-declare(strict_types=1);
+declare(strict_types = 1);
 
 namespace Pagemachine\FlatUrls\Tests\Functional;
 
@@ -12,7 +12,7 @@ use TYPO3\CMS\Core\DataHandling\DataHandler;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 
 /**
- * Testcase for Page processing
+ * Testcase for page processing
  */
 class PageTest extends FunctionalTestCase
 {
