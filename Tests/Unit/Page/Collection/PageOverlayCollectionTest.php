@@ -55,15 +55,15 @@ class PageOverlayCollectionTest extends UnitTestCase
         $GLOBALS['TCA']['pages_language_overlay']['ctrl']['delete'] = 'deleted';
 
         if (class_exists(ConnectionPool::class)) {
-            /** @var ExpressionBuilder */
+            /** @var ExpressionBuilder|\Prophecy\Prophecy\ObjectProphecy */
             $expressionBuilder = $this->prophesize(ExpressionBuilder::class);
             $expressionBuilder->eq('pages_language_overlay.deleted', 0)->willReturn('pages_language_overlay.deleted=0');
 
-            /** @var QueryBuilder */
+            /** @var QueryBuilder|\Prophecy\Prophecy\ObjectProphecy */
             $queryBuilder = $this->prophesize(QueryBuilder::class);
             $queryBuilder->expr()->willReturn($expressionBuilder->reveal());
 
-            /** @var ConnectionPool */
+            /** @var ConnectionPool|\Prophecy\Prophecy\ObjectProphecy */
             $connectionPool = $this->prophesize(ConnectionPool::class);
             $connectionPool->getQueryBuilderForTable('pages_language_overlay')->willReturn($queryBuilder->reveal());
 
@@ -117,7 +117,7 @@ class PageOverlayCollectionTest extends UnitTestCase
      */
     public function isIterable()
     {
-        /** @var PreparedStatement */
+        /** @var PreparedStatement|\Prophecy\Prophecy\ObjectProphecy */
         $statement = $this->prophesize(PreparedStatement::class);
         $statement->execute()->shouldBeCalled();
         $statement->fetch()->willReturn(
@@ -153,7 +153,7 @@ class PageOverlayCollectionTest extends UnitTestCase
      */
     public function limitsIterationToOverlaysOfPage()
     {
-        /** @var PreparedStatement */
+        /** @var PreparedStatement|\Prophecy\Prophecy\ObjectProphecy */
         $statement = $this->prophesize(PreparedStatement::class);
         $statement->execute()->shouldBeCalled();
         $statement->fetch()->willReturn(

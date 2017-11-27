@@ -29,7 +29,7 @@ class FlatUrlBuilderTest extends UnitTestCase
      */
     protected function setUp()
     {
-        /** @var CharsetConverter */
+        /** @var CharsetConverter|\Prophecy\Prophecy\ObjectProphecy */
         $charsetConverter = $this->prophesize(CharsetConverter::class);
         $charsetConverter->specCharsToASCII('utf-8', Argument::type('string'))->willReturnArgument(1);
 
