@@ -85,7 +85,7 @@ class UrlDecoderHook
     protected function getRootPageId(UrlDecoder $urlDecoder): int
     {
         // See https://ocramius.github.io/blog/accessing-private-php-class-members-without-reflection/
-        // TODO: Request a public API for this
+        // And https://github.com/dmitryd/typo3-realurl/issues/566
         $rootPageIdGetter = function (UrlDecoder $urlDecoder): int {
             return $urlDecoder->rootPageId;
         };
