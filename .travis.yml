@@ -22,7 +22,7 @@ jobs:
       env: TYPO3_VERSION=^8.7
     - php: 7.1
       env: TYPO3_VERSION=^8.7
-      
+
     - &lint
       php: 7.0
       env: PHP lint
@@ -42,6 +42,11 @@ jobs:
       env: Codestyle
       script:
         - composer lint:style
+    - <<: *lint
+      php: 7.1
+      env: Static analysis
+      script:
+        - composer analyze:php
 
     - stage: deploy
       if: tag IS present

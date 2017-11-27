@@ -1,7 +1,7 @@
 <?php
 declare(strict_types = 1);
 
-namespace PAGEmachine\FlatUrls\Tests\Unit\Page;
+namespace Pagemachine\FlatUrls\Tests\Unit\Page;
 
 /*
  * This file is part of the Pagemachine Flat URLs project.
@@ -16,24 +16,31 @@ use TYPO3\CMS\Core\Tests\UnitTestCase;
 class PageTest extends UnitTestCase
 {
     /**
+     * @var Page
+     */
+    protected $page;
+
+    /**
+     * Set up this testcase
+     */
+    public function setUp()
+    {
+        $this->page = new Page(10, 9, 'Foo');
+    }
+
+    /**
      * @test
      */
     public function hasUid()
     {
-        $page = new Page();
-        $page->setUid(10);
-
-        $this->assertEquals(10, $page->getUid());
+        $this->assertEquals(10, $this->page->getUid());
     }
     /**
      * @test
      */
     public function hasPid()
     {
-        $page = new Page();
-        $page->setPid(9);
-
-        $this->assertEquals(9, $page->getPid());
+        $this->assertEquals(9, $this->page->getPid());
     }
 
     /**
@@ -41,10 +48,7 @@ class PageTest extends UnitTestCase
      */
     public function hasTitle()
     {
-        $page = new Page();
-        $page->setTitle('Foo');
-
-        $this->assertEquals('Foo', $page->getTitle());
+        $this->assertEquals('Foo', $this->page->getTitle());
     }
 
     /**
@@ -52,9 +56,8 @@ class PageTest extends UnitTestCase
      */
     public function hasPathSegment()
     {
-        $page = new Page();
-        $page->setPathSegment('Foo');
+        $this->page->setPathSegment('Foo');
 
-        $this->assertEquals('Foo', $page->getPathSegment());
+        $this->assertEquals('Foo', $this->page->getPathSegment());
     }
 }

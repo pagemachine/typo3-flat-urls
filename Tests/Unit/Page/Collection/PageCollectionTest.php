@@ -4,7 +4,7 @@ declare(strict_types = 1);
 namespace Pagemachine\FlatUrls\Tests\Unit\Page\Collection;
 
 /*
- * This file is part of the PAGEmachine Flat URLs project.
+ * This file is part of the Pagemachine Flat URLs project.
  */
 
 use Pagemachine\FlatUrls\Page\Collection\PageCollection;
@@ -54,15 +54,15 @@ class PageCollectionTest extends UnitTestCase
         $GLOBALS['TCA']['pages']['ctrl']['delete'] = 'deleted';
 
         if (class_exists(ConnectionPool::class)) {
-            /** @var ExpressionBuilder */
+            /** @var ExpressionBuilder|\Prophecy\Prophecy\ObjectProphecy */
             $expressionBuilder = $this->prophesize(ExpressionBuilder::class);
             $expressionBuilder->eq('pages.deleted', 0)->willReturn('pages.deleted=0');
 
-            /** @var QueryBuilder */
+            /** @var QueryBuilder|\Prophecy\Prophecy\ObjectProphecy */
             $queryBuilder = $this->prophesize(QueryBuilder::class);
             $queryBuilder->expr()->willReturn($expressionBuilder->reveal());
 
-            /** @var ConnectionPool */
+            /** @var ConnectionPool|\Prophecy\Prophecy\ObjectProphecy */
             $connectionPool = $this->prophesize(ConnectionPool::class);
             $connectionPool->getQueryBuilderForTable('pages')->willReturn($queryBuilder->reveal());
 
@@ -117,7 +117,7 @@ class PageCollectionTest extends UnitTestCase
      */
     public function isIterable()
     {
-        /** @var PreparedStatement */
+        /** @var PreparedStatement|\Prophecy\Prophecy\ObjectProphecy */
         $statement = $this->prophesize(PreparedStatement::class);
         $statement->execute()->shouldBeCalled();
         $statement->fetch()->willReturn(

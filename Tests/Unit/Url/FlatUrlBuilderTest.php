@@ -1,7 +1,7 @@
 <?php
 declare(strict_types = 1);
 
-namespace PAGEmachine\FlatUrls\Tests\Unit\Url;
+namespace Pagemachine\FlatUrls\Tests\Unit\Url;
 
 /*
  * This file is part of the Pagemachine Flat URLs project.
@@ -29,7 +29,7 @@ class FlatUrlBuilderTest extends UnitTestCase
      */
     protected function setUp()
     {
-        /** @var CharsetConverter */
+        /** @var CharsetConverter|\Prophecy\Prophecy\ObjectProphecy */
         $charsetConverter = $this->prophesize(CharsetConverter::class);
         $charsetConverter->specCharsToASCII('utf-8', Argument::type('string'))->willReturnArgument(1);
 
@@ -42,7 +42,7 @@ class FlatUrlBuilderTest extends UnitTestCase
     public function buildsFlatUrlForPages()
     {
         $page = $this->prophesize(Page::class);
-        $page->getUid()->willReturn(10);
+        $page->getUrlIdentifier()->willReturn(10);
         $page->getTitle()->willReturn('The Page');
 
         $this->assertEquals('10/the-page', $this->flatUrlBuilder->buildForPage($page->reveal()));
@@ -54,10 +54,10 @@ class FlatUrlBuilderTest extends UnitTestCase
     public function buildsFlatUrlForPageOverlays()
     {
         $pageOverlay = $this->prophesize(PageOverlay::class);
-        $pageOverlay->getPid()->willReturn(10);
+        $pageOverlay->getUrlIdentifier()->willReturn(10);
         $pageOverlay->getTitle()->willReturn('Die Seite');
 
-        $this->assertEquals('10/die-seite', $this->flatUrlBuilder->buildForPageOverlay($pageOverlay->reveal()));
+        $this->assertEquals('10/die-seite', $this->flatUrlBuilder->buildForPage($pageOverlay->reveal()));
     }
 
     /**
@@ -70,7 +70,7 @@ class FlatUrlBuilderTest extends UnitTestCase
     public function convertsTitleToPathSegment(string $pageTitle, string $expected)
     {
         $page = $this->prophesize(Page::class);
-        $page->getUid()->willReturn(10);
+        $page->getUrlIdentifier()->willReturn(10);
         $page->getTitle()->willReturn($pageTitle);
 
         $this->assertEquals($expected, $this->flatUrlBuilder->buildForPage($page->reveal()));

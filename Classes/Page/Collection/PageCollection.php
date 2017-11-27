@@ -39,6 +39,14 @@ class PageCollection extends AbstractPageCollection
     }
 
     /**
+     * @return \Traversable|Page[]
+     */
+    public function getIterator(): \Traversable
+    {
+        yield from parent::getIterator();
+    }
+
+    /**
      * @return string
      */
     protected function getPageType(): string

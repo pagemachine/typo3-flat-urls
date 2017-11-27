@@ -66,7 +66,7 @@ class UrlDecoderHookTest extends UnitTestCase
         /** @var PathCacheEntry|\Prophecy\Prophecy\ObjectProphecy */
         $pathCacheEntry = $this->prophesize(PathCacheEntry::class);
         $pathCacheEntry->getPagePath()->willReturn('10/my-page/');
-        $this->cache->getPathFromCacheByPageId(1, 2, 10, null)->willReturn($pathCacheEntry->reveal());
+        $this->cache->getPathFromCacheByPageId(1, 2, 10, '')->willReturn($pathCacheEntry->reveal());
 
         $this->urlDecoderHook->expects($this->once())->method('redirect')->with('10/my-page/', HttpUtility::HTTP_STATUS_301);
 
@@ -96,7 +96,7 @@ class UrlDecoderHookTest extends UnitTestCase
         $this->inject($urlDecoder, 'rootPageId', 1);
         $_GET['L'] = 2;
 
-        $this->cache->getPathFromCacheByPageId(1, 2, 10, null)->willReturn(null);
+        $this->cache->getPathFromCacheByPageId(1, 2, 10, '')->willReturn(null);
 
         $this->urlDecoderHook->expects($this->never())->method('redirect');
 

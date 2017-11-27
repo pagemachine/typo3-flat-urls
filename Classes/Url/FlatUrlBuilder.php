@@ -7,8 +7,7 @@ namespace Pagemachine\FlatUrls\Url;
  * This file is part of the Pagemachine Flat URLs project.
  */
 
-use Pagemachine\FlatUrls\Page\Page;
-use Pagemachine\FlatUrls\Page\PageOverlay;
+use Pagemachine\FlatUrls\Page\PageInterface;
 use TYPO3\CMS\Core\Charset\CharsetConverter;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 
@@ -33,27 +32,13 @@ class FlatUrlBuilder
     /**
      * Build flat URL for a page
      *
-     * @param Page $page a page
+     * @param PageInterface $page a page
      * @return string
      */
-    public function buildForPage(Page $page): string
+    public function buildForPage(PageInterface $page): string
     {
         $titlePathSegment = $this->convertToPathSegment($page->getTitle());
-        $flatUrl = sprintf('%d/%s', $page->getUid(), $titlePathSegment);
-
-        return $flatUrl;
-    }
-
-    /**
-     * Build flat URL for a page overlay
-     *
-     * @param PageOverlay $pageOverlay a page overlay
-     * @return string
-     */
-    public function buildForPageOverlay(PageOverlay $pageOverlay): string
-    {
-        $titlePathSegment = $this->convertToPathSegment($pageOverlay->getTitle());
-        $flatUrl = sprintf('%d/%s', $pageOverlay->getPid(), $titlePathSegment);
+        $flatUrl = sprintf('%d/%s', $page->getUrlIdentifier(), $titlePathSegment);
 
         return $flatUrl;
     }

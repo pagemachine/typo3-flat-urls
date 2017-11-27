@@ -52,10 +52,18 @@ class PageOverlayCollection extends AbstractPageCollection
         $whereClause = parent::getWhereClause();
 
         if ($this->page !== null) {
-            $whereClause .= ' AND pid = ' . (int)$this->page->getUid();
+            $whereClause .= ' AND pid = ' . $this->page->getUid();
         }
 
         return $whereClause;
+    }
+
+    /**
+     * @return \Traversable|PageOverlay[]
+     */
+    public function getIterator(): \Traversable
+    {
+        yield from parent::getIterator();
     }
 
     /**

@@ -1,7 +1,7 @@
 <?php
 declare(strict_types = 1);
 
-namespace PAGEmachine\FlatUrls\Tests\Unit\Command;
+namespace Pagemachine\FlatUrls\Tests\Unit\Command;
 
 /*
  * This file is part of the Pagemachine Flat URLs project.
@@ -101,8 +101,8 @@ class FlatUrlsCommandControllerTest extends UnitTestCase
         $pageOverlay2->setPathSegment('2/page-overlay')->shouldBeCalled();
 
         $this->flatUrlBuilder->buildForPage($page->reveal())->willReturn('1/page');
-        $this->flatUrlBuilder->buildForPageOverlay($pageOverlay1->reveal())->willReturn('1/page-overlay');
-        $this->flatUrlBuilder->buildForPageOverlay($pageOverlay2->reveal())->willReturn('2/page-overlay');
+        $this->flatUrlBuilder->buildForPage($pageOverlay1->reveal())->willReturn('1/page-overlay');
+        $this->flatUrlBuilder->buildForPage($pageOverlay2->reveal())->willReturn('2/page-overlay');
 
         $this->pageCollection->count()->willReturn(1);
         $this->pageCollection->getIterator()->willReturn(new \ArrayObject([$page->reveal()]));

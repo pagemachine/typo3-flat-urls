@@ -12,4 +12,11 @@ namespace Pagemachine\FlatUrls\Page;
  */
 class PageOverlay extends AbstractPage
 {
+    /**
+     * @return int
+     */
+    public function getUrlIdentifier(): int
+    {
+        return $this->pid;
+    }
 }

@@ -13,6 +13,22 @@ namespace Pagemachine\FlatUrls\Page;
 abstract class AbstractPage implements PageInterface
 {
     /**
+     * Create a new page
+     *
+     * @param int $uid
+     * @param int $pid
+     * @param string $title
+     * @param string|null $pathSegment
+     */
+    public function __construct(int $uid, int $pid, string $title, string $pathSegment = null)
+    {
+        $this->uid = $uid;
+        $this->pid = $pid;
+        $this->title = $title;
+        $this->pathSegment = $pathSegment;
+    }
+
+    /**
      * @var int $uid
      */
     protected $uid;
@@ -23,15 +39,6 @@ abstract class AbstractPage implements PageInterface
     public function getUid(): int
     {
         return $this->uid;
-    }
-
-    /**
-     * @param int $uid
-     * @return void
-     */
-    public function setUid(int $uid)
-    {
-        $this->uid = $uid;
     }
 
     /**
@@ -48,12 +55,11 @@ abstract class AbstractPage implements PageInterface
     }
 
     /**
-     * @param int $pid
-     * @return void
+     * @return int
      */
-    public function setPid(int $pid)
+    public function getUrlIdentifier(): int
     {
-        $this->pid = $pid;
+        return $this->uid;
     }
 
     /**
@@ -67,15 +73,6 @@ abstract class AbstractPage implements PageInterface
     public function getTitle(): string
     {
         return $this->title;
-    }
-
-    /**
-     * @param string $title
-     * @return void
-     */
-    public function setTitle(string $title)
-    {
-        $this->title = $title;
     }
 
     /**

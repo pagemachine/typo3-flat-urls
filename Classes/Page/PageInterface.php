@@ -20,6 +20,11 @@ interface PageInterface
     public function getPid(): int;
 
     /**
+     * @return int
+     */
+    public function getUrlIdentifier(): int;
+
+    /**
      * @return string
      */
     public function getTitle(): string;
@@ -28,4 +33,10 @@ interface PageInterface
      * @return string
      */
     public function getPathSegment(): string;
+
+    /**
+     * @param string $pathSegment
+     * @return void
+     */
+    public function setPathSegment(string $pathSegment);
 }
