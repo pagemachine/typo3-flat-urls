@@ -49,7 +49,7 @@ class UrlDecoderHook
 
         $rootPageId = $this->getRootPageId($urlDecoder);
         $languageId = $this->getLanguageId();
-        $pathCacheEntry = $this->cache->getPathFromCacheByPageId($rootPageId, $languageId, $pageId, null);
+        $pathCacheEntry = $this->cache->getPathFromCacheByPageId($rootPageId, $languageId, $pageId, '');
 
         if ($pathCacheEntry === null) {
             return;
