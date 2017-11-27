@@ -64,7 +64,7 @@ class FlatUrlsCommandController extends CommandController
             $this->pageCollection->update($page);
 
             foreach ($this->pageOverlayCollection->forPage($page) as $pageOverlay) {
-                $flatUrl = $this->flatUrlBuilder->buildForPageOverlay($pageOverlay);
+                $flatUrl = $this->flatUrlBuilder->buildForPage($pageOverlay);
                 $pageOverlay->setPathSegment($flatUrl);
 
                 $this->pageOverlayCollection->update($pageOverlay);

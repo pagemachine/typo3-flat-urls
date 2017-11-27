@@ -57,6 +57,14 @@ abstract class AbstractPage implements PageInterface
     }
 
     /**
+     * @return int
+     */
+    public function getUrlIdentifier(): int
+    {
+        return $this->uid;
+    }
+
+    /**
      * @var string $title
      */
     protected $title;

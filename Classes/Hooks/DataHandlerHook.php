@@ -107,7 +107,7 @@ class DataHandlerHook
             $pageOverlay->setPid((int)$pid);
             $pageOverlay->setTitle($data['title']);
 
-            $flatUrl = $this->flatUrlBuilder->buildForPageOverlay($pageOverlay);
+            $flatUrl = $this->flatUrlBuilder->buildForPage($pageOverlay);
             $pageOverlay->setPathSegment($flatUrl);
 
             $this->pageOverlayCollection->update($pageOverlay);

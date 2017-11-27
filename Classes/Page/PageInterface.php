@@ -20,6 +20,11 @@ interface PageInterface
     public function getPid(): int;
 
     /**
+     * @return int
+     */
+    public function getUrlIdentifier(): int;
+
+    /**
      * @return string
      */
     public function getTitle(): string;
