@@ -48,7 +48,7 @@ abstract class AbstractPageCollection implements \IteratorAggregate, \Countable
         $statement->execute();
         $pageType = $this->getPageType();
 
-        while (($row = $statement->fetch()) !== false) {
+        while ($row = $statement->fetch()) {
             $page = new $pageType();
             $page->setUid($row['uid']);
             $page->setPid($row['pid']);
