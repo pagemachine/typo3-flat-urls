@@ -92,21 +92,13 @@ class DataHandlerHook
         }
 
         if ($table === 'pages') {
-            $page = new Page();
-            $page->setUid((int)$uid);
-            $page->setPid((int)$pid);
-            $page->setTitle($data['title']);
-
+            $page = new Page((int)$uid, (int)$pid, $data['title']);
             $flatUrl = $this->flatUrlBuilder->buildForPage($page);
             $page->setPathSegment($flatUrl);
 
             $this->pageCollection->update($page);
         } else {
-            $pageOverlay = new PageOverlay();
-            $pageOverlay->setUid((int)$uid);
-            $pageOverlay->setPid((int)$pid);
-            $pageOverlay->setTitle($data['title']);
-
+            $pageOverlay = new PageOverlay((int)$uid, (int)$pid, $data['title']);
             $flatUrl = $this->flatUrlBuilder->buildForPage($pageOverlay);
             $pageOverlay->setPathSegment($flatUrl);
 

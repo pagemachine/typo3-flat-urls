@@ -16,24 +16,31 @@ use TYPO3\CMS\Core\Tests\UnitTestCase;
 class PageOverlayTest extends UnitTestCase
 {
     /**
+     * @var PageOverlay
+     */
+    protected $page;
+
+    /**
+     * Set up this testcase
+     */
+    public function setUp()
+    {
+        $this->page = new PageOverlay(10, 9, 'Foo');
+    }
+
+    /**
      * @test
      */
     public function hasUid()
     {
-        $page = new PageOverlay();
-        $page->setUid(10);
-
-        $this->assertEquals(10, $page->getUid());
+        $this->assertEquals(10, $this->page->getUid());
     }
     /**
      * @test
      */
     public function hasPid()
     {
-        $page = new PageOverlay();
-        $page->setPid(9);
-
-        $this->assertEquals(9, $page->getPid());
+        $this->assertEquals(9, $this->page->getPid());
     }
 
     /**
@@ -41,10 +48,7 @@ class PageOverlayTest extends UnitTestCase
      */
     public function hasTitle()
     {
-        $page = new PageOverlay();
-        $page->setTitle('Foo');
-
-        $this->assertEquals('Foo', $page->getTitle());
+        $this->assertEquals('Foo', $this->page->getTitle());
     }
 
     /**
@@ -52,9 +56,8 @@ class PageOverlayTest extends UnitTestCase
      */
     public function hasPathSegment()
     {
-        $page = new PageOverlay();
-        $page->setPathSegment('Foo');
+        $this->page->setPathSegment('Foo');
 
-        $this->assertEquals('Foo', $page->getPathSegment());
+        $this->assertEquals('Foo', $this->page->getPathSegment());
     }
 }
