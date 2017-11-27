@@ -33,4 +33,10 @@ interface PageInterface
      * @return string
      */
     public function getPathSegment(): string;
+
+    /**
+     * @param string $pathSegment
+     * @return void
+     */
+    public function setPathSegment(string $pathSegment);
 }
