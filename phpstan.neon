@@ -1,0 +1,10 @@
+parameters:
+  ignoreErrors:
+    - '#Constant TYPO3_MODE not found#'
+    - '#Undefined variable: \$_EXTKEY#'
+    - '#ObjectManagerInterface::get\(\) invoked with [\d]+ parameters, 1 required#'
+    - '#Call to an undefined method Prophecy\\Prophecy\\ObjectProphecy::.+#'
+    - '#Array \(mixed(\[\])+\) does not accept string#'
+    # TYPO3v7 support
+    - '#Access to an undefined property TYPO3\\CMS\\Core\\DataHandling\\DataHandler::\$stripslashes_values#'
+  reportUnmatchedIgnoredErrors: false
