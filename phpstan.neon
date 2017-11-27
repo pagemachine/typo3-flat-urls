@@ -7,4 +7,6 @@ parameters:
     - '#Array \(mixed(\[\])+\) does not accept string#'
     # TYPO3v7 support
     - '#Access to an undefined property TYPO3\\CMS\\Core\\DataHandling\\DataHandler::\$stripslashes_values#'
+    # See https://github.com/dmitryd/typo3-realurl/issues/566
+    - '#Access to protected property \$rootPageId of class DmitryDulepov\\Realurl\\EncodeDecoderBase#'
   reportUnmatchedIgnoredErrors: false
