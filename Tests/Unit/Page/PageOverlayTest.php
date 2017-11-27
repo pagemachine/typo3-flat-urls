@@ -1,7 +1,7 @@
 <?php
 declare(strict_types = 1);
 
-namespace PAGEmachine\FlatUrls\Tests\Unit\Page;
+namespace Pagemachine\FlatUrls\Tests\Unit\Page;
 
 /*
  * This file is part of the Pagemachine Flat URLs project.

@@ -4,7 +4,7 @@ declare(strict_types = 1);
 namespace Pagemachine\FlatUrls\Tests\Unit\Page\Collection;
 
 /*
- * This file is part of the PAGEmachine Flat URLs project.
+ * This file is part of the Pagemachine Flat URLs project.
  */
 
 use Pagemachine\FlatUrls\Page\Collection\PageCollection;
