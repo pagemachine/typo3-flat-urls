@@ -59,6 +59,14 @@ class PageOverlayCollection extends AbstractPageCollection
     }
 
     /**
+     * @return \Traversable|PageOverlay[]
+     */
+    public function getIterator(): \Traversable
+    {
+        yield from parent::getIterator();
+    }
+
+    /**
      * @return string
      */
     protected function getPageType(): string
