@@ -3,7 +3,7 @@
   "description": "Flat URLs (like Stack Overflow) for TYPO3",
   "keywords": ["typo3", "urls", "flat", "stackoverflow"],
   "type": "typo3-cms-extension",
-  "license": "GPL-3.0+",
+  "license": "GPL-3.0-or-later",
   "authors": [
     {
       "name": "Mathias Brodala",
