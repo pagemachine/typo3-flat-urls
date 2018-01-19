@@ -7,8 +7,8 @@ namespace Pagemachine\FlatUrls\Tests\Unit\Page;
  * This file is part of the Pagemachine Flat URLs project.
  */
 
+use Nimut\TestingFramework\TestCase\UnitTestCase;
 use Pagemachine\FlatUrls\Page\PageOverlay;
-use TYPO3\CMS\Core\Tests\UnitTestCase;
 
 /**
  * Testcase for Pagemachine\FlatUrls\Page\PageOverlay

@@ -7,12 +7,12 @@ namespace Pagemachine\FlatUrls\Tests\Unit\Url;
  * This file is part of the Pagemachine Flat URLs project.
  */
 
+use Nimut\TestingFramework\TestCase\UnitTestCase;
 use Pagemachine\FlatUrls\Page\Page;
 use Pagemachine\FlatUrls\Page\PageOverlay;
 use Pagemachine\FlatUrls\Url\FlatUrlBuilder;
 use Prophecy\Argument;
 use TYPO3\CMS\Core\Charset\CharsetConverter;
-use TYPO3\CMS\Core\Tests\UnitTestCase;
 
 /**
  * Testcase for Pagemachine\FlatUrls\Url\FlatUrlBuilder
