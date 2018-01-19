@@ -10,8 +10,8 @@ namespace Pagemachine\FlatUrls\Tests\Unit\Hooks;
 use DmitryDulepov\Realurl\Cache\CacheInterface;
 use DmitryDulepov\Realurl\Cache\PathCacheEntry;
 use DmitryDulepov\Realurl\Decoder\UrlDecoder;
+use Nimut\TestingFramework\TestCase\UnitTestCase;
 use Pagemachine\FlatUrls\Hooks\UrlDecoderHook;
-use TYPO3\CMS\Core\Tests\UnitTestCase;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Core\Utility\HttpUtility;
 

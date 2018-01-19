@@ -7,6 +7,7 @@ namespace Pagemachine\FlatUrls\Tests\Unit\Page\Collection;
  * This file is part of the Pagemachine Flat URLs project.
  */
 
+use Nimut\TestingFramework\TestCase\UnitTestCase;
 use Pagemachine\FlatUrls\Page\Collection\PageCollection;
 use Pagemachine\FlatUrls\Page\Page;
 use Prophecy\Argument;
@@ -16,7 +17,6 @@ use TYPO3\CMS\Core\Database\PreparedStatement;
 use TYPO3\CMS\Core\Database\Query\Expression\ExpressionBuilder;
 use TYPO3\CMS\Core\Database\Query\QueryBuilder;
 use TYPO3\CMS\Core\DataHandling\DataHandler;
-use TYPO3\CMS\Core\Tests\UnitTestCase;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 
 /**

@@ -7,6 +7,7 @@ namespace Pagemachine\FlatUrls\Tests\Unit\Command;
  * This file is part of the Pagemachine Flat URLs project.
  */
 
+use Nimut\TestingFramework\TestCase\UnitTestCase;
 use Pagemachine\FlatUrls\Command\FlatUrlsCommandController;
 use Pagemachine\FlatUrls\Page\Collection\PageCollection;
 use Pagemachine\FlatUrls\Page\Collection\PageOverlayCollection;
@@ -14,7 +15,6 @@ use Pagemachine\FlatUrls\Page\Page;
 use Pagemachine\FlatUrls\Page\PageOverlay;
 use Pagemachine\FlatUrls\Url\FlatUrlBuilder;
 use Prophecy\Argument;
-use TYPO3\CMS\Core\Tests\UnitTestCase;
 use TYPO3\CMS\Extbase\Mvc\Cli\ConsoleOutput;
 
 /**
