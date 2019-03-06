@@ -6,3 +6,4 @@ $GLOBALS['TCA']['pages']['columns']['tx_realurl_pathsegment']['config']['readOnl
 unset($GLOBALS['TCA']['pages']['columns']['tx_realurl_pathsegment']['config']['eval']);
 $GLOBALS['TCA']['pages']['columns']['tx_realurl_pathoverride']['config']['type'] = 'passthrough';
 $GLOBALS['TCA']['pages']['columns']['tx_realurl_exclude']['config']['type'] = 'passthrough';
+$GLOBALS['TCA']['pages']['columns']['tx_realurl_pathoverride']['config']['default'] = 1;
