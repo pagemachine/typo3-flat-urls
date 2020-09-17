@@ -1,4 +1,4 @@
-# Flat URLs [![Build Status](https://travis-ci.org/pagemachine/typo3-flat-urls.svg)](https://travis-ci.org/pagemachine/typo3-flat-urls) [![SensioLabs Insight](https://img.shields.io/sensiolabs/i/06be6cdf-dfd5-4d6d-8051-b78b963e590b.svg)](https://insight.sensiolabs.com/projects/06be6cdf-dfd5-4d6d-8051-b78b963e590b) [![Latest Stable Version](https://poser.pugx.org/pagemachine/typo3-flat-urls/v/stable)](https://packagist.org/packages/pagemachine/typo3-flat-urls) [![Total Downloads](https://poser.pugx.org/pagemachine/typo3-flat-urls/downloads)](https://packagist.org/packages/pagemachine/typo3-flat-urls) [![Latest Unstable Version](https://poser.pugx.org/pagemachine/typo3-flat-urls/v/unstable)](https://packagist.org/packages/pagemachine/typo3-flat-urls) [![License](https://poser.pugx.org/pagemachine/typo3-flat-urls/license)](https://packagist.org/packages/pagemachine/typo3-flat-urls)
+# Flat URLs [![Build Status](https://travis-ci.org/pagemachine/typo3-flat-urls.svg)](https://travis-ci.org/pagemachine/typo3-flat-urls)
 
 Flat URLs (like Stack Overflow) for TYPO3
 
