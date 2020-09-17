@@ -99,8 +99,8 @@
         "test:functional": [
             "mkdir -p web/typo3conf/ext",
             "ln -sfn ../../.. web/typo3conf/ext/$(composer config extra.typo3/cms.extension-key)",
-            "phpunit --configuration phpunit-functional.xml"
+            "phpunit --configuration phpunit-functional.xml --colors=always"
         ],
-        "test:unit": "phpunit"
+        "test:unit": "phpunit --colors=always"
     }
 }

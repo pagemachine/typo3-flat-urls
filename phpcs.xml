@@ -10,6 +10,7 @@
   <file>ext_emconf.php</file>
   <file>ext_localconf.php</file>
   <file>ext_tables.php</file>
+  <file>Classes</file>
   <file>Configuration</file>
 
   <rule ref="PSR2">
