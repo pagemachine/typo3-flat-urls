@@ -1,12 +1,21 @@
+includes:
+  - vendor/jangregor/phpstan-prophecy/extension.neon
+
 parameters:
+  level: 5
+
+  paths:
+    - ext_emconf.php
+    - ext_tables.php
+    - Classes
+    - Configuration
+
   ignoreErrors:
-    - '#Constant TYPO3_MODE not found#'
-    - '#Undefined variable: \$_EXTKEY#'
-    - '#ObjectManagerInterface::get\(\) invoked with [\d]+ parameters, 1 required#'
-    - '#Call to an undefined method Prophecy\\Prophecy\\ObjectProphecy::.+#'
-    - '#Array \(mixed(\[\])+\) does not accept string#'
-    # TYPO3v7 support
-    - '#Access to an undefined property TYPO3\\CMS\\Core\\DataHandling\\DataHandler::\$stripslashes_values#'
-    # See https://github.com/dmitryd/typo3-realurl/issues/566
-    - '#Access to protected property \$rootPageId of class DmitryDulepov\\Realurl\\EncodeDecoderBase#'
+    - message: '#\$_EXTKEY#'
+      path: ext_emconf.php
+    - message: '#PageInterface given#'
+      paths:
+        - Classes/Page/Collection/PageCollection.php
+        - Classes/Page/Collection/PageOverlayCollection.php
+
   reportUnmatchedIgnoredErrors: false

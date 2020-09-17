@@ -59,8 +59,8 @@ class UrlDecoderHookTest extends UnitTestCase
     public function redirectsFromPageIdToFullUrl(string $url)
     {
         /** @var UrlDecoder */
-        $urlDecoder = $this->prophesize(UrlDecoder::class)->reveal();
-        $this->inject($urlDecoder, 'rootPageId', 1);
+        $urlDecoder = $this->prophesize(UrlDecoder::class);
+        $urlDecoder->getRootPageId()->willReturn(1);
         $_GET['L'] = 2;
 
         /** @var PathCacheEntry|\Prophecy\Prophecy\ObjectProphecy */
@@ -74,7 +74,7 @@ class UrlDecoderHookTest extends UnitTestCase
             'URL' => $url,
         ];
 
-        $this->urlDecoderHook->processRedirect($parameters, $urlDecoder);
+        $this->urlDecoderHook->processRedirect($parameters, $urlDecoder->reveal());
     }
 
     /**
@@ -92,8 +92,8 @@ class UrlDecoderHookTest extends UnitTestCase
     public function skipsUrlsWithoutPathCacheEntry()
     {
         /** @var UrlDecoder */
-        $urlDecoder = $this->prophesize(UrlDecoder::class)->reveal();
-        $this->inject($urlDecoder, 'rootPageId', 1);
+        $urlDecoder = $this->prophesize(UrlDecoder::class);
+        $urlDecoder->getRootPageId()->willReturn(1);
         $_GET['L'] = 2;
 
         $this->cache->getPathFromCacheByPageId(1, 2, 10, '')->willReturn(null);
@@ -104,6 +104,6 @@ class UrlDecoderHookTest extends UnitTestCase
             'URL' => '10/',
         ];
 
-        $this->urlDecoderHook->processRedirect($parameters, $urlDecoder);
+        $this->urlDecoderHook->processRedirect($parameters, $urlDecoder->reveal());
     }
 }
