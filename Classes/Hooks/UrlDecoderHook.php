@@ -47,7 +47,7 @@ class UrlDecoderHook
             return;
         }
 
-        $rootPageId = $this->getRootPageId($urlDecoder);
+        $rootPageId = $urlDecoder->getRootPageId();
         $languageId = $this->getLanguageId();
         $pathCacheEntry = $this->cache->getPathFromCacheByPageId($rootPageId, $languageId, $pageId, '');
 
@@ -74,25 +74,6 @@ class UrlDecoderHook
         }
 
         return $pageId;
-    }
-
-    /**
-     * Retrieve the current rootpage ID
-     *
-     * @param UrlDecoder $urlDecoder
-     * @return int
-     */
-    protected function getRootPageId(UrlDecoder $urlDecoder): int
-    {
-        // See https://ocramius.github.io/blog/accessing-private-php-class-members-without-reflection/
-        // And https://github.com/dmitryd/typo3-realurl/issues/566
-        $rootPageIdGetter = function (UrlDecoder $urlDecoder): int {
-            return $urlDecoder->rootPageId;
-        };
-        $rootPageIdGetter = \Closure::bind($rootPageIdGetter, null, $urlDecoder);
-        $rootPageId = $rootPageIdGetter($urlDecoder);
-
-        return $rootPageId;
     }
 
     /**
