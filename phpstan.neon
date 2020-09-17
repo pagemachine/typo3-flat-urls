@@ -7,8 +7,6 @@ parameters:
   paths:
     - ext_emconf.php
     - ext_tables.php
-    - Classes
-    - Configuration
 
   ignoreErrors:
     - message: '#\$_EXTKEY#'

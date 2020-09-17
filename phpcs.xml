@@ -7,9 +7,6 @@
   <arg name="extensions" value="php"/>
   <arg value="ps"/>
 
-  <file>Classes</file>
-  <file>Configuration/TCA</file>
-  <file>Tests</file>
   <file>ext_emconf.php</file>
   <file>ext_localconf.php</file>
   <file>ext_tables.php</file>
