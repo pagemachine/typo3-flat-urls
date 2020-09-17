@@ -9,6 +9,7 @@
                         'uid',
                         'title',
                     ],
+                    'prefixParentPageSlug' => false,
                 ],
             ],
         ],
