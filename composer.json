@@ -22,7 +22,7 @@
     "cakephp/cakephp-codesniffer": "^3.0",
     "jakub-onderka/php-console-highlighter": "^0.3.2",
     "jakub-onderka/php-parallel-lint": "^0.9.2",
-    "nimut/testing-framework": "^3.0",
+    "nimut/testing-framework": "^5.0",
     "phpstan/phpstan": "^0.8.5",
     "phpunit/phpunit": "^6.5",
     "sclable/xml-lint": "^0.2.2",
