@@ -34,8 +34,7 @@
     "typo3-ter/flat-urls": "self.version"
   },
   "config": {
-    "sort-packages": true,
-    "bin-dir": "bin"
+    "sort-packages": true
   },
   "extra": {
     "typo3/cms": {
@@ -74,7 +73,7 @@
       "@analyze:php",
       "@lint:xml"
     ],
-    "lint:php": "parallel-lint --exclude bin --exclude vendor --exclude web .",
+    "lint:php": "parallel-lint --exclude vendor --exclude web .",
     "lint:xml": "xmllint --pattern '*.xlf,*.svg' Resources",
     "lint:style": "phpcs",
     "test:unit": "phpunit",
