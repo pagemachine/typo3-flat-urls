@@ -20,7 +20,6 @@
   },
   "require-dev": {
     "cakephp/cakephp-codesniffer": "^3.0",
-    "doppy/composer-symlink": "^1.0",
     "jakub-onderka/php-console-highlighter": "^0.3.2",
     "jakub-onderka/php-parallel-lint": "^0.9.2",
     "nimut/testing-framework": "^3.0",
@@ -43,30 +42,35 @@
       "extension-key": "flat_urls",
       "cms-package-dir": "{$vendor-dir}/typo3/cms",
       "web-dir": "web"
-    },
-    "doppy-composer-symlink": {
-      "web/typo3conf/ext/flat_urls": "../../.."
     }
   },
   "scripts": {
     "analyze:php": "phpstan analyse --ansi --no-progress --configuration=phpstan.neon --level=5 *.php Classes Configuration Tests",
-    "lint:php": "parallel-lint --exclude bin --exclude vendor --exclude web .",
-    "lint:xml": "xmllint --pattern '*.xlf,*.svg' Resources",
-    "lint:style": "phpcs",
+    "build": [
+      "@composer require --no-progress --ansi --update-with-dependencies typo3/cms-core $TYPO3_VERSION",
+      "@composer validate --ansi",
+      "@lint",
+      "@test"
+    ],
+    "fix:style": "phpcbf",
     "lint": [
       "@lint:php",
       "@lint:style",
       "@analyze:php",
       "@lint:xml"
     ],
+    "lint:php": "parallel-lint --exclude bin --exclude vendor --exclude web .",
+    "lint:xml": "xmllint --pattern '*.xlf,*.svg' Resources",
+    "lint:style": "phpcs",
     "test:unit": "phpunit",
-    "test:functional": "phpunit --configuration phpunit-functional.xml",
+    "test:functional": [
+      "mkdir -p web/typo3conf/ext",
+      "ln -sfn ../../.. web/typo3conf/ext/$(composer config extra.typo3/cms.extension-key)",
+      "phpunit --configuration phpunit-functional.xml"
+    ],
     "test": [
       "@test:unit",
       "@test:functional"
-    ],
-    "post-autoload-dump": [
-      "Doppy\\ComposerSymlink\\ComposerSymlink::apply"
     ]
   },
   "autoload": {
