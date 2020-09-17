@@ -2,6 +2,14 @@ includes:
   - vendor/jangregor/phpstan-prophecy/extension.neon
 
 parameters:
+  level: 5
+
+  paths:
+    - ext_emconf.php
+    - ext_tables.php
+    - Classes
+    - Configuration
+
   ignoreErrors:
     - '#Constant TYPO3_MODE not found#'
     - '#Undefined variable: \$_EXTKEY#'
