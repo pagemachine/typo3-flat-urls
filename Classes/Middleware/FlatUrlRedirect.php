@@ -41,6 +41,12 @@ final class FlatUrlRedirect implements MiddlewareInterface, LoggerAwareInterface
             return $handler->handle($request);
         }
 
-        return new RedirectResponse((string)$uri, 303);
+        return new RedirectResponse(
+            (string)$uri,
+            303,
+            [
+                'X-Redirect-By' => 'Flat URL',
+            ]
+        );
     }
 }
