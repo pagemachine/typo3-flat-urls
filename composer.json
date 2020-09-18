@@ -91,7 +91,7 @@
         ],
         "lint:php": "parallel-lint --exclude vendor --exclude web .",
         "lint:style": "phpcs",
-        "lint:xml": "xmllint --pattern '*.xlf,*.svg' Resources",
+        "lint:xml": "xmllint --pattern '*.xml,*.svg' --recursive 0 .",
         "test": [
             "@test:unit",
             "@test:functional"
