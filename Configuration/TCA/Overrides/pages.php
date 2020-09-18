@@ -4,6 +4,7 @@
     'columns' => [
         'slug' => [
             'config' => [
+                'renderType' => 'staticSlug',
                 'generatorOptions' => [
                     'fields' => [
                         'uid',
