@@ -34,12 +34,7 @@ final class SlugProcessorTest extends FunctionalTestCase
 
         $connection->bulkInsert('pages',
             $pages,
-            [
-                'uid',
-                'pid',
-                'title',
-                'slug',
-            ]
+            array_keys($pages[0])
         );
 
         $slugProcessor = GeneralUtility::makeInstance(SlugProcessor::class);
@@ -63,7 +58,6 @@ final class SlugProcessorTest extends FunctionalTestCase
                 [
                     [
                         'uid' => 1,
-                        'pid' => 0,
                         'title' => 'Root Page',
                         'slug' => $slug,
                     ],
@@ -114,6 +108,37 @@ final class SlugProcessorTest extends FunctionalTestCase
                 ],
                 3,
                 '/3/nested-page',
+            ];
+
+            yield sprintf('translated page %s slug', $without) => [
+                [
+                    [
+                        'uid' => 1,
+                        'pid' => 0,
+                        'sys_language_uid' => 0,
+                        'l10n_parent' => 0,
+                        'title' => 'Root Page',
+                        'slug' => '',
+                    ],
+                    [
+                        'uid' => 2,
+                        'pid' => 1,
+                        'sys_language_uid' => 0,
+                        'l10n_parent' => 0,
+                        'title' => 'Test page',
+                        'slug' => '/2/test-page',
+                    ],
+                    [
+                        'uid' => 3,
+                        'pid' => 2,
+                        'sys_language_uid' => 1,
+                        'l10n_parent' => 2,
+                        'title' => 'Translated page',
+                        'slug' => $slug,
+                    ],
+                ],
+                3,
+                '/2/translated-page',
             ];
         }
     }

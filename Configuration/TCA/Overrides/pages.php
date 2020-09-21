@@ -7,7 +7,7 @@
                 'renderType' => 'staticSlug',
                 'generatorOptions' => [
                     'fields' => [
-                        'uid',
+                        ['l10n_parent', 'uid'],
                         'title',
                     ],
                     'prefixParentPageSlug' => false,
