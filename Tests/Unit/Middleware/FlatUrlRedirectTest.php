@@ -115,7 +115,7 @@ final class FlatUrlRedirectTest extends UnitTestCase
         $response = $this->flatUrlRedirect->process($request->reveal(), $this->prophesize(RequestHandlerInterface::class)->reveal());
 
         $this->assertInstanceOf(RedirectResponse::class, $response);
-        $this->assertEquals(303, $response->getStatusCode());
+        $this->assertEquals(301, $response->getStatusCode());
         $this->assertEquals('/10/test', $response->getHeaderLine('location'));
     }
 

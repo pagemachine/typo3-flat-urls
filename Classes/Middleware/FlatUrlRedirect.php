@@ -43,7 +43,7 @@ final class FlatUrlRedirect implements MiddlewareInterface, LoggerAwareInterface
 
         return new RedirectResponse(
             (string)$uri,
-            303,
+            301,
             [
                 'X-Redirect-By' => 'Flat URL',
             ]
