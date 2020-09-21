@@ -1,6 +1,16 @@
 <?php
 defined('TYPO3_MODE') or die();
 
+(function (): void {
+    $signalSlotDispatcher = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance(\TYPO3\CMS\Extbase\SignalSlot\Dispatcher::class);
+    $signalSlotDispatcher->connect(
+        \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::class,
+        'tcaIsBeingBuilt',
+        \Pagemachine\FlatUrls\Slot\ExtensionManagementUtilitySlot::class,
+        'prependUidToPageSlug'
+    );
+})();
+
 $GLOBALS['TYPO3_CONF_VARS']
     ['SC_OPTIONS']
         ['t3lib/class.t3lib_tcemain.php']

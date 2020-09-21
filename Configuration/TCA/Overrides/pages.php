@@ -6,10 +6,6 @@
             'config' => [
                 'renderType' => 'staticSlug',
                 'generatorOptions' => [
-                    'fields' => [
-                        ['l10n_parent', 'uid'],
-                        'title',
-                    ],
                     'prefixParentPageSlug' => false,
                 ],
             ],
