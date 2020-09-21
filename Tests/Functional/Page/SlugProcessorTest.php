@@ -32,10 +32,13 @@ final class SlugProcessorTest extends FunctionalTestCase
         $connection = GeneralUtility::makeInstance(ConnectionPool::class)
             ->getConnectionForTable('pages');
 
-        $connection->bulkInsert('pages',
+        $connection->bulkInsert(
+            'pages',
             $pages,
             array_keys($pages[0])
         );
+
+        $this->setUpFrontendRootPage(1);
 
         $slugProcessor = GeneralUtility::makeInstance(SlugProcessor::class);
         $slugProcessor->update(new Page($pageUid));

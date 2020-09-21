@@ -22,7 +22,8 @@ final class PageCollectionTest extends FunctionalTestCase
         $connection = GeneralUtility::makeInstance(ConnectionPool::class)
             ->getConnectionForTable('pages');
 
-        $connection->bulkInsert('pages',
+        $connection->bulkInsert(
+            'pages',
             [
                 [
                     'uid' => 1,

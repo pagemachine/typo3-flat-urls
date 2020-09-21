@@ -12,6 +12,7 @@
   <file>ext_tables.php</file>
   <file>Classes</file>
   <file>Configuration</file>
+  <file>Tests</file>
 
   <rule ref="PSR2">
     <exclude name="Generic.Files.LineLength"/>
