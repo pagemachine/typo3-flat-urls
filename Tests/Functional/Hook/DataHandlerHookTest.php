@@ -24,8 +24,9 @@ final class DataHandlerHookTest extends FunctionalTestCase
 
     /**
      * @test
+     * @dataProvider pages
      */
-    public function ensuresFlatUrlOnNewPages(): void
+    public function ensuresFlatUrls(array $pages, array $changes, int $pageUid, string $expected): void
     {
         $this->setUpBackendUserFromFixture(1);
 
@@ -37,25 +38,105 @@ final class DataHandlerHookTest extends FunctionalTestCase
             'doktype' => PageRepository::DOKTYPE_DEFAULT,
             'is_siteroot' => 1,
         ]);
+
+        if (!empty($pages)) {
+            $connection->bulkInsert(
+                'pages',
+                $pages,
+                array_keys($pages[0])
+            );
+        }
+
         $dataHandler = GeneralUtility::makeInstance(DataHandler::class);
         $dataHandler->start([
-            'pages' => [
-                StringUtility::getUniqueId('NEW') => [
-                    'title' => 'Test Page',
-                    'pid' => 1,
-                    'hidden' => 0,
-                ],
-            ],
+            'pages' => $changes,
         ], []);
 
         $dataHandler->process_datamap();
 
-        $page = $connection->select(
-            ['slug'],
-            'pages',
-            ['uid' => 2]
-        )->fetch();
+        $queryBuilder = GeneralUtility::makeInstance(ConnectionPool::class)
+            ->getQueryBuilderForTable('pages');
+        $queryBuilder->getRestrictions()->removeAll();
+        $page = $queryBuilder
+            ->select('slug')
+            ->from('pages')
+            ->where($queryBuilder->expr()->eq('uid', $pageUid))
+            ->execute()
+            ->fetch();
 
-        $this->assertEquals('/2/test-page', $page['slug']);
+        $this->assertEquals($expected, $page['slug']);
+    }
+
+    public function pages(): \Generator
+    {
+        foreach (['new page', 'hidden new page'] as $hidden => $name) {
+            yield $name => [
+                [
+                ],
+                [
+                    StringUtility::getUniqueId('NEW') => [
+                        'title' => 'Test Page',
+                        'pid' => 1,
+                        'hidden' => $hidden,
+                    ],
+                ],
+                2,
+                '/2/test-page',
+            ];
+        }
+
+        foreach (['updated page', 'hidden updated page'] as $hidden => $name) {
+            yield $name => [
+                [
+                    [
+                        'uid' => 2,
+                        'pid' => 1,
+                        'hidden' => $hidden,
+                        'title' => 'Old Page',
+                        'slug' => '/2/old-page',
+                    ],
+                ],
+                [
+                    2 => [
+                        'title' => 'New Page',
+                    ]
+                ],
+                2,
+                '/2/new-page',
+            ];
+        }
+
+        foreach (['translated page', 'hidden translated page'] as $hidden => $name) {
+            yield $name => [
+                [
+                    [
+                        'uid' => 2,
+                        'pid' => 1,
+                        'hidden' => 0,
+                        'sys_language_uid' => 0,
+                        'l10n_parent' => 0,
+                        'title' => 'Page',
+                        'slug' => '/2/page',
+                    ],
+                    [
+                        'uid' => 3,
+                        'pid' => 1,
+                        'hidden' => $hidden,
+                        'sys_language_uid' => 1,
+                        'l10n_parent' => 2,
+                        'title' => 'Old Translated Page',
+                        'slug' => '/2/old-translated-page',
+                    ],
+                ],
+                [
+                    3 => [
+                        'title' => 'New Translated Page',
+                    ],
+                ],
+                3,
+                '/2/new-translated-page',
+            ];
+        }
+
     }
 }
