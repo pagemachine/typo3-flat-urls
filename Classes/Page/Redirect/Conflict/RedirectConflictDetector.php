@@ -6,6 +6,8 @@ namespace Pagemachine\FlatUrls\Page\Redirect\Conflict;
 use Pagemachine\FlatUrls\Page\Page;
 use Psr\Http\Message\UriInterface;
 use TYPO3\CMS\Core\Database\ConnectionPool;
+use TYPO3\CMS\Core\Exception\SiteNotFoundException;
+use TYPO3\CMS\Core\Site\Entity\Site;
 use TYPO3\CMS\Core\Site\SiteFinder;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 
@@ -16,7 +18,15 @@ final class RedirectConflictDetector
      */
     public function detect(Page $page): \Generator
     {
-        $pageUri = $this->buildPageUri($page);
+        $siteFinder = GeneralUtility::makeInstance(SiteFinder::class);
+
+        try {
+            $site = $siteFinder->getSiteByPageId($page->getUid());
+        } catch (SiteNotFoundException $e) {
+            return;
+        }
+
+        $pageUri = $this->buildPageUri($page, $site);
 
         $connection = GeneralUtility::makeInstance(ConnectionPool::class)
             ->getConnectionForTable('sys_redirect');
@@ -33,11 +43,8 @@ final class RedirectConflictDetector
         }
     }
 
-    private function buildPageUri(Page $page): UriInterface
+    private function buildPageUri(Page $page, Site $site): UriInterface
     {
-        $siteFinder = GeneralUtility::makeInstance(SiteFinder::class);
-        $site = $siteFinder->getSiteByPageId($page->getUid());
-
         $pageLanguage = $this->getLanguageOfPage($page);
         $pageUri = $site->getRouter()->generateUri(
             (string)$page->getUid(),
