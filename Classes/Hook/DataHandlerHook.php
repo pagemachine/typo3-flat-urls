@@ -4,6 +4,8 @@ declare(strict_types = 1);
 namespace Pagemachine\FlatUrls\Hook;
 
 use Pagemachine\FlatUrls\Page\Page;
+use Pagemachine\FlatUrls\Page\Redirect\Conflict\RedirectConflictDetector;
+use Pagemachine\FlatUrls\Page\Redirect\Conflict\RedirectConflictResolver;
 use Pagemachine\FlatUrls\Page\Redirect\RedirectBuilder;
 use Pagemachine\FlatUrls\Page\Redirect\RedirectCollection;
 use TYPO3\CMS\Core\DataHandling\DataHandler;
@@ -54,19 +56,26 @@ final class DataHandlerHook
         array $data,
         DataHandler $dataHandler
     ): void {
-        if ($status !== 'new' || $table !== 'pages') {
+        if ($table !== 'pages') {
             return;
         }
 
-        $helper = GeneralUtility::makeInstance(
-            SlugHelper::class,
-            $table,
-            'slug',
-            $GLOBALS['TCA']['pages']['columns']['slug']['config']
-        );
-        $data['uid'] = $dataHandler->substNEWwithIDs[$uid];
-        $data['slug'] = $helper->generate($data, $data['pid']);
+        if ($status === 'new') {
+            $helper = GeneralUtility::makeInstance(
+                SlugHelper::class,
+                $table,
+                'slug',
+                $GLOBALS['TCA']['pages']['columns']['slug']['config']
+            );
+            $data['uid'] = $dataHandler->substNEWwithIDs[$uid];
+            $data['slug'] = $helper->generate($data, $data['pid']);
 
-        $dataHandler->updateDB($table, $data['uid'], $data);
+            $dataHandler->updateDB($table, $data['uid'], $data);
+        } elseif ($status === 'update') {
+            $redirectConflictDetector = GeneralUtility::makeInstance(RedirectConflictDetector::class);
+            $conflictRedirects = $redirectConflictDetector->detect(new Page((int)$uid));
+            $redirectConflictResolver = GeneralUtility::makeInstance(RedirectConflictResolver::class);
+            $redirectConflictResolver->resolve(...$conflictRedirects);
+        }
     }
 }

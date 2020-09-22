@@ -41,6 +41,7 @@ final class RedirectBuilder
         $targetUri = new Typo3Uri(sprintf('t3://page?uid=%d', $page->getUid()));
 
         $redirect = new Redirect(
+            $page,
             $sourceUri,
             $targetUri,
             307

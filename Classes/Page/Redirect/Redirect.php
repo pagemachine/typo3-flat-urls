@@ -3,10 +3,16 @@ declare(strict_types = 1);
 
 namespace Pagemachine\FlatUrls\Page\Redirect;
 
+use Pagemachine\FlatUrls\Page\Page;
 use Psr\Http\Message\UriInterface;
 
 final class Redirect
 {
+    /**
+     * @var Page
+     */
+    private $page;
+
     /**
      * @var UriInterface
      */
@@ -23,13 +29,20 @@ final class Redirect
     private $statusCode;
 
     public function __construct(
+        Page $page,
         UriInterface $sourceUri,
         UriInterface $targetUri,
         int $statusCode
     ) {
+        $this->page = $page;
         $this->sourceUri = $sourceUri;
         $this->targetUri = $targetUri;
         $this->statusCode = $statusCode;
+    }
+
+    public function getPage(): Page
+    {
+        return $this->page;
     }
 
     public function getSourceUri(): UriInterface
