@@ -4,7 +4,7 @@ services:
   app:
     image: thecodingmachine/php:${PHP_VERSION:-7.2}-v3-fpm
     environment:
-      TYPO3_VERSION: ${TYPO3_VERSION:-^8.7}
+      TYPO3_VERSION: ${TYPO3_VERSION:-^9.5}
       TYPO3_ORG_PASSWORD:
       TYPO3_ORG_USERNAME:
       TRAVIS_TAG:
