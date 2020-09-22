@@ -17,12 +17,12 @@ This extension is installable from various sources:
 
 The purpose of this extension is to enforce so called "flat URLs" throughout the TYPO3 frontend. Thus instead of `my/deeply/nested/page/` you will always get URLs like `10/page/` (thus page UID and title), no matter the actual page hierarchy managed in the backend.
 
-Page translations will use the same UID as their original page but with translated titles. Thus you need to make sure that the language parameter (`L`) is part of the URL to avoid duplicate URLs with multiple translations.
+Page translations will use the same UID as their original page but with translated titles. Thus you need to make sure that the language parameter (`_language`) is part of the URL to avoid duplicate URLs with multiple translations.
 
 The flat URLs are a fully managed path segment for every page.
 
-Similar to Stack Overflow pages requested only by page UID will be redirected to their full URL. This means that e.g. https://example.org/10/ redirects to https://example.org/10/page/.
+Similar to Stack Overflow pages requested only by page UID will be redirected to their full URL. This means that e.g. https://example.org/10/ redirects to https://example.org/10/page/. This also works for translations.
 
 ## Command
 
-If you have existing pages when adding this extension or if you want to ensure a clean state you can run the `flaturls:update` CLI command. It will process all pages and page translations, generate the path segments and enforces them.
+If you have existing pages when adding this extension or if you want to ensure a clean state you can run the `slugs:update` CLI command. It will update the slugs of all pages and page translations.
