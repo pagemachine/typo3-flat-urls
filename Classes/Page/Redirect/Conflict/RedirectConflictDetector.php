@@ -40,7 +40,7 @@ final class RedirectConflictDetector
 
         $pageLanguage = $this->getLanguageOfPage($page);
         $pageUri = $site->getRouter()->generateUri(
-            $page->getUid(),
+            (string)$page->getUid(),
             ['_language' => $pageLanguage]
         );
 
