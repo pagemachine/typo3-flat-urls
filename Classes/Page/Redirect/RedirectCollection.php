@@ -6,6 +6,7 @@ namespace Pagemachine\FlatUrls\Page\Redirect;
 use TYPO3\CMS\Core\DataHandling\DataHandler;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Core\Utility\StringUtility;
+use TYPO3\CMS\Redirects\Service\RedirectCacheService;
 
 final class RedirectCollection
 {
@@ -26,5 +27,8 @@ final class RedirectCollection
         $dataHandler = GeneralUtility::makeInstance(DataHandler::class);
         $dataHandler->start($data, []);
         $dataHandler->process_datamap();
+
+        $redirectCacheService = GeneralUtility::makeInstance(RedirectCacheService::class);
+        $redirectCacheService->rebuild();
     }
 }

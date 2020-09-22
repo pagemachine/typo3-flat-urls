@@ -17,6 +17,13 @@ final class SlugProcessorTest extends FunctionalTestCase
     /**
      * @var array
      */
+    protected $coreExtensionsToLoad = [
+        'redirects',
+    ];
+
+    /**
+     * @var array
+     */
     protected $testExtensionsToLoad = [
         'typo3conf/ext/flat_urls',
     ];
