@@ -70,13 +70,36 @@ final class AmendSlugTest extends FunctionalTestCase
             yield $name => [
                 [
                     StringUtility::getUniqueId('NEW') => [
-                        'title' => 'Test Page',
                         'pid' => 1,
                         'hidden' => $hidden,
+                        'title' => 'Test Page',
                     ],
                 ],
                 2,
                 '/2/test-page',
+            ];
+        }
+
+        $pageUid = StringUtility::getUniqueId('NEW');
+
+        foreach (['new page translation', 'hidden new page translation'] as $hidden => $name) {
+            yield $name => [
+                [
+                    $pageUid => [
+                        'pid' => 1,
+                        'hidden' => 0,
+                        'title' => 'Test Page',
+                    ],
+                    StringUtility::getUniqueId('NEW') => [
+                        'pid' => 1,
+                        'sys_language_uid' => 1,
+                        'l10n_parent' => $pageUid,
+                        'hidden' => $hidden,
+                        'title' => 'Translated Test Page',
+                    ],
+                ],
+                3,
+                '/2/translated-test-page',
             ];
         }
     }
