@@ -17,11 +17,11 @@
     ],
     "require": {
         "php": "^7.2",
-        "dmitryd/typo3-realurl": "^2.0",
-        "typo3/cms-backend": "^8.7",
-        "typo3/cms-core": "^8.7",
-        "typo3/cms-extbase": "^8.7",
-        "typo3/cms-frontend": "^8.7"
+        "typo3/cms-backend": "^9.5",
+        "typo3/cms-core": "^9.5",
+        "typo3/cms-extbase": "^9.5",
+        "typo3/cms-frontend": "^9.5",
+        "typo3/cms-redirects": "^9.5"
     },
     "replace": {
         "typo3-ter/flat-urls": "self.version"
@@ -92,7 +92,7 @@
         ],
         "lint:php": "parallel-lint --exclude vendor --exclude web .",
         "lint:style": "phpcs",
-        "lint:xml": "xmllint --pattern '*.xlf,*.svg' Resources",
+        "lint:xml": "xmllint --pattern '*.xml,*.svg' --recursive 0 .",
         "test": [
             "@test:unit",
             "@test:functional"
@@ -100,8 +100,8 @@
         "test:functional": [
             "mkdir -p web/typo3conf/ext",
             "ln -sfn ../../.. web/typo3conf/ext/$(composer config extra.typo3/cms.extension-key)",
-            "phpunit --configuration phpunit-functional.xml"
+            "phpunit --configuration phpunit-functional.xml --colors=always"
         ],
-        "test:unit": "phpunit"
+        "test:unit": "phpunit --colors=always"
     }
 }

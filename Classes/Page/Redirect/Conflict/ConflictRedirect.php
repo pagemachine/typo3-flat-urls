@@ -1,9 +1,9 @@
 <?php
 declare(strict_types = 1);
 
-namespace Pagemachine\FlatUrls\Page;
+namespace Pagemachine\FlatUrls\Page\Redirect\Conflict;
 
-final class Page
+final class ConflictRedirect
 {
     /**
      * @var int
@@ -15,6 +15,9 @@ final class Page
         $this->uid = $uid;
     }
 
+    /**
+     * @return int
+     */
     public function getUid(): int
     {
         return $this->uid;

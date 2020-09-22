@@ -19,7 +19,7 @@ The purpose of this extension is to enforce so called "flat URLs" throughout the
 
 Page translations will use the same UID as their original page but with translated titles. Thus you need to make sure that the language parameter (`L`) is part of the URL to avoid duplicate URLs with multiple translations.
 
-The flat URLs are achieved using RealURL and a fully managed path segment for every page. Whenever the title of a page is changed, its path segment is updated accordingly.
+The flat URLs are a fully managed path segment for every page.
 
 Similar to Stack Overflow pages requested only by page UID will be redirected to their full URL. This means that e.g. https://example.org/10/ redirects to https://example.org/10/page/.
 
