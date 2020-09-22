@@ -15,7 +15,10 @@ defined('TYPO3_MODE') or die();
     'SC_OPTIONS' => [
         't3lib/class.t3lib_tcemain.php' => [
             'processDatamapClass' => [
-                1600420737 => \Pagemachine\FlatUrls\Hook\DataHandlerHook::class,
+                1600781842 => \Pagemachine\FlatUrls\Hook\DataHandler\AmendSlug::class,
+                1600781844 => \Pagemachine\FlatUrls\Hook\DataHandler\RefreshSlug::class,
+                1600781845 => \Pagemachine\FlatUrls\Hook\DataHandler\AddRedirect::class,
+                1600781926 => \Pagemachine\FlatUrls\Hook\DataHandler\ResolveRedirectConflict::class,
             ],
         ],
     ],
