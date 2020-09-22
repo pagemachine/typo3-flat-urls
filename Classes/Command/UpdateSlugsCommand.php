@@ -4,7 +4,7 @@ declare(strict_types = 1);
 namespace Pagemachine\FlatUrls\Command;
 
 use Pagemachine\FlatUrls\Page\PageCollection;
-use Pagemachine\FlatUrls\Page\SlugProcessor;
+use Pagemachine\FlatUrls\Page\Slug\PageSlugProcessor;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Helper\ProgressBar;
 use Symfony\Component\Console\Input\InputInterface;
@@ -32,7 +32,7 @@ final class UpdateSlugsCommand extends Command
 
         /** @var PageCollection */
         $pages = GeneralUtility::makeInstance(PageCollection::class);
-        $slugProcessor = GeneralUtility::makeInstance(SlugProcessor::class);
+        $slugProcessor = GeneralUtility::makeInstance(PageSlugProcessor::class);
         $progress = new ProgressBar($output);
 
         foreach ($progress->iterate($pages) as $page) {
