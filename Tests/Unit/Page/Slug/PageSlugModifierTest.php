@@ -39,30 +39,62 @@ final class PageSlugModifierTest extends UnitTestCase
     public function skipsUnrelatedTables(): void
     {
         $parameters = [
-            'slug' => '/foo',
+            'slug' => '/test',
             'tableName' => 'sys_category',
         ];
 
         $result = $this->pageSlugModifier->prependUid($parameters);
 
-        $this->assertEquals('/foo', $result);
+        $this->assertEquals('/test', $result);
+    }
+
+    /**
+     * @test
+     * @dataProvider pagesWithoutUid
+     */
+    public function skipsNewPagesWithoutUid(array $page): void
+    {
+        $parameters = [
+            'slug' => '/test',
+            'tableName' => 'pages',
+        ];
+
+        $result = $this->pageSlugModifier->prependUid($parameters);
+
+        $this->assertEquals('/test', $result);
+    }
+
+    public function pagesWithoutUid(): \Generator
+    {
+        yield 'new page' => [
+            [
+                'sys_language_uid' => 0,
+            ],
+        ];
+
+        yield 'new translated page' => [
+            [
+                'sys_language_uid' => 1,
+                'l10n_parent' => 10,
+            ],
+        ];
     }
 
     /**
      * @test
      * @dataProvider pages
      */
-    public function prependsPageUid(array $page, string $expected): void
+    public function prependsPageUid(array $page): void
     {
         $parameters = [
-            'slug' => $page['slug'],
+            'slug' => '/test',
             'tableName' => 'pages',
             'record' => $page,
         ];
 
         $result = $this->pageSlugModifier->prependUid($parameters);
 
-        $this->assertEquals($expected, $result);
+        $this->assertEquals('/10/test', $result);
     }
 
     public function pages(): \Generator
@@ -71,9 +103,7 @@ final class PageSlugModifierTest extends UnitTestCase
             [
                 'uid' => 10,
                 'sys_language_uid' => 0,
-                'slug' => '/test',
             ],
-            '/10/test',
         ];
 
         yield 'translated page' => [
@@ -81,9 +111,7 @@ final class PageSlugModifierTest extends UnitTestCase
                 'uid' => 11,
                 'sys_language_uid' => 1,
                 'l10n_parent' => 10,
-                'slug' => '/test',
             ],
-            '/10/test',
         ];
     }
 

@@ -11,18 +11,22 @@ final class PageSlugModifier
             return $parameters['slug'];
         }
 
-        $fieldSeparator = $parameters['configuration']['generatorOptions']['fieldSeparator'] ?? '/';
-        $slugParts = [''];
+        $uid = $parameters['record']['uid'] ?? 0;
 
         if ($parameters['record']['sys_language_uid'] > 0) {
-            $slugParts[] = $parameters['record']['l10n_parent'];
-        } else {
-            $slugParts[] = $parameters['record']['uid'];
+            $uid = $parameters['record']['l10n_parent'];
         }
 
-        $slugParts[] = ltrim($parameters['slug'], $fieldSeparator);
+        if ($uid <= 0) {
+            return $parameters['slug'];
+        }
 
-        $slug = implode($fieldSeparator, $slugParts);
+        $fieldSeparator = $parameters['configuration']['generatorOptions']['fieldSeparator'] ?? '/';
+        $slug = implode($fieldSeparator, [
+            '', // Ensure leading slash
+            $uid,
+            ltrim($parameters['slug'], $fieldSeparator),
+        ]);
 
         return $slug;
     }
