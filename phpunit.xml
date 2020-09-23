@@ -11,7 +11,9 @@
   stopOnFailure="false"
   stopOnIncomplete="false"
   stopOnSkipped="false"
-  verbose="false">
+  verbose="false"
+  printerClass="Codedungeon\PHPUnitPrettyResultPrinter\Printer"
+>
 
   <php>
     <env name="TYPO3_PATH_WEB" value="web"/>
