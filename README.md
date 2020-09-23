@@ -19,7 +19,7 @@ The purpose of this extension is to enforce so called "flat URLs" throughout the
 
 Page translations will use the same UID as their original page but with translated titles. Thus you need to make sure that the language parameter (`_language`) is part of the URL to avoid duplicate URLs with multiple translations.
 
-The flat URLs are a fully managed path segment for every page.
+For flat URLs this extension manages the slugs of pages, thus these are not editable anymore. Whenever a page is edited the slugs are updated automatically so they stay in sync with their related fields (title by default). If a page slug changes, a redirect is added automatically. Conflicting redirects when changing slugs back and forth are removed to ensure pages are always accessible.
 
 Similar to Stack Overflow pages requested only by page UID will be redirected to their full URL. This means that e.g. https://example.org/10/ redirects to https://example.org/10/page/. This also works for translations.
 
