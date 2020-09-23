@@ -1,18 +1,18 @@
 <?php
 declare(strict_types = 1);
 
-namespace Pagemachine\FlatUrls\Tests\Functional\Page;
+namespace Pagemachine\FlatUrls\Tests\Functional\Page\Slug;
 
 use Nimut\TestingFramework\TestCase\FunctionalTestCase;
 use Pagemachine\FlatUrls\Page\Page;
-use Pagemachine\FlatUrls\Page\SlugProcessor;
+use Pagemachine\FlatUrls\Page\Slug\PageSlugProcessor;
 use TYPO3\CMS\Core\Database\ConnectionPool;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 
 /**
- * Testcase for Pagemachine\FlatUrls\Page\SlugProcessor
+ * Testcase for Pagemachine\FlatUrls\Page\Slug\PageSlugProcessor
  */
-final class SlugProcessorTest extends FunctionalTestCase
+final class PageSlugProcessorTest extends FunctionalTestCase
 {
     /**
      * @var array
@@ -47,8 +47,8 @@ final class SlugProcessorTest extends FunctionalTestCase
 
         $this->setUpFrontendRootPage(1);
 
-        $slugProcessor = GeneralUtility::makeInstance(SlugProcessor::class);
-        $slugProcessor->update(new Page($pageUid));
+        $pageSlugProcessor = GeneralUtility::makeInstance(PageSlugProcessor::class);
+        $pageSlugProcessor->update(new Page($pageUid));
 
         $updatedPage = $connection->select(
             ['slug'],

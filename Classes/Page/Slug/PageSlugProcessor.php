@@ -1,12 +1,13 @@
 <?php
 declare(strict_types = 1);
 
-namespace Pagemachine\FlatUrls\Page;
+namespace Pagemachine\FlatUrls\Page\Slug;
 
+use Pagemachine\FlatUrls\Page\Page;
 use TYPO3\CMS\Core\DataHandling\DataHandler;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 
-final class SlugProcessor
+final class PageSlugProcessor
 {
     /**
      * Value to reset slugs and force generation
