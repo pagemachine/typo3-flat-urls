@@ -4,6 +4,7 @@ declare(strict_types = 1);
 namespace Pagemachine\FlatUrls\Tests\Functional\Hook\DataHandler;
 
 use Nimut\TestingFramework\TestCase\FunctionalTestCase;
+use TYPO3\CMS\Core\Cache\CacheManager;
 use TYPO3\CMS\Core\Database\ConnectionPool;
 use TYPO3\CMS\Core\DataHandling\DataHandler;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
@@ -84,6 +85,9 @@ final class ResolveRedirectConflictTest extends FunctionalTestCase
         ];
 
         $this->assertArraySubset($expected, $redirects);
+
+        // Drop cached page used by PageRepository::getPage() through PageRouter::generateUri()
+        GeneralUtility::makeInstance(CacheManager::class)->getCache('runtime')->flush();
 
         $dataHandler->start([
             'pages' => [
