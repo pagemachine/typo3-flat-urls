@@ -87,7 +87,7 @@ final class ResolveRedirectConflictTest extends FunctionalTestCase
         $this->assertArraySubset($expected, $redirects);
 
         // Drop cached page used by PageRepository::getPage() through PageRouter::generateUri()
-        GeneralUtility::makeInstance(CacheManager::class)->getCache('runtime')->flush();
+        GeneralUtility::makeInstance(CacheManager::class)->flushCaches();
 
         $dataHandler->start([
             'pages' => [
