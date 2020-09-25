@@ -4,6 +4,7 @@ declare(strict_types = 1);
 namespace Pagemachine\FlatUrls\Tests\Functional\Hook\DataHandler;
 
 use Nimut\TestingFramework\TestCase\FunctionalTestCase;
+use TYPO3\CMS\Core\Cache\CacheManager;
 use TYPO3\CMS\Core\Database\ConnectionPool;
 use TYPO3\CMS\Core\DataHandling\DataHandler;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
@@ -59,8 +60,6 @@ final class ResolveRedirectConflictTest extends FunctionalTestCase
             'target' => 't3://page?uid=2',
         ]);
 
-        $this->assertEquals(1, $redirectConnection->count('*', 'sys_redirect', []));
-
         $dataHandler = GeneralUtility::makeInstance(DataHandler::class);
         $dataHandler->start([
             'pages' => [
@@ -71,7 +70,24 @@ final class ResolveRedirectConflictTest extends FunctionalTestCase
         ], []);
         $dataHandler->process_datamap();
 
-        $this->assertEquals(2, $redirectConnection->count('*', 'sys_redirect', []));
+        $redirects = $redirectConnection
+            ->select(['source_path', 'target'], 'sys_redirect', [], [], ['uid' => 'ASC'])
+            ->fetchAll();
+        $expected = [
+            [
+                'source_path' => '/foo',
+                'target' => 't3://page?uid=2',
+            ],
+            [
+                'source_path' => '/2/first-title',
+                'target' => 't3://page?uid=2',
+            ],
+        ];
+
+        $this->assertArraySubset($expected, $redirects);
+
+        // Drop cached page used by PageRepository::getPage() through PageRouter::generateUri()
+        GeneralUtility::makeInstance(CacheManager::class)->flushCaches();
 
         $dataHandler->start([
             'pages' => [
@@ -82,7 +98,21 @@ final class ResolveRedirectConflictTest extends FunctionalTestCase
         ], []);
         $dataHandler->process_datamap();
 
-        $this->assertEquals(2, $redirectConnection->count('*', 'sys_redirect', []));
+        $redirects = $redirectConnection
+            ->select(['source_path', 'target'], 'sys_redirect', [], [], ['uid' => 'ASC'])
+            ->fetchAll();
+        $expected = [
+            [
+                'source_path' => '/foo',
+                'target' => 't3://page?uid=2',
+            ],
+            [
+                'source_path' => '/2/second-title',
+                'target' => 't3://page?uid=2',
+            ],
+        ];
+
+        $this->assertArraySubset($expected, $redirects);
     }
 
     /**

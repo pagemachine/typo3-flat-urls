@@ -21,7 +21,7 @@ final class ResolveRedirectConflict
         array $data,
         DataHandler $dataHandler
     ): void {
-        if ($table !== 'pages' || $status !== 'update') {
+        if ($status !== 'update' || $table !== 'pages') {
             return;
         }
 
