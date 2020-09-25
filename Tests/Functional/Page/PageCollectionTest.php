@@ -53,14 +53,6 @@ final class PageCollectionTest extends FunctionalTestCase
         );
 
         $pages = GeneralUtility::makeInstance(PageCollection::class);
-        $expected = [
-            [
-                'uid' => 1,
-            ],
-            [
-                'uid' => 3,
-            ],
-        ];
 
         $this->assertCount(2, $pages);
 
