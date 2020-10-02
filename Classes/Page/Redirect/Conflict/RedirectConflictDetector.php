@@ -27,14 +27,28 @@ final class RedirectConflictDetector
         }
 
         $pageUri = $this->buildPageUri($page, $site);
-
         $connection = GeneralUtility::makeInstance(ConnectionPool::class)
             ->getConnectionForTable('sys_redirect');
+
+        // Redirects with a source path exactly like the target page path
         $redirects = $connection->select(
             ['uid'],
             'sys_redirect',
             [
                 'source_path' => $pageUri->getPath(),
+            ]
+        );
+
+        foreach ($redirects as $redirect) {
+            yield new ConflictRedirect($redirect['uid']);
+        }
+
+        // Redirects with just the UID as source path: conflict with custom redirect handling
+        $redirects = $connection->select(
+            ['uid'],
+            'sys_redirect',
+            [
+                'source_path' => sprintf('/%d', $page->getUid()),
             ]
         );
 
