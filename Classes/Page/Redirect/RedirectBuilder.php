@@ -22,7 +22,7 @@ final class RedirectBuilder
             ->getQueryBuilderForTable('pages');
         $queryBuilder->getRestrictions()->removeAll();
         $pageData = $queryBuilder
-            ->select('sys_language_uid', 'slug')
+            ->select('sys_language_uid', 'l10n_source', 'l10n_parent', 'slug')
             ->from('pages')
             ->where($queryBuilder->expr()->eq(
                 'uid',
@@ -31,8 +31,14 @@ final class RedirectBuilder
             ->execute()
             ->fetch();
 
+        $pageIdInSite = $page->getUid();
+
+        if ($pageData['sys_language_uid'] > 0) {
+            $pageIdInSite = $pageData['l10n_source'] ?: $pageData['l10n_parent'];
+        }
+
         $siteFinder = GeneralUtility::makeInstance(SiteFinder::class);
-        $site = $siteFinder->getSiteByPageId($page->getUid());
+        $site = $siteFinder->getSiteByPageId($pageIdInSite);
         $siteLanguage = $site->getLanguageById($pageData['sys_language_uid']);
         $sourceUri = (new Uri())
             ->withHost($site->getBase()->getHost())
