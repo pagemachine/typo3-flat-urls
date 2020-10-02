@@ -5,6 +5,7 @@ namespace Pagemachine\FlatUrls\Page\Redirect;
 
 use Pagemachine\FlatUrls\Page\Page;
 use TYPO3\CMS\Core\Database\ConnectionPool;
+use TYPO3\CMS\Core\Exception\SiteNotFoundException;
 use TYPO3\CMS\Core\Http\Uri;
 use TYPO3\CMS\Core\Site\SiteFinder;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
@@ -38,7 +39,13 @@ final class RedirectBuilder
         }
 
         $siteFinder = GeneralUtility::makeInstance(SiteFinder::class);
-        $site = $siteFinder->getSiteByPageId($pageIdInSite);
+
+        try {
+            $site = $siteFinder->getSiteByPageId($pageIdInSite);
+        } catch (SiteNotFoundException $e) {
+            throw new BuildFailureException(sprintf('Missing site for redirect: %s', $e->getMessage()), 1601628182, $e);
+        }
+
         $siteLanguage = $site->getLanguageById($pageData['sys_language_uid']);
         $sourceUri = (new Uri())
             ->withHost($site->getBase()->getHost())

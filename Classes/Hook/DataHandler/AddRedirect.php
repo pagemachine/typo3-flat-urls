@@ -4,16 +4,21 @@ declare(strict_types = 1);
 namespace Pagemachine\FlatUrls\Hook\DataHandler;
 
 use Pagemachine\FlatUrls\Page\Page;
+use Pagemachine\FlatUrls\Page\Redirect\BuildFailureException;
 use Pagemachine\FlatUrls\Page\Redirect\RedirectBuilder;
 use Pagemachine\FlatUrls\Page\Redirect\RedirectCollection;
+use Psr\Log\LoggerAwareInterface;
+use Psr\Log\LoggerAwareTrait;
 use TYPO3\CMS\Core\DataHandling\DataHandler;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 
 /**
  * Add redirect on page slug change
  */
-final class AddRedirect
+final class AddRedirect implements LoggerAwareInterface
 {
+    use LoggerAwareTrait;
+
     public function processDatamap_postProcessFieldArray(
         string $status,
         string $table,
@@ -29,8 +34,17 @@ final class AddRedirect
             return;
         }
 
+        $page = new Page((int)$uid);
         $redirectBuilder = GeneralUtility::makeInstance(RedirectBuilder::class);
-        $redirect = $redirectBuilder->build(new Page((int)$uid));
+
+        try {
+            $redirect = $redirectBuilder->build($page);
+        } catch (BuildFailureException $e) {
+            $this->logger->error($e->getMessage(), ['page' => $page->getUid()]);
+
+            return;
+        }
+
         $redirectCollection = GeneralUtility::makeInstance(RedirectCollection::class);
         $redirectCollection->add($redirect);
     }

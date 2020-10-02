@@ -126,4 +126,37 @@ final class AddRedirectTest extends FunctionalTestCase
             ],
         ];
     }
+
+    /**
+     * @test
+     */
+    public function skipsPagesWithoutSite(): void
+    {
+        $this->setUpBackendUserFromFixture(1);
+
+        $pageConnection = GeneralUtility::makeInstance(ConnectionPool::class)
+            ->getConnectionForTable('pages');
+        $pageConnection->insert('pages', [
+            'uid' => 2,
+            'title' => 'Old Root',
+            'is_siteroot' => 1,
+        ]);
+
+        $redirectConnection = GeneralUtility::makeInstance(ConnectionPool::class)
+            ->getConnectionForTable('sys_redirect');
+
+        $this->assertEquals(0, $redirectConnection->count('*', 'sys_redirect', []));
+
+        $dataHandler = GeneralUtility::makeInstance(DataHandler::class);
+        $dataHandler->start([
+            'pages' => [
+                2 => [
+                    'title' => 'New Root',
+                ],
+            ],
+        ], []);
+        $dataHandler->process_datamap();
+
+        $this->assertEquals(0, $redirectConnection->count('*', 'sys_redirect', []));
+    }
 }
