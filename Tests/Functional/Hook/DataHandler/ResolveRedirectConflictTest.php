@@ -31,7 +31,7 @@ final class ResolveRedirectConflictTest extends FunctionalTestCase
     /**
      * @test
      */
-    public function resolvesRedirectConflicts(): void
+    public function resolvesPagePathRedirectConflicts(): void
     {
         $this->setUpBackendUserFromFixture(1);
 
@@ -113,6 +113,45 @@ final class ResolveRedirectConflictTest extends FunctionalTestCase
         ];
 
         $this->assertArraySubset($expected, $redirects);
+    }
+
+    /**
+     * @test
+     */
+    public function resolvesUidRedirectConflicts(): void
+    {
+        $this->setUpBackendUserFromFixture(1);
+
+        $pageConnection = GeneralUtility::makeInstance(ConnectionPool::class)
+            ->getConnectionForTable('pages');
+        $pageConnection->insert('pages', [
+            'uid' => 1,
+            'title' => 'Root',
+            'is_siteroot' => 1,
+        ]);
+        $this->setUpFrontendRootPage(1);
+
+        $pageConnection->insert('pages', [
+            'uid' => 2,
+            'pid' => 1,
+            'title' => 'First title',
+            'slug' => '/2',
+        ]);
+
+        $dataHandler = GeneralUtility::makeInstance(DataHandler::class);
+        $dataHandler->start([
+            'pages' => [
+                2 => [
+                    'title' => 'Second title',
+                ],
+            ],
+        ], []);
+        $dataHandler->process_datamap();
+
+        $redirectConnection = GeneralUtility::makeInstance(ConnectionPool::class)
+            ->getConnectionForTable('sys_redirect');
+
+        $this->assertEquals(0, $redirectConnection->count('*', 'sys_redirect', []));
     }
 
     /**
