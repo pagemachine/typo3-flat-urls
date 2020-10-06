@@ -139,4 +139,23 @@ final class PageSlugModifierTest extends UnitTestCase
 
         $this->assertEquals($expected, $result);
     }
+
+    /**
+     * @test
+     */
+    public function keepsValidSlug(): void
+    {
+        $parameters = [
+            'slug' => '/10/test',
+            'tableName' => 'pages',
+            'record' => [
+                'uid' => 10,
+                'sys_language_uid' => 0,
+            ],
+        ];
+
+        $result = $this->pageSlugModifier->prependUid($parameters);
+
+        $this->assertEquals('/10/test', $result);
+    }
 }
