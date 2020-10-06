@@ -11,10 +11,10 @@ final class PageSlugModifier
             return $parameters['slug'];
         }
 
-        $uid = $parameters['record']['uid'] ?? 0;
+        $uid = (int)$parameters['record']['uid'] ?? 0;
 
         if ($parameters['record']['sys_language_uid'] > 0) {
-            $uid = $parameters['record']['l10n_parent'];
+            $uid = (int)$parameters['record']['l10n_parent'];
         }
 
         if ($uid <= 0) {
@@ -22,12 +22,29 @@ final class PageSlugModifier
         }
 
         $fieldSeparator = $parameters['configuration']['generatorOptions']['fieldSeparator'] ?? '/';
-        $slug = implode($fieldSeparator, [
-            '', // Ensure leading slash
-            $uid,
-            ltrim($parameters['slug'], $fieldSeparator),
-        ]);
+        $slugParts = explode(
+            $fieldSeparator,
+            ltrim($parameters['slug'], $fieldSeparator)
+        );
+
+        if ($this->isUidPrepended($uid, $slugParts)) {
+            return $parameters['slug'];
+        }
+
+        $slugParts = array_merge(
+            [
+                '', // Ensure leading slash
+                $uid,
+            ],
+            $slugParts
+        );
+        $slug = implode($fieldSeparator, $slugParts);
 
         return $slug;
+    }
+
+    private function isUidPrepended(int $uid, array $slugParts): bool
+    {
+        return (int)$slugParts[0] === $uid;
     }
 }
