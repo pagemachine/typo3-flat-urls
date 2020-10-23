@@ -3,7 +3,7 @@ declare(strict_types = 1);
 
 namespace Pagemachine\FlatUrls\Tests\Functional\Hook\DataHandler;
 
-use Nimut\TestingFramework\TestCase\FunctionalTestCase;
+use Pagemachine\FlatUrls\Tests\Functional\AbstractFunctionalTestCase;
 use TYPO3\CMS\Core\Cache\CacheManager;
 use TYPO3\CMS\Core\Database\ConnectionPool;
 use TYPO3\CMS\Core\DataHandling\DataHandler;
@@ -12,7 +12,7 @@ use TYPO3\CMS\Core\Utility\GeneralUtility;
 /**
  * Testcase for Pagemachine\FlatUrls\Hook\DataHandler\ResolveRedirectConflict
  */
-final class ResolveRedirectConflictTest extends FunctionalTestCase
+final class ResolveRedirectConflictTest extends AbstractFunctionalTestCase
 {
     /**
      * @var array

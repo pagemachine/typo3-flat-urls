@@ -3,16 +3,16 @@ declare(strict_types = 1);
 
 namespace Pagemachine\FlatUrls\Tests\Functional\Page\Slug;
 
-use Nimut\TestingFramework\TestCase\FunctionalTestCase;
 use Pagemachine\FlatUrls\Page\Page;
 use Pagemachine\FlatUrls\Page\Slug\PageSlugProcessor;
+use Pagemachine\FlatUrls\Tests\Functional\AbstractFunctionalTestCase;
 use TYPO3\CMS\Core\Database\ConnectionPool;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 
 /**
  * Testcase for Pagemachine\FlatUrls\Page\Slug\PageSlugProcessor
  */
-final class PageSlugProcessorTest extends FunctionalTestCase
+final class PageSlugProcessorTest extends AbstractFunctionalTestCase
 {
     /**
      * @var array

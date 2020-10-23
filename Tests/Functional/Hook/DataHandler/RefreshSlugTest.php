@@ -3,7 +3,7 @@ declare(strict_types = 1);
 
 namespace Pagemachine\FlatUrls\Tests\Functional\Hook\DataHandler;
 
-use Nimut\TestingFramework\TestCase\FunctionalTestCase;
+use Pagemachine\FlatUrls\Tests\Functional\AbstractFunctionalTestCase;
 use TYPO3\CMS\Core\Database\ConnectionPool;
 use TYPO3\CMS\Core\DataHandling\DataHandler;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
@@ -11,7 +11,7 @@ use TYPO3\CMS\Core\Utility\GeneralUtility;
 /**
  * Testcase for Pagemachine\FlatUrls\Hook\DataHandler\RefreshSlug
  */
-final class RefreshSlugTest extends FunctionalTestCase
+final class RefreshSlugTest extends AbstractFunctionalTestCase
 {
     /**
      * @var array
