@@ -26,3 +26,9 @@ Similar to Stack Overflow pages requested only by page UID will be redirected to
 ## Command
 
 If you have existing pages when adding this extension or if you want to ensure a clean state you can run the `slugs:update` CLI command. It will update the slugs of all pages and page translations.
+
+## Testing
+
+All tests can be executed with the shipped Docker Compose definition:
+
+    docker-compose run --rm app composer build
