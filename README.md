@@ -1,4 +1,4 @@
-# Flat URLs [![Build Status](https://travis-ci.org/pagemachine/typo3-flat-urls.svg)](https://travis-ci.org/pagemachine/typo3-flat-urls)
+# Flat URLs ![CI](https://github.com/pagemachine/typo3-flat-urls/workflows/CI/badge.svg)
 
 Flat URLs (like Stack Overflow) for TYPO3
 
