@@ -5,6 +5,7 @@ namespace Pagemachine\FlatUrls\Page\Redirect\Conflict;
 
 use TYPO3\CMS\Core\DataHandling\DataHandler;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
+use TYPO3\CMS\Redirects\Service\RedirectCacheService;
 
 final class RedirectConflictResolver
 {
@@ -19,5 +20,8 @@ final class RedirectConflictResolver
         $dataHandler = GeneralUtility::makeInstance(DataHandler::class);
         $dataHandler->start([], $commands);
         $dataHandler->process_cmdmap();
+
+        $redirectCacheService = GeneralUtility::makeInstance(RedirectCacheService::class);
+        $redirectCacheService->rebuild();
     }
 }
