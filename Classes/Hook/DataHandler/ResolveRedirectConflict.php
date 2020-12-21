@@ -3,7 +3,8 @@ declare(strict_types = 1);
 
 namespace Pagemachine\FlatUrls\Hook\DataHandler;
 
-use Pagemachine\FlatUrls\Page\Page;
+use Pagemachine\FlatUrls\Page\MissingPageException;
+use Pagemachine\FlatUrls\Page\PageCollection;
 use Pagemachine\FlatUrls\Page\Redirect\Conflict\RedirectConflictDetector;
 use Pagemachine\FlatUrls\Page\Redirect\Conflict\RedirectConflictResolver;
 use TYPO3\CMS\Core\DataHandling\DataHandler;
@@ -25,8 +26,17 @@ final class ResolveRedirectConflict
             return;
         }
 
+        $pageCollection = GeneralUtility::makeInstance(PageCollection::class);
+
+        try {
+            $page = $pageCollection->get((int)$uid);
+        } catch (MissingPageException $e) {
+            return;
+        }
+
         $redirectConflictDetector = GeneralUtility::makeInstance(RedirectConflictDetector::class);
-        $conflictRedirects = $redirectConflictDetector->detect(new Page((int)$uid));
+        $conflictRedirects = $redirectConflictDetector->detect($page);
+
         $redirectConflictResolver = GeneralUtility::makeInstance(RedirectConflictResolver::class);
         $redirectConflictResolver->resolve(...$conflictRedirects);
     }

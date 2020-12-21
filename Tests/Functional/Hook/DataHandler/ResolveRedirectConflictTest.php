@@ -202,6 +202,13 @@ final class ResolveRedirectConflictTest extends FunctionalTestCase
         ]);
         $this->setUpFrontendRootPage(1);
 
+        $redirectConnection = GeneralUtility::makeInstance(ConnectionPool::class)
+            ->getConnectionForTable('sys_redirect');
+        $redirectConnection->insert('sys_redirect', [
+            'source_host' => 'www.example.org',
+            'source_path' => '/',
+        ]);
+
         $pageConnection->insert('pages', [
             'uid' => 2,
             'pid' => 1,
@@ -220,9 +227,6 @@ final class ResolveRedirectConflictTest extends FunctionalTestCase
         ], []);
         $dataHandler->process_datamap();
 
-        $redirectConnection = GeneralUtility::makeInstance(ConnectionPool::class)
-            ->getConnectionForTable('sys_redirect');
-
-        $this->assertEquals(0, $redirectConnection->count('*', 'sys_redirect', []));
+        $this->assertEquals(1, $redirectConnection->count('*', 'sys_redirect', ['source_path' => '/']));
     }
 }
