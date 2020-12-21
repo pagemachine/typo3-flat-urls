@@ -3,7 +3,8 @@ declare(strict_types = 1);
 
 namespace Pagemachine\FlatUrls\Hook\DataHandler;
 
-use Pagemachine\FlatUrls\Page\Page;
+use Pagemachine\FlatUrls\Page\MissingPageException;
+use Pagemachine\FlatUrls\Page\PageCollection;
 use Pagemachine\FlatUrls\Page\Redirect\BuildFailureException;
 use Pagemachine\FlatUrls\Page\Redirect\RedirectBuilder;
 use Pagemachine\FlatUrls\Page\Redirect\RedirectCollection;
@@ -34,7 +35,14 @@ final class AddRedirect implements LoggerAwareInterface
             return;
         }
 
-        $page = new Page((int)$uid);
+        $pageCollection = GeneralUtility::makeInstance(PageCollection::class);
+
+        try {
+            $page = $pageCollection->get((int)$uid);
+        } catch (MissingPageException $e) {
+            return;
+        }
+
         $redirectBuilder = GeneralUtility::makeInstance(RedirectBuilder::class);
 
         try {
