@@ -35,7 +35,7 @@ final class RedirectConflictDetector
             ['uid'],
             'sys_redirect',
             [
-                'source_path' => $pageUri->getPath(),
+                'source_path' => rtrim($pageUri->getPath(), '/'),
             ]
         );
 
