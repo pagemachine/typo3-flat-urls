@@ -45,8 +45,8 @@
     },
     "extra": {
         "typo3/cms": {
-            "extension-key": "flat_urls",
             "cms-package-dir": "{$vendor-dir}/typo3/cms",
+            "extension-key": "flat_urls",
             "web-dir": "web"
         }
     },
