@@ -7,6 +7,7 @@ namespace Pagemachine\FlatUrls\Tests\Unit\Middleware;
 use Nimut\TestingFramework\TestCase\UnitTestCase;
 use Pagemachine\FlatUrls\Middleware\FlatUrlRedirect;
 use Prophecy\Argument;
+use Prophecy\PhpUnit\ProphecyTrait;
 use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Server\RequestHandlerInterface;
 use Psr\Log\NullLogger;
@@ -24,6 +25,8 @@ use TYPO3\CMS\Core\Site\Entity\SiteLanguage;
  */
 final class FlatUrlRedirectTest extends UnitTestCase
 {
+    use ProphecyTrait;
+
     /**
      * @var FlatUrlRedirect
      */
