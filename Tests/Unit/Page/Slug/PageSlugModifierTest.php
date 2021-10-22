@@ -21,7 +21,7 @@ final class PageSlugModifierTest extends UnitTestCase
     /**
      * Set up this testcase
      */
-    protected function setUp()
+    protected function setUp(): void
     {
         $this->pageSlugModifier = new PageSlugModifier();
     }
@@ -29,7 +29,7 @@ final class PageSlugModifierTest extends UnitTestCase
     /**
      * Tear down this testcase
      */
-    protected function tearDown()
+    protected function tearDown(): void
     {
         GeneralUtility::purgeInstances();
     }
