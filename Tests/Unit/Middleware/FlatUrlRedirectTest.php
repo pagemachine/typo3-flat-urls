@@ -32,7 +32,7 @@ final class FlatUrlRedirectTest extends UnitTestCase
     /**
      * Set up this testcase
      */
-    protected function setUp()
+    protected function setUp(): void
     {
         $this->flatUrlRedirect = new FlatUrlRedirect();
     }
