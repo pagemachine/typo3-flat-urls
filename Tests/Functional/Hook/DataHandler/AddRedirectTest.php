@@ -68,7 +68,9 @@ final class AddRedirectTest extends FunctionalTestCase
             ->select(['*'], 'sys_redirect')
             ->fetch();
 
-        $this->assertArraySubset($expected, $redirect);
+        foreach ($expected as $field => $value) {
+            $this->assertSame($value, $redirect[$field] ?? null);
+        }
     }
 
     public function redirectPages(): \Generator
