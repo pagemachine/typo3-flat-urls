@@ -13,11 +13,6 @@ use TYPO3\CMS\Core\Utility\GeneralUtility;
 
 final class RedirectBuilder
 {
-    /**
-     * @var Redirect
-     */
-    private $redirect;
-
     public function build(Page $page): Redirect
     {
         $queryBuilder = GeneralUtility::makeInstance(ConnectionPool::class)
