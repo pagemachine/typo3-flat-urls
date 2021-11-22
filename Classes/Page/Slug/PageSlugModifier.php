@@ -12,7 +12,7 @@ final class PageSlugModifier
             return $parameters['slug'];
         }
 
-        $uid = (int)$parameters['record']['uid'] ?? 0;
+        $uid = (int)($parameters['record']['uid'] ?? 0);
 
         if ($parameters['record']['sys_language_uid'] > 0) {
             $uid = (int)$parameters['record']['l10n_parent'];

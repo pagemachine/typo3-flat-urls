@@ -14,6 +14,12 @@ parameters:
   ignoreErrors:
     - message: '#\$_EXTKEY#'
       path: ext_emconf.php
+    - message: '#Right side of || is always false.#'
+      path: ext_localconf.php
+      count: 1
+    - message: '#Right side of || is always false.#'
+      path: ext_tables.php
+      count: 1
     - message: '#PageInterface given#'
       paths:
         - Classes/Page/Collection/PageCollection.php
