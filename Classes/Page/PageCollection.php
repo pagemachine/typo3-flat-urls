@@ -6,8 +6,8 @@ namespace Pagemachine\FlatUrls\Page;
 
 use TYPO3\CMS\Core\Database\ConnectionPool;
 use TYPO3\CMS\Core\Database\Query\Restriction\DeletedRestriction;
+use TYPO3\CMS\Core\Domain\Repository\PageRepository;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
-use TYPO3\CMS\Frontend\Page\PageRepository;
 
 final class PageCollection implements \IteratorAggregate, \Countable
 {

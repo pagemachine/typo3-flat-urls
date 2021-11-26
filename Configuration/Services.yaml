@@ -1,0 +1,11 @@
+services:
+  _defaults:
+    autowire: true
+    autoconfigure: true
+    public: false
+
+  Pagemachine\FlatUrls\Command\UpdateSlugsCommand:
+    tags:
+      - name: console.command
+        command: slugs:update
+        description: Update slugs of all pages
