@@ -7,7 +7,7 @@ services:
       TYPO3_VERSION: ${TYPO3_VERSION:-^11.5}
       TYPO3_ORG_PASSWORD:
       TYPO3_ORG_USERNAME:
-      TRAVIS_TAG:
+      TAG:
       typo3DatabaseHost: mysql
       typo3DatabaseUsername: root
       typo3DatabasePassword: root

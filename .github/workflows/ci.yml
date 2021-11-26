@@ -53,4 +53,5 @@ jobs:
         env:
           TYPO3_ORG_USERNAME: ${{secrets.TYPO3_ORG_USERNAME}}
           TYPO3_ORG_PASSWORD: ${{secrets.TYPO3_ORG_PASSWORD}}
+          TAG: ${{env.GITHUB_REF_NAME}}
         run: docker-compose run --rm app composer deploy:ter
