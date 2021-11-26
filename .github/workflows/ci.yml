@@ -24,7 +24,6 @@ jobs:
         typo3:
           - ^11.5
           - ^10.4
-          - ^9.5
 
     steps:
       - uses: actions/checkout@v2
