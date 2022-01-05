@@ -32,12 +32,10 @@ final class PageSlugModifier
             return $parameters['slug'];
         }
 
-        $slugParts = array_merge(
-            [
-                '', // Ensure leading slash
-                $uid,
-            ],
-            $slugParts
+        array_unshift(
+            $slugParts,
+            '', // Ensure leading slash
+            $uid
         );
         $slug = implode($fieldSeparator, $slugParts);
 
