@@ -21,7 +21,7 @@
         "typo3/cms-core": "^10.4 || ^11.5",
         "typo3/cms-extbase": "^10.4 || ^11.5",
         "typo3/cms-frontend": "^10.4 || ^11.5",
-        "typo3/cms-redirects": "^10.4 || ^11.5"
+        "typo3/cms-redirects": "^10.4 || ^11.5.7"
     },
     "require-dev": {
         "cakephp/cakephp-codesniffer": "^4.2",
