@@ -12,6 +12,12 @@ final class RedirectCache
     public function rebuild(): void
     {
         $redirectCacheService = GeneralUtility::makeInstance(RedirectCacheService::class);
-        $redirectCacheService->rebuild();
+
+        // TODO: Drop with TYPO3v10 support
+        if (method_exists($redirectCacheService, 'rebuildAll')) {
+            $redirectCacheService->rebuildAll();
+        } else {
+            $redirectCacheService->rebuild();
+        }
     }
 }
