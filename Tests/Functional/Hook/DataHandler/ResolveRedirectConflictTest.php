@@ -16,17 +16,11 @@ use TYPO3\TestingFramework\Core\Functional\FunctionalTestCase;
  */
 final class ResolveRedirectConflictTest extends FunctionalTestCase
 {
-    /**
-     * @var array
-     */
-    protected $coreExtensionsToLoad = [
+    protected array $coreExtensionsToLoad = [
         'redirects',
     ];
 
-    /**
-     * @var array
-     */
-    protected $testExtensionsToLoad = [
+    protected array $testExtensionsToLoad = [
         'typo3conf/ext/flat_urls',
     ];
 
