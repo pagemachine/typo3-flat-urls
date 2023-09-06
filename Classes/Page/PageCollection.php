@@ -12,7 +12,7 @@ use TYPO3\CMS\Core\Utility\GeneralUtility;
 final class PageCollection implements \IteratorAggregate, \Countable
 {
     /**
-     * @var \Doctrine\DBAL\Driver\Statement
+     * @var \Doctrine\DBAL\Result
      */
     private $pages;
 
@@ -32,7 +32,7 @@ final class PageCollection implements \IteratorAggregate, \Countable
         $this->pages = $queryBuilder
             ->select('uid')
             ->from('pages')
-            ->execute();
+            ->executeQuery();
         $this->pageRepository = GeneralUtility::makeInstance(PageRepository::class);
     }
 
@@ -41,7 +41,7 @@ final class PageCollection implements \IteratorAggregate, \Countable
      */
     public function getIterator(): \Generator
     {
-        foreach ($this->pages as $page) {
+        foreach ($this->pages->iterateAssociative() as $page) {
             yield new Page($page['uid']);
         }
     }
