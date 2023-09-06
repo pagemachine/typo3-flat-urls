@@ -6,6 +6,7 @@ namespace Pagemachine\FlatUrls\Tests\Functional\Page\Slug;
 
 use Pagemachine\FlatUrls\Page\Page;
 use Pagemachine\FlatUrls\Page\Slug\PageSlugProcessor;
+use TYPO3\CMS\Core\Core\Bootstrap;
 use TYPO3\CMS\Core\Database\ConnectionPool;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\TestingFramework\Core\Functional\FunctionalTestCase;
@@ -31,6 +32,8 @@ final class PageSlugProcessorTest extends FunctionalTestCase
     {
         $this->importCSVDataSet(__DIR__ . '/../../Fixtures/be_users.csv');
         $this->setUpBackendUser(1);
+
+        Bootstrap::initializeLanguageObject();
 
         $connection = GeneralUtility::makeInstance(ConnectionPool::class)
             ->getConnectionForTable('pages');
