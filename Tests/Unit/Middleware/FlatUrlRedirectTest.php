@@ -4,7 +4,6 @@ declare(strict_types = 1);
 
 namespace Pagemachine\FlatUrls\Tests\Unit\Middleware;
 
-use Nimut\TestingFramework\TestCase\UnitTestCase;
 use Pagemachine\FlatUrls\Middleware\FlatUrlRedirect;
 use Prophecy\Argument;
 use Prophecy\PhpUnit\ProphecyTrait;
@@ -19,6 +18,7 @@ use TYPO3\CMS\Core\Routing\RouterInterface;
 use TYPO3\CMS\Core\Routing\SiteRouteResult;
 use TYPO3\CMS\Core\Site\Entity\Site;
 use TYPO3\CMS\Core\Site\Entity\SiteLanguage;
+use TYPO3\TestingFramework\Core\Unit\UnitTestCase;
 
 /**
  * Testcase for Pagemachine\FlatUrls\Middleware\FlatUrlRedirect
