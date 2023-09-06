@@ -5,6 +5,7 @@ declare(strict_types = 1);
 namespace Pagemachine\FlatUrls\Tests\Functional\Hook\DataHandler;
 
 use TYPO3\CMS\Core\Configuration\SiteConfiguration;
+use TYPO3\CMS\Core\Core\Bootstrap;
 use TYPO3\CMS\Core\Database\ConnectionPool;
 use TYPO3\CMS\Core\DataHandling\DataHandler;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
@@ -29,7 +30,10 @@ final class AddRedirectTest extends FunctionalTestCase
      */
     public function addsRedirectsOnSlugChange(array $pages, array $changes, array $expected): void
     {
-        $this->setUpBackendUserFromFixture(1);
+        $this->importCSVDataSet(__DIR__ . '/../../Fixtures/be_users.csv');
+        $this->setUpBackendUser(1);
+
+        Bootstrap::initializeLanguageObject();
 
         $pageConnection = GeneralUtility::makeInstance(ConnectionPool::class)
             ->getConnectionForTable('pages');
@@ -148,7 +152,10 @@ final class AddRedirectTest extends FunctionalTestCase
      */
     public function skipsPagesWithoutSite(): void
     {
-        $this->setUpBackendUserFromFixture(1);
+        $this->importCSVDataSet(__DIR__ . '/../../Fixtures/be_users.csv');
+        $this->setUpBackendUser(1);
+
+        Bootstrap::initializeLanguageObject();
 
         $pageConnection = GeneralUtility::makeInstance(ConnectionPool::class)
             ->getConnectionForTable('pages');
@@ -181,7 +188,10 @@ final class AddRedirectTest extends FunctionalTestCase
      */
     public function skipsInactivePages(): void
     {
-        $this->setUpBackendUserFromFixture(1);
+        $this->importCSVDataSet(__DIR__ . '/../../Fixtures/be_users.csv');
+        $this->setUpBackendUser(1);
+
+        Bootstrap::initializeLanguageObject();
 
         $pageConnection = GeneralUtility::makeInstance(ConnectionPool::class)
             ->getConnectionForTable('pages');

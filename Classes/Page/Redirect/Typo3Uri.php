@@ -11,10 +11,12 @@ use TYPO3\CMS\Core\Http\Uri;
  */
 final class Typo3Uri extends Uri
 {
-    /**
-     * @var int[] Associative array containing schemes and their default ports.
-     */
-    protected $supportedSchemes = [
-        't3'  => 0,
-    ];
+    public function __construct(string $uri = '')
+    {
+        $this->supportedSchemes = [
+            't3' => 0,
+        ];
+
+        parent::__construct($uri);
+    }
 }

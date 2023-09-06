@@ -40,7 +40,7 @@ final class RedirectConflictDetector
             ]
         );
 
-        foreach ($redirects as $redirect) {
+        foreach ($redirects->iterateAssociative() as $redirect) {
             yield new ConflictRedirect($redirect['uid']);
         }
 
@@ -53,7 +53,7 @@ final class RedirectConflictDetector
             ]
         );
 
-        foreach ($redirects as $redirect) {
+        foreach ($redirects->iterateAssociative() as $redirect) {
             yield new ConflictRedirect($redirect['uid']);
         }
     }
@@ -81,8 +81,8 @@ final class RedirectConflictDetector
                 'uid',
                 $queryBuilder->createNamedParameter($page->getUid())
             ))
-            ->execute()
-            ->fetchColumn();
+            ->executeQuery()
+            ->fetchOne();
 
         return $pageLanguage;
     }
