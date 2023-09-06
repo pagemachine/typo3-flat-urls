@@ -29,7 +29,8 @@ final class AmendSlugTest extends FunctionalTestCase
      */
     public function ensuresFlatUrls(array $changes, int $pageUid, string $expected): void
     {
-        $this->setUpBackendUserFromFixture(1);
+        $this->importCSVDataSet(__DIR__ . '/../../Fixtures/be_users.csv');
+        $this->setUpBackendUser(1);
 
         $connection = GeneralUtility::makeInstance(ConnectionPool::class)
             ->getConnectionForTable('pages');

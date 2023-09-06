@@ -29,7 +29,8 @@ final class AddRedirectTest extends FunctionalTestCase
      */
     public function addsRedirectsOnSlugChange(array $pages, array $changes, array $expected): void
     {
-        $this->setUpBackendUserFromFixture(1);
+        $this->importCSVDataSet(__DIR__ . '/../../Fixtures/be_users.csv');
+        $this->setUpBackendUser(1);
 
         $pageConnection = GeneralUtility::makeInstance(ConnectionPool::class)
             ->getConnectionForTable('pages');
@@ -148,7 +149,8 @@ final class AddRedirectTest extends FunctionalTestCase
      */
     public function skipsPagesWithoutSite(): void
     {
-        $this->setUpBackendUserFromFixture(1);
+        $this->importCSVDataSet(__DIR__ . '/../../Fixtures/be_users.csv');
+        $this->setUpBackendUser(1);
 
         $pageConnection = GeneralUtility::makeInstance(ConnectionPool::class)
             ->getConnectionForTable('pages');
@@ -181,7 +183,8 @@ final class AddRedirectTest extends FunctionalTestCase
      */
     public function skipsInactivePages(): void
     {
-        $this->setUpBackendUserFromFixture(1);
+        $this->importCSVDataSet(__DIR__ . '/../../Fixtures/be_users.csv');
+        $this->setUpBackendUser(1);
 
         $pageConnection = GeneralUtility::makeInstance(ConnectionPool::class)
             ->getConnectionForTable('pages');

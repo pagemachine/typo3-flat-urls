@@ -29,7 +29,8 @@ final class PageSlugProcessorTest extends FunctionalTestCase
      */
     public function updatesPageSlugs(array $pages, int $pageUid, string $expected): void
     {
-        $this->setUpBackendUserFromFixture(1);
+        $this->importCSVDataSet(__DIR__ . '/../../Fixtures/be_users.csv');
+        $this->setUpBackendUser(1);
 
         $connection = GeneralUtility::makeInstance(ConnectionPool::class)
             ->getConnectionForTable('pages');
