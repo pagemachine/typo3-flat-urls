@@ -10,6 +10,14 @@ use TYPO3\CMS\Core\Utility\GeneralUtility;
 
 final class RedirectConflictResolver
 {
+    private RedirectCache $redirectCache;
+
+    public function __construct(
+        RedirectCache $redirectCache
+    ) {
+        $this->redirectCache = $redirectCache;
+    }
+
     public function resolve(ConflictRedirect ...$conflictRedirects): void
     {
         $commands = [];
@@ -22,7 +30,6 @@ final class RedirectConflictResolver
         $dataHandler->start([], $commands);
         $dataHandler->process_cmdmap();
 
-        $redirectCache = GeneralUtility::makeInstance(RedirectCache::class);
-        $redirectCache->rebuild();
+        $this->redirectCache->rebuild();
     }
 }

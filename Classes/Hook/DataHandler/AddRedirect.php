@@ -12,7 +12,6 @@ use Pagemachine\FlatUrls\Page\Redirect\RedirectCollection;
 use Psr\Log\LoggerAwareInterface;
 use Psr\Log\LoggerAwareTrait;
 use TYPO3\CMS\Core\DataHandling\DataHandler;
-use TYPO3\CMS\Core\Utility\GeneralUtility;
 
 /**
  * Add redirect on page slug change
@@ -20,6 +19,22 @@ use TYPO3\CMS\Core\Utility\GeneralUtility;
 final class AddRedirect implements LoggerAwareInterface
 {
     use LoggerAwareTrait;
+
+    private PageCollection $pageCollection;
+
+    private RedirectBuilder $redirectBuilder;
+
+    private RedirectCollection $redirectCollection;
+
+    public function __construct(
+        PageCollection $pageCollection,
+        RedirectBuilder $redirectBuilder,
+        RedirectCollection $redirectCollection
+    ) {
+        $this->pageCollection = $pageCollection;
+        $this->redirectBuilder = $redirectBuilder;
+        $this->redirectCollection = $redirectCollection;
+    }
 
     public function processDatamap_postProcessFieldArray(
         string $status,
@@ -36,25 +51,20 @@ final class AddRedirect implements LoggerAwareInterface
             return;
         }
 
-        $pageCollection = GeneralUtility::makeInstance(PageCollection::class);
-
         try {
-            $page = $pageCollection->get((int)$uid);
+            $page = $this->pageCollection->get((int)$uid);
         } catch (MissingPageException $e) {
             return;
         }
 
-        $redirectBuilder = GeneralUtility::makeInstance(RedirectBuilder::class);
-
         try {
-            $redirect = $redirectBuilder->build($page);
+            $redirect = $this->redirectBuilder->build($page);
         } catch (BuildFailureException $e) {
             $this->logger->error($e->getMessage(), ['page' => $page->getUid()]);
 
             return;
         }
 
-        $redirectCollection = GeneralUtility::makeInstance(RedirectCollection::class);
-        $redirectCollection->add($redirect);
+        $this->redirectCollection->add($redirect);
     }
 }

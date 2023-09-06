@@ -4,8 +4,20 @@ services:
     autoconfigure: true
     public: false
 
+  Pagemachine\FlatUrls\:
+    resource: '../Classes/*'
+
   Pagemachine\FlatUrls\Command\UpdateSlugsCommand:
     tags:
       - name: console.command
         command: slugs:update
         description: Update slugs of all pages
+
+  Pagemachine\FlatUrls\Page\PageCollection:
+    public: true
+
+  Pagemachine\FlatUrls\Hook\DataHandler\AddRedirect:
+    public: true
+
+  Pagemachine\FlatUrls\Hook\DataHandler\ResolveRedirectConflict:
+    public: true
