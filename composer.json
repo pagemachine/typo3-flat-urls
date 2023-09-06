@@ -17,11 +17,11 @@
     ],
     "require": {
         "php": "^7.4 || ^8.0",
-        "typo3/cms-backend": "^10.4 || ^11.5",
-        "typo3/cms-core": "^10.4 || ^11.5",
-        "typo3/cms-extbase": "^10.4 || ^11.5",
-        "typo3/cms-frontend": "^10.4 || ^11.5",
-        "typo3/cms-redirects": "^10.4 || ^11.5.7"
+        "typo3/cms-backend": "^11.5",
+        "typo3/cms-core": "^11.5",
+        "typo3/cms-extbase": "^11.5",
+        "typo3/cms-frontend": "^11.5",
+        "typo3/cms-redirects": "^11.5.7"
     },
     "require-dev": {
         "cakephp/cakephp-codesniffer": "^5.0",
@@ -36,7 +36,7 @@
         "sclable/xml-lint": "^0.5.0",
         "slevomat/coding-standard": "^8.0",
         "squizlabs/php_codesniffer": "^3.1",
-        "typo3/testing-framework": "^6.0"
+        "typo3/testing-framework": "^7.0"
     },
     "replace": {
         "typo3-ter/flat-urls": "self.version"
@@ -68,9 +68,6 @@
         }
     },
     "scripts": {
-        "post-autoload-dump": [
-            "TYPO3\\TestingFramework\\Composer\\ExtensionTestEnvironment::prepare"
-        ],
         "analyze:php": "phpstan analyse --ansi --no-progress --configuration=phpstan.neon",
         "build": [
             "@composer require --no-progress --ansi --update-with-dependencies typo3/cms-core $TYPO3_VERSION",
