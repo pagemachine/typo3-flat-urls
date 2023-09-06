@@ -4,9 +4,9 @@ declare(strict_types = 1);
 
 namespace Pagemachine\FlatUrls\Tests\Unit\Page\Slug;
 
-use Nimut\TestingFramework\TestCase\UnitTestCase;
 use Pagemachine\FlatUrls\Page\Slug\PageSlugModifier;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
+use TYPO3\TestingFramework\Core\Unit\UnitTestCase;
 
 /**
  * Testcase for Pagemachine\FlatUrls\Page\Slug\PageSlugModifier
