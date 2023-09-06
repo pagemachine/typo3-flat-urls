@@ -4,11 +4,11 @@ declare(strict_types = 1);
 
 namespace Pagemachine\FlatUrls\Tests\Functional\Page\Slug;
 
-use Nimut\TestingFramework\TestCase\FunctionalTestCase;
 use Pagemachine\FlatUrls\Page\Page;
 use Pagemachine\FlatUrls\Page\Slug\PageSlugProcessor;
 use TYPO3\CMS\Core\Database\ConnectionPool;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
+use TYPO3\TestingFramework\Core\Functional\FunctionalTestCase;
 
 /**
  * Testcase for Pagemachine\FlatUrls\Page\Slug\PageSlugProcessor

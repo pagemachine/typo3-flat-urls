@@ -4,10 +4,11 @@ declare(strict_types = 1);
 
 namespace Pagemachine\FlatUrls\Tests\Functional\Hook\DataHandler;
 
-use Nimut\TestingFramework\TestCase\FunctionalTestCase;
+use TYPO3\CMS\Core\Configuration\SiteConfiguration;
 use TYPO3\CMS\Core\Database\ConnectionPool;
 use TYPO3\CMS\Core\DataHandling\DataHandler;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
+use TYPO3\TestingFramework\Core\Functional\FunctionalTestCase;
 
 /**
  * Testcase for Pagemachine\FlatUrls\Hook\DataHandler\AddRedirect
@@ -44,6 +45,24 @@ final class AddRedirectTest extends FunctionalTestCase
             'is_siteroot' => 1,
         ]);
         $this->setUpFrontendRootPage(1);
+
+        $siteConfiguration = GeneralUtility::makeInstance(SiteConfiguration::class);
+        $siteConfiguration->createNewBasicSite('1', 1, '/');
+        $siteConfigurationData = $siteConfiguration->load('1');
+        $siteConfigurationData['languages'][1] = [
+            'title' => 'German',
+            'enabled' => true,
+            'languageId' => 1,
+            'base' => '/de/',
+            'typo3Language' => 'default',
+            'locale' => 'de_DE.UTF-8',
+            'iso-639-1' => 'de',
+            'navigationTitle' => 'Deutsch',
+            'hreflang' => 'de-de',
+            'direction' => 'ltr',
+            'flag' => 'de',
+        ];
+        $siteConfiguration->write('1', $siteConfigurationData);
 
         $pageConnection->bulkInsert(
             'pages',
@@ -123,7 +142,7 @@ final class AddRedirectTest extends FunctionalTestCase
             ],
             [
                 'source_host' => '*',
-                'source_path' => '/da/3/old-translated-page',
+                'source_path' => '/de/3/old-translated-page',
                 'target' => 't3://page?uid=3',
                 'target_statuscode' => 307,
             ],
