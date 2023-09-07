@@ -35,8 +35,8 @@ final class RedirectBuilder
                 'uid',
                 $queryBuilder->createNamedParameter($page->getUid())
             ))
-            ->execute()
-            ->fetch();
+            ->executeQuery()
+            ->fetchAssociative();
 
         $pageIdInSite = $page->getUid();
 
