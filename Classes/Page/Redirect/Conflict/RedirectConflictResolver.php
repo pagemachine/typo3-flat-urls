@@ -10,12 +10,9 @@ use TYPO3\CMS\Core\Utility\GeneralUtility;
 
 final class RedirectConflictResolver
 {
-    private RedirectCache $redirectCache;
-
     public function __construct(
-        RedirectCache $redirectCache
+        private RedirectCache $redirectCache,
     ) {
-        $this->redirectCache = $redirectCache;
     }
 
     public function resolve(ConflictRedirect ...$conflictRedirects): void

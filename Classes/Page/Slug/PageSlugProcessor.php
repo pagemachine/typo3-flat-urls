@@ -17,10 +17,7 @@ final class PageSlugProcessor
      */
     private const SLUG_RESET_VALUE = '';
 
-    /**
-     * @var DataHandler
-     */
-    private $dataHandler;
+    private DataHandler $dataHandler;
 
     public function __construct()
     {

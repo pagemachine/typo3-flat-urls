@@ -11,12 +11,9 @@ use TYPO3\CMS\Core\Utility\StringUtility;
 
 final class RedirectCollection
 {
-    private RedirectCache $redirectCache;
-
     public function __construct(
-        RedirectCache $redirectCache
+        private RedirectCache $redirectCache,
     ) {
-        $this->redirectCache = $redirectCache;
     }
 
     public function add(Redirect $redirect): void

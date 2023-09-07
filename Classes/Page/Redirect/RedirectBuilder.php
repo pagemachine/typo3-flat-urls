@@ -12,16 +12,10 @@ use TYPO3\CMS\Core\Site\SiteFinder;
 
 final class RedirectBuilder
 {
-    private ConnectionPool $connectionPool;
-
-    private SiteFinder $siteFinder;
-
     public function __construct(
-        ConnectionPool $connectionPool,
-        SiteFinder $siteFinder
+        private ConnectionPool $connectionPool,
+        private SiteFinder $siteFinder,
     ) {
-        $this->connectionPool = $connectionPool;
-        $this->siteFinder = $siteFinder;
     }
 
     public function build(Page $page): Redirect

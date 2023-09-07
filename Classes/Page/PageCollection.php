@@ -14,11 +14,9 @@ final class PageCollection implements \IteratorAggregate, \Countable
 {
     private Result $pages;
 
-    private PageRepository $pageRepository;
-
     public function __construct(
         ConnectionPool $connectionPool,
-        PageRepository $pageRepository
+        private PageRepository $pageRepository,
     ) {
         $queryBuilder = $connectionPool->getQueryBuilderForTable('pages');
         $queryBuilder->getRestrictions()
@@ -29,7 +27,6 @@ final class PageCollection implements \IteratorAggregate, \Countable
             ->select('uid')
             ->from('pages')
             ->executeQuery();
-        $this->pageRepository = $pageRepository;
     }
 
     /**

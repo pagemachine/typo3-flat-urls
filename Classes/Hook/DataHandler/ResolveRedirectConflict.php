@@ -15,20 +15,11 @@ use TYPO3\CMS\Core\DataHandling\DataHandler;
  */
 final class ResolveRedirectConflict
 {
-    private PageCollection $pageCollection;
-
-    private RedirectConflictDetector $redirectConflictDetector;
-
-    private RedirectConflictResolver $redirectConflictResolver;
-
     public function __construct(
-        PageCollection $pageCollection,
-        RedirectConflictDetector $redirectConflictDetector,
-        RedirectConflictResolver $redirectConflictResolver
+        private PageCollection $pageCollection,
+        private RedirectConflictDetector $redirectConflictDetector,
+        private RedirectConflictResolver $redirectConflictResolver,
     ) {
-        $this->pageCollection = $pageCollection;
-        $this->redirectConflictDetector = $redirectConflictDetector;
-        $this->redirectConflictResolver = $redirectConflictResolver;
     }
 
     public function processDatamap_afterDatabaseOperations(
