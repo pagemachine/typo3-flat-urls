@@ -11,6 +11,14 @@ use TYPO3\CMS\Core\Utility\StringUtility;
 
 final class RedirectCollection
 {
+    private RedirectCache $redirectCache;
+
+    public function __construct(
+        RedirectCache $redirectCache
+    ) {
+        $this->redirectCache = $redirectCache;
+    }
+
     public function add(Redirect $redirect): void
     {
         $data = [
@@ -29,7 +37,6 @@ final class RedirectCollection
         $dataHandler->start($data, []);
         $dataHandler->process_datamap();
 
-        $redirectCache = GeneralUtility::makeInstance(RedirectCache::class);
-        $redirectCache->rebuild();
+        $this->redirectCache->rebuild();
     }
 }

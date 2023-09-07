@@ -11,10 +11,13 @@ use Symfony\Component\Console\Helper\ProgressBar;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use TYPO3\CMS\Core\Core\Bootstrap;
-use TYPO3\CMS\Core\Utility\GeneralUtility;
 
 final class UpdateSlugsCommand extends Command
 {
+    private PageCollection $pageCollection;
+
+    private PageSlugProcessor $slugProcessor;
+
     /**
      * @return void
      */
@@ -24,6 +27,14 @@ final class UpdateSlugsCommand extends Command
             ->setDescription('Update slugs of all pages');
     }
 
+    public function __construct(
+        PageCollection $pageCollection,
+        PageSlugProcessor $slugProcessor
+    ) {
+        $this->pageCollection = $pageCollection;
+        $this->slugProcessor = $slugProcessor;
+    }
+
     /**
      * @return int
      */
@@ -31,13 +42,10 @@ final class UpdateSlugsCommand extends Command
     {
         Bootstrap::initializeBackendAuthentication();
 
-        /** @var PageCollection */
-        $pages = GeneralUtility::makeInstance(PageCollection::class);
-        $slugProcessor = GeneralUtility::makeInstance(PageSlugProcessor::class);
         $progress = new ProgressBar($output);
 
-        foreach ($progress->iterate($pages) as $page) {
-            $slugProcessor->update($page);
+        foreach ($progress->iterate($this->pageCollection) as $page) {
+            $this->slugProcessor->update($page);
         }
 
         $output->writeln('');

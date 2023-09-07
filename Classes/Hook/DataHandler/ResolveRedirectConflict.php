@@ -9,13 +9,28 @@ use Pagemachine\FlatUrls\Page\PageCollection;
 use Pagemachine\FlatUrls\Page\Redirect\Conflict\RedirectConflictDetector;
 use Pagemachine\FlatUrls\Page\Redirect\Conflict\RedirectConflictResolver;
 use TYPO3\CMS\Core\DataHandling\DataHandler;
-use TYPO3\CMS\Core\Utility\GeneralUtility;
 
 /**
  * Handle redirects conflicting with the new slug of pages
  */
 final class ResolveRedirectConflict
 {
+    private PageCollection $pageCollection;
+
+    private RedirectConflictDetector $redirectConflictDetector;
+
+    private RedirectConflictResolver $redirectConflictResolver;
+
+    public function __construct(
+        PageCollection $pageCollection,
+        RedirectConflictDetector $redirectConflictDetector,
+        RedirectConflictResolver $redirectConflictResolver
+    ) {
+        $this->pageCollection = $pageCollection;
+        $this->redirectConflictDetector = $redirectConflictDetector;
+        $this->redirectConflictResolver = $redirectConflictResolver;
+    }
+
     public function processDatamap_afterDatabaseOperations(
         string $status,
         string $table,
@@ -27,18 +42,14 @@ final class ResolveRedirectConflict
             return;
         }
 
-        $pageCollection = GeneralUtility::makeInstance(PageCollection::class);
-
         try {
-            $page = $pageCollection->get((int)$uid);
+            $page = $this->pageCollection->get((int)$uid);
         } catch (MissingPageException $e) {
             return;
         }
 
-        $redirectConflictDetector = GeneralUtility::makeInstance(RedirectConflictDetector::class);
-        $conflictRedirects = $redirectConflictDetector->detect($page);
+        $conflictRedirects = $this->redirectConflictDetector->detect($page);
 
-        $redirectConflictResolver = GeneralUtility::makeInstance(RedirectConflictResolver::class);
-        $redirectConflictResolver->resolve(...$conflictRedirects);
+        $this->redirectConflictResolver->resolve(...$conflictRedirects);
     }
 }

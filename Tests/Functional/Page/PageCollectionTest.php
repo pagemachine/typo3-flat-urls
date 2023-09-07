@@ -15,6 +15,14 @@ use TYPO3\TestingFramework\Core\Functional\FunctionalTestCase;
  */
 final class PageCollectionTest extends FunctionalTestCase
 {
+    protected array $coreExtensionsToLoad = [
+        'redirects',
+    ];
+
+    protected array $testExtensionsToLoad = [
+        'typo3conf/ext/flat_urls',
+    ];
+
     /**
      * @test
      */

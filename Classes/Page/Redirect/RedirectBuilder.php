@@ -9,14 +9,24 @@ use TYPO3\CMS\Core\Database\ConnectionPool;
 use TYPO3\CMS\Core\Exception\SiteNotFoundException;
 use TYPO3\CMS\Core\Http\Uri;
 use TYPO3\CMS\Core\Site\SiteFinder;
-use TYPO3\CMS\Core\Utility\GeneralUtility;
 
 final class RedirectBuilder
 {
+    private ConnectionPool $connectionPool;
+
+    private SiteFinder $siteFinder;
+
+    public function __construct(
+        ConnectionPool $connectionPool,
+        SiteFinder $siteFinder
+    ) {
+        $this->connectionPool = $connectionPool;
+        $this->siteFinder = $siteFinder;
+    }
+
     public function build(Page $page): Redirect
     {
-        $queryBuilder = GeneralUtility::makeInstance(ConnectionPool::class)
-            ->getQueryBuilderForTable('pages');
+        $queryBuilder = $this->connectionPool->getQueryBuilderForTable('pages');
         $queryBuilder->getRestrictions()->removeAll();
         $pageData = $queryBuilder
             ->select('sys_language_uid', 'l10n_source', 'l10n_parent', 'slug')
@@ -25,8 +35,8 @@ final class RedirectBuilder
                 'uid',
                 $queryBuilder->createNamedParameter($page->getUid())
             ))
-            ->execute()
-            ->fetch();
+            ->executeQuery()
+            ->fetchAssociative();
 
         $pageIdInSite = $page->getUid();
 
@@ -34,10 +44,8 @@ final class RedirectBuilder
             $pageIdInSite = $pageData['l10n_source'] ?: $pageData['l10n_parent'];
         }
 
-        $siteFinder = GeneralUtility::makeInstance(SiteFinder::class);
-
         try {
-            $site = $siteFinder->getSiteByPageId($pageIdInSite);
+            $site = $this->siteFinder->getSiteByPageId($pageIdInSite);
         } catch (SiteNotFoundException $e) {
             throw new BuildFailureException(sprintf('Missing site for redirect: %s', $e->getMessage()), 1601628182, $e);
         }

@@ -10,26 +10,34 @@ use TYPO3\CMS\Core\Database\ConnectionPool;
 use TYPO3\CMS\Core\Exception\SiteNotFoundException;
 use TYPO3\CMS\Core\Site\Entity\Site;
 use TYPO3\CMS\Core\Site\SiteFinder;
-use TYPO3\CMS\Core\Utility\GeneralUtility;
 
 final class RedirectConflictDetector
 {
+    private ConnectionPool $connectionPool;
+
+    private SiteFinder $siteFinder;
+
+    public function __construct(
+        ConnectionPool $connectionPool,
+        SiteFinder $siteFinder
+    ) {
+        $this->connectionPool = $connectionPool;
+        $this->siteFinder = $siteFinder;
+    }
+
     /**
      * @return \Generator|ConflictRedirect[]
      */
     public function detect(Page $page): \Generator
     {
-        $siteFinder = GeneralUtility::makeInstance(SiteFinder::class);
-
         try {
-            $site = $siteFinder->getSiteByPageId($page->getUid());
+            $site = $this->siteFinder->getSiteByPageId($page->getUid());
         } catch (SiteNotFoundException $e) {
             return;
         }
 
         $pageUri = $this->buildPageUri($page, $site);
-        $connection = GeneralUtility::makeInstance(ConnectionPool::class)
-            ->getConnectionForTable('sys_redirect');
+        $connection = $this->connectionPool->getConnectionForTable('sys_redirect');
 
         // Redirects with a source path exactly like the target page path
         $redirects = $connection->select(
@@ -71,8 +79,7 @@ final class RedirectConflictDetector
 
     private function getLanguageOfPage(Page $page): int
     {
-        $queryBuilder = GeneralUtility::makeInstance(ConnectionPool::class)
-            ->getQueryBuilderForTable('pages');
+        $queryBuilder = $this->connectionPool->getQueryBuilderForTable('pages');
         $queryBuilder->getRestrictions()->removeAll();
         $pageLanguage = $queryBuilder
             ->select('sys_language_uid')

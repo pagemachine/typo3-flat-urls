@@ -4,6 +4,7 @@ declare(strict_types = 1);
 
 namespace Pagemachine\FlatUrls\Page;
 
+use Doctrine\DBAL\Result;
 use TYPO3\CMS\Core\Database\ConnectionPool;
 use TYPO3\CMS\Core\Database\Query\Restriction\DeletedRestriction;
 use TYPO3\CMS\Core\Domain\Repository\PageRepository;
@@ -11,20 +12,15 @@ use TYPO3\CMS\Core\Utility\GeneralUtility;
 
 final class PageCollection implements \IteratorAggregate, \Countable
 {
-    /**
-     * @var \Doctrine\DBAL\Result
-     */
-    private $pages;
+    private Result $pages;
 
-    /**
-     * @var PageRepository
-     */
-    private $pageRepository;
+    private PageRepository $pageRepository;
 
-    public function __construct()
-    {
-        $queryBuilder = GeneralUtility::makeInstance(ConnectionPool::class)
-            ->getQueryBuilderForTable('pages');
+    public function __construct(
+        ConnectionPool $connectionPool,
+        PageRepository $pageRepository
+    ) {
+        $queryBuilder = $connectionPool->getQueryBuilderForTable('pages');
         $queryBuilder->getRestrictions()
             ->removeAll()
             ->add(GeneralUtility::makeInstance(DeletedRestriction::class));
@@ -33,7 +29,7 @@ final class PageCollection implements \IteratorAggregate, \Countable
             ->select('uid')
             ->from('pages')
             ->executeQuery();
-        $this->pageRepository = GeneralUtility::makeInstance(PageRepository::class);
+        $this->pageRepository = $pageRepository;
     }
 
     /**
