@@ -13,16 +13,10 @@ use TYPO3\CMS\Core\Site\SiteFinder;
 
 final class RedirectConflictDetector
 {
-    private ConnectionPool $connectionPool;
-
-    private SiteFinder $siteFinder;
-
     public function __construct(
-        ConnectionPool $connectionPool,
-        SiteFinder $siteFinder
+        private ConnectionPool $connectionPool,
+        private SiteFinder $siteFinder,
     ) {
-        $this->connectionPool = $connectionPool;
-        $this->siteFinder = $siteFinder;
     }
 
     /**

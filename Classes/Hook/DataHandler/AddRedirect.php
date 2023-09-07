@@ -20,20 +20,11 @@ final class AddRedirect implements LoggerAwareInterface
 {
     use LoggerAwareTrait;
 
-    private PageCollection $pageCollection;
-
-    private RedirectBuilder $redirectBuilder;
-
-    private RedirectCollection $redirectCollection;
-
     public function __construct(
-        PageCollection $pageCollection,
-        RedirectBuilder $redirectBuilder,
-        RedirectCollection $redirectCollection
+        private PageCollection $pageCollection,
+        private RedirectBuilder $redirectBuilder,
+        private RedirectCollection $redirectCollection,
     ) {
-        $this->pageCollection = $pageCollection;
-        $this->redirectBuilder = $redirectBuilder;
-        $this->redirectCollection = $redirectCollection;
     }
 
     public function processDatamap_postProcessFieldArray(

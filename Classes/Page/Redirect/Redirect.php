@@ -9,36 +9,12 @@ use Psr\Http\Message\UriInterface;
 
 final class Redirect
 {
-    /**
-     * @var Page
-     */
-    private $page;
-
-    /**
-     * @var UriInterface
-     */
-    private $sourceUri;
-
-    /**
-     * @var UriInterface
-     */
-    private $targetUri;
-
-    /**
-     * @var int
-     */
-    private $statusCode;
-
     public function __construct(
-        Page $page,
-        UriInterface $sourceUri,
-        UriInterface $targetUri,
-        int $statusCode
+        private Page $page,
+        private UriInterface $sourceUri,
+        private UriInterface $targetUri,
+        private int $statusCode,
     ) {
-        $this->page = $page;
-        $this->sourceUri = $sourceUri;
-        $this->targetUri = $targetUri;
-        $this->statusCode = $statusCode;
     }
 
     public function getPage(): Page

@@ -8,12 +8,9 @@ use TYPO3\CMS\Redirects\Service\RedirectCacheService;
 
 final class RedirectCache
 {
-    private RedirectCacheService $redirectCacheService;
-
     public function __construct(
-        RedirectCacheService $redirectCacheService
+        private RedirectCacheService $redirectCacheService,
     ) {
-        $this->redirectCacheService = $redirectCacheService;
     }
 
     public function rebuild(): void

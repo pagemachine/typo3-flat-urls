@@ -6,14 +6,9 @@ namespace Pagemachine\FlatUrls\Page;
 
 final class Page
 {
-    /**
-     * @var int
-     */
-    private $uid;
-
-    public function __construct(int $uid)
-    {
-        $this->uid = $uid;
+    public function __construct(
+        private int $uid,
+    ) {
     }
 
     public function getUid(): int
