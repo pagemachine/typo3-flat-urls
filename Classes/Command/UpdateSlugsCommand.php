@@ -27,6 +27,7 @@ final class UpdateSlugsCommand extends Command
         private PageCollection $pageCollection,
         private PageSlugProcessor $slugProcessor,
     ) {
+        parent::__construct();
     }
 
     /**
