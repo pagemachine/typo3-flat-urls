@@ -1,6 +1,6 @@
 <?php
 
-declare(strict_types = 1);
+declare(strict_types=1);
 
 namespace Pagemachine\FlatUrls\Tests\Functional\Hook\DataHandler;
 
@@ -77,11 +77,11 @@ final class ResolveRedirectConflictTest extends FunctionalTestCase
             ->select(['source_path', 'target'], 'sys_redirect', [], [], ['uid' => 'ASC'])
             ->fetchAll();
 
-        $this->assertCount(2, $redirects);
-        $this->assertSame('/foo', $redirects[0]['source_path'] ?? null);
-        $this->assertSame('t3://page?uid=2', $redirects[0]['target'] ?? null);
-        $this->assertSame('/2/first-title', $redirects[1]['source_path'] ?? null);
-        $this->assertSame('t3://page?uid=2', $redirects[1]['target'] ?? null);
+        self::assertCount(2, $redirects);
+        self::assertSame('/foo', $redirects[0]['source_path'] ?? null);
+        self::assertSame('t3://page?uid=2', $redirects[0]['target'] ?? null);
+        self::assertSame('/2/first-title', $redirects[1]['source_path'] ?? null);
+        self::assertSame('t3://page?uid=2', $redirects[1]['target'] ?? null);
 
         // Drop cached page used by PageRepository::getPage() through PageRouter::generateUri()
         GeneralUtility::makeInstance(CacheManager::class)->flushCaches();
@@ -99,11 +99,11 @@ final class ResolveRedirectConflictTest extends FunctionalTestCase
             ->select(['source_path', 'target'], 'sys_redirect', [], [], ['uid' => 'ASC'])
             ->fetchAll();
 
-        $this->assertCount(2, $redirects);
-        $this->assertSame('/foo', $redirects[0]['source_path'] ?? null);
-        $this->assertSame('t3://page?uid=2', $redirects[0]['target'] ?? null);
-        $this->assertSame('/2/second-title', $redirects[1]['source_path'] ?? null);
-        $this->assertSame('t3://page?uid=2', $redirects[1]['target'] ?? null);
+        self::assertCount(2, $redirects);
+        self::assertSame('/foo', $redirects[0]['source_path'] ?? null);
+        self::assertSame('t3://page?uid=2', $redirects[0]['target'] ?? null);
+        self::assertSame('/2/second-title', $redirects[1]['source_path'] ?? null);
+        self::assertSame('t3://page?uid=2', $redirects[1]['target'] ?? null);
     }
 
     /**
@@ -184,9 +184,9 @@ final class ResolveRedirectConflictTest extends FunctionalTestCase
             ],
         ];
 
-        $this->assertCount(1, $redirects);
-        $this->assertSame('/2/second-title', $redirects[0]['source_path'] ?? null);
-        $this->assertSame('t3://page?uid=2', $redirects[0]['target'] ?? null);
+        self::assertCount(1, $redirects);
+        self::assertSame('/2/second-title', $redirects[0]['source_path'] ?? null);
+        self::assertSame('t3://page?uid=2', $redirects[0]['target'] ?? null);
     }
 
     /**
@@ -228,7 +228,7 @@ final class ResolveRedirectConflictTest extends FunctionalTestCase
         $redirectConnection = GeneralUtility::makeInstance(ConnectionPool::class)
             ->getConnectionForTable('sys_redirect');
 
-        $this->assertEquals(0, $redirectConnection->count('*', 'sys_redirect', []));
+        self::assertEquals(0, $redirectConnection->count('*', 'sys_redirect', []));
     }
 
     /**
@@ -263,7 +263,7 @@ final class ResolveRedirectConflictTest extends FunctionalTestCase
         $redirectConnection = GeneralUtility::makeInstance(ConnectionPool::class)
             ->getConnectionForTable('sys_redirect');
 
-        $this->assertEquals(0, $redirectConnection->count('*', 'sys_redirect', []));
+        self::assertEquals(0, $redirectConnection->count('*', 'sys_redirect', []));
     }
 
     /**
@@ -310,6 +310,6 @@ final class ResolveRedirectConflictTest extends FunctionalTestCase
         ], []);
         $dataHandler->process_datamap();
 
-        $this->assertEquals(1, $redirectConnection->count('*', 'sys_redirect', ['source_path' => '/']));
+        self::assertEquals(1, $redirectConnection->count('*', 'sys_redirect', ['source_path' => '/']));
     }
 }

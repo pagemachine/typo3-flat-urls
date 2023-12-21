@@ -1,6 +1,6 @@
 <?php
 
-declare(strict_types = 1);
+declare(strict_types=1);
 
 namespace Pagemachine\FlatUrls\Page\Redirect;
 
@@ -15,8 +15,7 @@ final class RedirectBuilder
     public function __construct(
         private ConnectionPool $connectionPool,
         private SiteFinder $siteFinder,
-    ) {
-    }
+    ) {}
 
     public function build(Page $page): Redirect
     {

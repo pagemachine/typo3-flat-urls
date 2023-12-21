@@ -1,6 +1,6 @@
 <?php
 
-declare(strict_types = 1);
+declare(strict_types=1);
 
 namespace Pagemachine\FlatUrls\Hook\DataHandler;
 
@@ -19,8 +19,7 @@ final class ResolveRedirectConflict
         private PageCollection $pageCollection,
         private RedirectConflictDetector $redirectConflictDetector,
         private RedirectConflictResolver $redirectConflictResolver,
-    ) {
-    }
+    ) {}
 
     public function processDatamap_afterDatabaseOperations(
         string $status,

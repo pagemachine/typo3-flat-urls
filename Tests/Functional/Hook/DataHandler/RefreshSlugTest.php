@@ -1,6 +1,6 @@
 <?php
 
-declare(strict_types = 1);
+declare(strict_types=1);
 
 namespace Pagemachine\FlatUrls\Tests\Functional\Hook\DataHandler;
 
@@ -65,7 +65,7 @@ final class RefreshSlugTest extends FunctionalTestCase
             ->execute()
             ->fetch();
 
-        $this->assertEquals($expected, $page['slug']);
+        self::assertEquals($expected, $page['slug']);
     }
 
     public function pages(): \Generator

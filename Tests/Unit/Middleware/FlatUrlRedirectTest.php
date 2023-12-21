@@ -1,6 +1,6 @@
 <?php
 
-declare(strict_types = 1);
+declare(strict_types=1);
 
 namespace Pagemachine\FlatUrls\Tests\Unit\Middleware;
 
@@ -57,7 +57,7 @@ final class FlatUrlRedirectTest extends UnitTestCase
 
         $response = $this->flatUrlRedirect->process($request->reveal(), $handler->reveal());
 
-        $this->assertSame($handlerResponse, $response);
+        self::assertSame($handlerResponse, $response);
     }
 
     /**
@@ -89,7 +89,7 @@ final class FlatUrlRedirectTest extends UnitTestCase
 
         $response = $this->flatUrlRedirect->process($request->reveal(), $handler->reveal());
 
-        $this->assertSame($handlerResponse, $response);
+        self::assertSame($handlerResponse, $response);
     }
 
     /**
@@ -118,9 +118,9 @@ final class FlatUrlRedirectTest extends UnitTestCase
 
         $response = $this->flatUrlRedirect->process($request->reveal(), $this->prophesize(RequestHandlerInterface::class)->reveal());
 
-        $this->assertInstanceOf(RedirectResponse::class, $response);
-        $this->assertEquals(301, $response->getStatusCode());
-        $this->assertEquals('/10/test', $response->getHeaderLine('location'));
+        self::assertInstanceOf(RedirectResponse::class, $response);
+        self::assertEquals(301, $response->getStatusCode());
+        self::assertEquals('/10/test', $response->getHeaderLine('location'));
     }
 
     public function paths(): \Generator

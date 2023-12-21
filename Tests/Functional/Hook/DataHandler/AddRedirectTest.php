@@ -1,6 +1,6 @@
 <?php
 
-declare(strict_types = 1);
+declare(strict_types=1);
 
 namespace Pagemachine\FlatUrls\Tests\Functional\Hook\DataHandler;
 
@@ -71,7 +71,7 @@ final class AddRedirectTest extends FunctionalTestCase
         $redirectConnection = GeneralUtility::makeInstance(ConnectionPool::class)
             ->getConnectionForTable('sys_redirect');
 
-        $this->assertEquals(0, $redirectConnection->count('*', 'sys_redirect', []));
+        self::assertEquals(0, $redirectConnection->count('*', 'sys_redirect', []));
 
         $dataHandler = GeneralUtility::makeInstance(DataHandler::class);
         $dataHandler->start([
@@ -79,14 +79,14 @@ final class AddRedirectTest extends FunctionalTestCase
         ], []);
         $dataHandler->process_datamap();
 
-        $this->assertEquals(1, $redirectConnection->count('*', 'sys_redirect', []));
+        self::assertEquals(1, $redirectConnection->count('*', 'sys_redirect', []));
 
         $redirect = $redirectConnection
             ->select(['*'], 'sys_redirect')
             ->fetch();
 
         foreach ($expected as $field => $value) {
-            $this->assertSame($value, $redirect[$field] ?? null);
+            self::assertSame($value, $redirect[$field] ?? null);
         }
     }
 
@@ -168,7 +168,7 @@ final class AddRedirectTest extends FunctionalTestCase
         $redirectConnection = GeneralUtility::makeInstance(ConnectionPool::class)
             ->getConnectionForTable('sys_redirect');
 
-        $this->assertEquals(0, $redirectConnection->count('*', 'sys_redirect', []));
+        self::assertEquals(0, $redirectConnection->count('*', 'sys_redirect', []));
 
         $dataHandler = GeneralUtility::makeInstance(DataHandler::class);
         $dataHandler->start([
@@ -180,7 +180,7 @@ final class AddRedirectTest extends FunctionalTestCase
         ], []);
         $dataHandler->process_datamap();
 
-        $this->assertEquals(0, $redirectConnection->count('*', 'sys_redirect', []));
+        self::assertEquals(0, $redirectConnection->count('*', 'sys_redirect', []));
     }
 
     /**
@@ -223,6 +223,6 @@ final class AddRedirectTest extends FunctionalTestCase
         $redirectConnection = GeneralUtility::makeInstance(ConnectionPool::class)
             ->getConnectionForTable('sys_redirect');
 
-        $this->assertEquals(0, $redirectConnection->count('*', 'sys_redirect', []));
+        self::assertEquals(0, $redirectConnection->count('*', 'sys_redirect', []));
     }
 }

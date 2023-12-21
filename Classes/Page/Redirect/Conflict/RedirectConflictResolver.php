@@ -1,6 +1,6 @@
 <?php
 
-declare(strict_types = 1);
+declare(strict_types=1);
 
 namespace Pagemachine\FlatUrls\Page\Redirect\Conflict;
 
@@ -12,8 +12,7 @@ final class RedirectConflictResolver
 {
     public function __construct(
         private RedirectCache $redirectCache,
-    ) {
-    }
+    ) {}
 
     public function resolve(ConflictRedirect ...$conflictRedirects): void
     {

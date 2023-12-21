@@ -1,6 +1,6 @@
 <?php
 
-declare(strict_types = 1);
+declare(strict_types=1);
 
 namespace Pagemachine\FlatUrls\Page\Redirect;
 
@@ -13,8 +13,7 @@ final class RedirectCollection
 {
     public function __construct(
         private RedirectCache $redirectCache,
-    ) {
-    }
+    ) {}
 
     public function add(Redirect $redirect): void
     {

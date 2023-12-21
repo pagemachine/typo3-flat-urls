@@ -1,6 +1,6 @@
 <?php
 
-declare(strict_types = 1);
+declare(strict_types=1);
 
 namespace Pagemachine\FlatUrls\Tests\Functional\Page;
 
@@ -63,12 +63,12 @@ final class PageCollectionTest extends FunctionalTestCase
 
         $pages = GeneralUtility::makeInstance(PageCollection::class);
 
-        $this->assertCount(2, $pages);
+        self::assertCount(2, $pages);
 
         $pagesList = iterator_to_array($pages);
 
-        $this->assertContainsOnlyInstancesOf(Page::class, $pagesList);
-        $this->assertEquals(1, $pagesList[0]->getUid());
-        $this->assertEquals(3, $pagesList[1]->getUid());
+        self::assertContainsOnlyInstancesOf(Page::class, $pagesList);
+        self::assertEquals(1, $pagesList[0]->getUid());
+        self::assertEquals(3, $pagesList[1]->getUid());
     }
 }
