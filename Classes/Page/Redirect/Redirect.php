@@ -1,6 +1,6 @@
 <?php
 
-declare(strict_types = 1);
+declare(strict_types=1);
 
 namespace Pagemachine\FlatUrls\Page\Redirect;
 
@@ -14,8 +14,7 @@ final class Redirect
         private UriInterface $sourceUri,
         private UriInterface $targetUri,
         private int $statusCode,
-    ) {
-    }
+    ) {}
 
     public function getPage(): Page
     {

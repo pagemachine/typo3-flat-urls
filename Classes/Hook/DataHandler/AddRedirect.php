@@ -1,6 +1,6 @@
 <?php
 
-declare(strict_types = 1);
+declare(strict_types=1);
 
 namespace Pagemachine\FlatUrls\Hook\DataHandler;
 
@@ -24,8 +24,7 @@ final class AddRedirect implements LoggerAwareInterface
         private PageCollection $pageCollection,
         private RedirectBuilder $redirectBuilder,
         private RedirectCollection $redirectCollection,
-    ) {
-    }
+    ) {}
 
     public function processDatamap_postProcessFieldArray(
         string $status,

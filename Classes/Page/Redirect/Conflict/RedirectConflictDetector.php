@@ -1,6 +1,6 @@
 <?php
 
-declare(strict_types = 1);
+declare(strict_types=1);
 
 namespace Pagemachine\FlatUrls\Page\Redirect\Conflict;
 
@@ -16,8 +16,7 @@ final class RedirectConflictDetector
     public function __construct(
         private ConnectionPool $connectionPool,
         private SiteFinder $siteFinder,
-    ) {
-    }
+    ) {}
 
     /**
      * @return \Generator|ConflictRedirect[]

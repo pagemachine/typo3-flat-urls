@@ -1,6 +1,6 @@
 <?php
 
-declare(strict_types = 1);
+declare(strict_types=1);
 
 namespace Pagemachine\FlatUrls\Redirect;
 
@@ -10,8 +10,7 @@ final class RedirectCache
 {
     public function __construct(
         private RedirectCacheService $redirectCacheService,
-    ) {
-    }
+    ) {}
 
     public function rebuild(): void
     {

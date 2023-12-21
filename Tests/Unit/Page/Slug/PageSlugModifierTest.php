@@ -1,6 +1,6 @@
 <?php
 
-declare(strict_types = 1);
+declare(strict_types=1);
 
 namespace Pagemachine\FlatUrls\Tests\Unit\Page\Slug;
 
@@ -46,7 +46,7 @@ final class PageSlugModifierTest extends UnitTestCase
 
         $result = $this->pageSlugModifier->prependUid($parameters);
 
-        $this->assertEquals('/test', $result);
+        self::assertEquals('/test', $result);
     }
 
     /**
@@ -62,7 +62,7 @@ final class PageSlugModifierTest extends UnitTestCase
 
         $result = $this->pageSlugModifier->prependUid($parameters);
 
-        $this->assertEquals('/test', $result);
+        self::assertEquals('/test', $result);
     }
 
     public function pagesWithoutUid(): \Generator
@@ -95,7 +95,7 @@ final class PageSlugModifierTest extends UnitTestCase
 
         $result = $this->pageSlugModifier->prependUid($parameters);
 
-        $this->assertEquals('/10/test', $result);
+        self::assertEquals('/10/test', $result);
     }
 
     public function pages(): \Generator
@@ -138,7 +138,7 @@ final class PageSlugModifierTest extends UnitTestCase
         $result = $this->pageSlugModifier->prependUid($parameters);
         $expected = ':10:test';
 
-        $this->assertEquals($expected, $result);
+        self::assertEquals($expected, $result);
     }
 
     /**
@@ -157,6 +157,6 @@ final class PageSlugModifierTest extends UnitTestCase
 
         $result = $this->pageSlugModifier->prependUid($parameters);
 
-        $this->assertEquals('/10/test', $result);
+        self::assertEquals('/10/test', $result);
     }
 }

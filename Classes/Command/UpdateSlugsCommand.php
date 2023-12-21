@@ -1,6 +1,6 @@
 <?php
 
-declare(strict_types = 1);
+declare(strict_types=1);
 
 namespace Pagemachine\FlatUrls\Command;
 
@@ -14,9 +14,6 @@ use TYPO3\CMS\Core\Core\Bootstrap;
 
 final class UpdateSlugsCommand extends Command
 {
-    /**
-     * @return void
-     */
     protected function configure()
     {
         $this

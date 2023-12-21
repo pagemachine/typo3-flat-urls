@@ -1,6 +1,6 @@
 <?php
 
-declare(strict_types = 1);
+declare(strict_types=1);
 
 namespace Pagemachine\FlatUrls\Tests\Functional\Page\Slug;
 
@@ -55,7 +55,7 @@ final class PageSlugProcessorTest extends FunctionalTestCase
             ['uid' => $pageUid]
         )->fetch();
 
-        $this->assertEquals($expected, $updatedPage['slug']);
+        self::assertEquals($expected, $updatedPage['slug']);
     }
 
     public function pages(): \Generator
