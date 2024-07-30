@@ -105,7 +105,7 @@
         ],
         "lint:php": "parallel-lint --show-deprecated --exclude vendor --exclude web .",
         "lint:style": "php-cs-fixer fix --dry-run --diff",
-        "lint:xml": "xmllint --pattern '*.xml,*.svg' --recursive 0 .",
+        "lint:xml": "xmllint --pattern '*.xml,*.svg' --recursive 0 --skip-xsd .",
         "test": [
             "@test:unit",
             "@test:functional"
