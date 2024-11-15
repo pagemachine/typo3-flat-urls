@@ -20,7 +20,7 @@ final class PageCollectionTest extends FunctionalTestCase
     ];
 
     protected array $testExtensionsToLoad = [
-        'typo3conf/ext/flat_urls',
+        'pagemachine/typo3-flat-urls',
     ];
 
     /**
