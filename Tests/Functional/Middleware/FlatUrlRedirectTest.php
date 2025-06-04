@@ -39,9 +39,23 @@ final class FlatUrlRedirectTest extends FunctionalTestCase
     }
 
     #[Test]
-    #[TestWith(['http://localhost/2'])]
-    #[TestWith(['http://localhost/2/'])]
-    public function redirectsShortUrls(string $uri): void
+    #[TestWith([
+        'http://localhost/2',
+        'http://localhost/2/short',
+    ])]
+    #[TestWith([
+        'http://localhost/2/',
+        'http://localhost/2/short',
+    ])]
+    #[TestWith([
+        'http://localhost/2?foo=bar',
+        'http://localhost/2/short?foo=bar&cHash=c765c3c9c1ad82c5e52692f4132b4b93',
+    ])]
+    #[TestWith([
+        'http://localhost/2/?foo=bar',
+        'http://localhost/2/short?foo=bar&cHash=c765c3c9c1ad82c5e52692f4132b4b93',
+    ])]
+    public function redirectsShortUrls(string $uri, string $expected): void
     {
         $this->getConnectionPool()->getConnectionForTable('pages')->insert('pages', [
             'uid' => 2,
@@ -53,7 +67,7 @@ final class FlatUrlRedirectTest extends FunctionalTestCase
         $response = $this->executeFrontendSubRequest(new InternalRequest($uri));
 
         self::assertSame(301, $response->getStatusCode());
-        self::assertSame('http://localhost/2/short', $response->getHeaderLine('location'));
+        self::assertSame($expected, $response->getHeaderLine('location'));
     }
 
     #[Test]
