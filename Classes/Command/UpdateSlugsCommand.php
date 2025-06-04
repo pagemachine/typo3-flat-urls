@@ -14,12 +14,6 @@ use TYPO3\CMS\Core\Core\Bootstrap;
 
 final class UpdateSlugsCommand extends Command
 {
-    protected function configure()
-    {
-        $this
-            ->setDescription('Update slugs of all pages');
-    }
-
     public function __construct(
         private PageCollection $pageCollection,
         private PageSlugProcessor $slugProcessor,
@@ -27,10 +21,16 @@ final class UpdateSlugsCommand extends Command
         parent::__construct();
     }
 
+    protected function configure(): void
+    {
+        $this
+            ->setDescription('Update slugs of all pages');
+    }
+
     /**
      * @return int
      */
-    protected function execute(InputInterface $input, OutputInterface $output)
+    protected function execute(InputInterface $input, OutputInterface $output): int
     {
         Bootstrap::initializeBackendAuthentication();
 
