@@ -111,6 +111,7 @@ final class AddRedirectTest extends FunctionalTestCase
                 'source_path' => '/2/old-page',
                 'target' => 't3://page?uid=2',
                 'target_statuscode' => 307,
+                'keep_query_parameters' => 1,
             ],
         ];
 
@@ -143,6 +144,7 @@ final class AddRedirectTest extends FunctionalTestCase
                 'source_path' => '/de/3/old-translated-page',
                 'target' => 't3://page?uid=3',
                 'target_statuscode' => 307,
+                'keep_query_parameters' => 1,
             ],
         ];
     }
