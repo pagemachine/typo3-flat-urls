@@ -25,6 +25,7 @@ final class RedirectCollection
                     'source_path' => $redirect->getSourceUri()->getPath(),
                     'target' => (string)$redirect->getTargetUri(),
                     'target_statuscode' => $redirect->getStatusCode(),
+                    'keep_query_parameters' => 1,
                 ],
             ],
         ];
