@@ -33,6 +33,7 @@ final class FlatUrlRedirect implements MiddlewareInterface, LoggerAwareInterface
             $uri = $router->generateUri(
                 $pageUid,
                 [
+                    ...$request->getQueryParams(),
                     '_language' => $request->getAttribute('language'),
                 ]
             );
