@@ -90,7 +90,7 @@ final class AddRedirectTest extends FunctionalTestCase
         }
     }
 
-    public function redirectPages(): \Generator
+    public static function redirectPages(): \Generator
     {
         yield 'page' => [
             [

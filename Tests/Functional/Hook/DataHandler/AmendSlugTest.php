@@ -63,7 +63,7 @@ final class AmendSlugTest extends FunctionalTestCase
         self::assertEquals($expected, $page['slug']);
     }
 
-    public function pages(): \Generator
+    public static function pages(): \Generator
     {
         foreach (['new page', 'hidden new page'] as $hidden => $name) {
             yield $name => [

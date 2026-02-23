@@ -58,7 +58,7 @@ final class PageSlugProcessorTest extends FunctionalTestCase
         self::assertEquals($expected, $updatedPage['slug']);
     }
 
-    public function pages(): \Generator
+    public static function pages(): \Generator
     {
         foreach (['', '/test/'] as $slug) {
             $without = $slug ? 'with' : 'without';

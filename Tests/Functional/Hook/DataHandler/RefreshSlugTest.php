@@ -68,7 +68,7 @@ final class RefreshSlugTest extends FunctionalTestCase
         self::assertEquals($expected, $page['slug']);
     }
 
-    public function pages(): \Generator
+    public static function pages(): \Generator
     {
         foreach (['updated page', 'hidden updated page'] as $hidden => $name) {
             yield $name => [
