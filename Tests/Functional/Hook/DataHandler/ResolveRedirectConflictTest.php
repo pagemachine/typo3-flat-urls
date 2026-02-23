@@ -7,6 +7,7 @@ namespace Pagemachine\FlatUrls\Tests\Functional\Hook\DataHandler;
 use TYPO3\CMS\Core\Cache\CacheManager;
 use TYPO3\CMS\Core\Configuration\SiteConfiguration;
 use TYPO3\CMS\Core\Core\Bootstrap;
+use TYPO3\CMS\Core\Configuration\SiteWriter;
 use TYPO3\CMS\Core\Database\ConnectionPool;
 use TYPO3\CMS\Core\DataHandling\DataHandler;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
@@ -44,8 +45,8 @@ final class ResolveRedirectConflictTest extends FunctionalTestCase
         ]);
         $this->setUpFrontendRootPage(1);
 
-        $siteConfiguration = GeneralUtility::makeInstance(SiteConfiguration::class);
-        $siteConfiguration->createNewBasicSite('1', 1, 'http://localhost/');
+        $siteWriter = GeneralUtility::makeInstance(SiteWriter::class);
+        $siteWriter->createNewBasicSite('1', 1, '/');
 
         $pageConnection->insert('pages', [
             'uid' => 2,
@@ -125,9 +126,10 @@ final class ResolveRedirectConflictTest extends FunctionalTestCase
         ]);
         $this->setUpFrontendRootPage(1);
 
-        $siteConfiguration = GeneralUtility::makeInstance(SiteConfiguration::class);
-        $siteConfiguration->createNewBasicSite('1', 1, 'http://localhost/');
+        $siteWriter = GeneralUtility::makeInstance(SiteWriter::class);
+        $siteWriter->createNewBasicSite('1', 1, 'http://localhost/');
         // Enforce trailing slash for generated page URIs
+        $siteConfiguration = GeneralUtility::makeInstance(SiteConfiguration::class);
         $siteConfigurationData = $siteConfiguration->load('1');
         $siteConfigurationData['routeEnhancers'] = [
             'pageTypeSuffix' => [
@@ -139,7 +141,7 @@ final class ResolveRedirectConflictTest extends FunctionalTestCase
                 ],
             ],
         ];
-        $siteConfiguration->write('1', $siteConfigurationData);
+        $siteWriter->write('1', $siteConfigurationData);
 
         $pageConnection->insert('pages', [
             'uid' => 2,

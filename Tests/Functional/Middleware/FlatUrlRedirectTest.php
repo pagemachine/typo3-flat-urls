@@ -6,7 +6,7 @@ namespace Pagemachine\FlatUrls\Tests\Functional\Middleware;
 
 use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\Attributes\TestWith;
-use TYPO3\CMS\Core\Configuration\SiteConfiguration;
+use TYPO3\CMS\Core\Configuration\SiteWriter;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\TestingFramework\Core\Functional\Framework\Frontend\InternalRequest;
 use TYPO3\TestingFramework\Core\Functional\FunctionalTestCase;
@@ -34,8 +34,8 @@ final class FlatUrlRedirectTest extends FunctionalTestCase
             'EXT:flat_urls/Tests/Functional/Middleware/Fixtures/TypoScript/page.typoscript',
         ]);
 
-        $siteConfiguration = GeneralUtility::makeInstance(SiteConfiguration::class);
-        $siteConfiguration->createNewBasicSite('1', 1, 'http://localhost/');
+        $siteWriter = GeneralUtility::makeInstance(SiteWriter::class);
+        $siteWriter->createNewBasicSite('1', 1, 'http://localhost/');
     }
 
     #[Test]
