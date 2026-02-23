@@ -75,7 +75,7 @@ final class ResolveRedirectConflictTest extends FunctionalTestCase
 
         $redirects = $redirectConnection
             ->select(['source_path', 'target'], 'sys_redirect', [], [], ['uid' => 'ASC'])
-            ->fetchAll();
+            ->fetchAllAssociative();
 
         self::assertCount(2, $redirects);
         self::assertSame('/foo', $redirects[0]['source_path'] ?? null);
@@ -97,7 +97,7 @@ final class ResolveRedirectConflictTest extends FunctionalTestCase
 
         $redirects = $redirectConnection
             ->select(['source_path', 'target'], 'sys_redirect', [], [], ['uid' => 'ASC'])
-            ->fetchAll();
+            ->fetchAllAssociative();
 
         self::assertCount(2, $redirects);
         self::assertSame('/foo', $redirects[0]['source_path'] ?? null);
@@ -175,7 +175,7 @@ final class ResolveRedirectConflictTest extends FunctionalTestCase
 
         $redirects = $redirectConnection
             ->select(['source_path', 'target'], 'sys_redirect')
-            ->fetchAll();
+            ->fetchAllAssociative();
 
         $expected = [
             [

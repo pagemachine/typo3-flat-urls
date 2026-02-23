@@ -52,7 +52,7 @@ final class PageSlugProcessorTest extends FunctionalTestCase
             ['slug'],
             'pages',
             ['uid' => $pageUid]
-        )->fetch();
+        )->fetchAssociative();
 
         self::assertEquals($expected, $updatedPage['slug']);
     }

@@ -84,7 +84,7 @@ final class AddRedirectTest extends FunctionalTestCase
 
         $redirect = $redirectConnection
             ->select(['*'], 'sys_redirect')
-            ->fetch();
+            ->fetchAssociative();
 
         foreach ($expected as $field => $value) {
             self::assertSame($value, $redirect[$field] ?? null);

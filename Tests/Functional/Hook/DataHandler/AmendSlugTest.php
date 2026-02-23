@@ -56,8 +56,8 @@ final class AmendSlugTest extends FunctionalTestCase
             ->select('slug')
             ->from('pages')
             ->where($queryBuilder->expr()->eq('uid', $pageUid))
-            ->execute()
-            ->fetch();
+            ->executeQuery()
+            ->fetchAssociative();
 
         self::assertEquals($expected, $page['slug']);
     }
