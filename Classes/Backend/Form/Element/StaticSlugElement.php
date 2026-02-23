@@ -23,12 +23,7 @@ final class StaticSlugElement extends AbstractFormElement
         ],
     ];
 
-    /**
-     * This will render a single-line input form field, possibly with various control/validation features
-     *
-     * @return array As defined in initializeResultArray() of AbstractNode
-     */
-    public function render()
+    public function render(): array
     {
         $table = $this->data['tableName'];
         $row = $this->data['databaseRow'];
