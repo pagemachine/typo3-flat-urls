@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace Pagemachine\FlatUrls\Tests\Functional\Hook\DataHandler;
 
+use PHPUnit\Framework\Attributes\DataProvider;
+use PHPUnit\Framework\Attributes\Test;
 use TYPO3\CMS\Core\Database\ConnectionPool;
 use TYPO3\CMS\Core\DataHandling\DataHandler;
 use TYPO3\CMS\Core\Localization\LanguageServiceFactory;
@@ -24,10 +26,8 @@ final class AmendSlugTest extends FunctionalTestCase
         'pagemachine/typo3-flat-urls',
     ];
 
-    /**
-     * @test
-     * @dataProvider pages
-     */
+    #[Test]
+    #[DataProvider('pages')]
     public function ensuresFlatUrls(array $changes, int $pageUid, string $expected): void
     {
         $this->importCSVDataSet(__DIR__ . '/../../Fixtures/be_users.csv');

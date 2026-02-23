@@ -6,6 +6,8 @@ namespace Pagemachine\FlatUrls\Tests\Functional\Page\Slug;
 
 use Pagemachine\FlatUrls\Page\Page;
 use Pagemachine\FlatUrls\Page\Slug\PageSlugProcessor;
+use PHPUnit\Framework\Attributes\DataProvider;
+use PHPUnit\Framework\Attributes\Test;
 use TYPO3\CMS\Core\Database\ConnectionPool;
 use TYPO3\CMS\Core\Localization\LanguageServiceFactory;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
@@ -24,10 +26,8 @@ final class PageSlugProcessorTest extends FunctionalTestCase
         'pagemachine/typo3-flat-urls',
     ];
 
-    /**
-     * @test
-     * @dataProvider pages
-     */
+    #[Test]
+    #[DataProvider('pages')]
     public function updatesPageSlugs(array $pages, int $pageUid, string $expected): void
     {
         $this->importCSVDataSet(__DIR__ . '/../../Fixtures/be_users.csv');

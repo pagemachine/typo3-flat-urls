@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace Pagemachine\FlatUrls\Tests\Functional\Hook\DataHandler;
 
+use PHPUnit\Framework\Attributes\DataProvider;
+use PHPUnit\Framework\Attributes\Test;
 use TYPO3\CMS\Core\Configuration\SiteConfiguration;
 use TYPO3\CMS\Core\Configuration\SiteWriter;
 use TYPO3\CMS\Core\Database\ConnectionPool;
@@ -25,10 +27,8 @@ final class AddRedirectTest extends FunctionalTestCase
         'pagemachine/typo3-flat-urls',
     ];
 
-    /**
-     * @test
-     * @dataProvider redirectPages
-     */
+    #[Test]
+    #[DataProvider('redirectPages')]
     public function addsRedirectsOnSlugChange(array $pages, array $changes, array $expected): void
     {
         $this->importCSVDataSet(__DIR__ . '/../../Fixtures/be_users.csv');
@@ -150,9 +150,7 @@ final class AddRedirectTest extends FunctionalTestCase
         ];
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function skipsPagesWithoutSite(): void
     {
         $this->importCSVDataSet(__DIR__ . '/../../Fixtures/be_users.csv');
@@ -185,9 +183,7 @@ final class AddRedirectTest extends FunctionalTestCase
         self::assertEquals(0, $redirectConnection->count('*', 'sys_redirect', []));
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function skipsInactivePages(): void
     {
         $this->importCSVDataSet(__DIR__ . '/../../Fixtures/be_users.csv');

@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Pagemachine\FlatUrls\Tests\Functional\Hook\DataHandler;
 
+use PHPUnit\Framework\Attributes\Test;
 use TYPO3\CMS\Core\Cache\CacheManager;
 use TYPO3\CMS\Core\Configuration\SiteConfiguration;
 use TYPO3\CMS\Core\Configuration\SiteWriter;
@@ -26,9 +27,7 @@ final class ResolveRedirectConflictTest extends FunctionalTestCase
         'pagemachine/typo3-flat-urls',
     ];
 
-    /**
-     * @test
-     */
+    #[Test]
     public function resolvesPagePathRedirectConflicts(): void
     {
         $this->importCSVDataSet(__DIR__ . '/../../Fixtures/be_users.csv');
@@ -106,9 +105,7 @@ final class ResolveRedirectConflictTest extends FunctionalTestCase
         self::assertSame('t3://page?uid=2', $redirects[1]['target'] ?? null);
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function normalizesPagePath(): void
     {
         $this->importCSVDataSet(__DIR__ . '/../../Fixtures/be_users.csv');
@@ -189,9 +186,7 @@ final class ResolveRedirectConflictTest extends FunctionalTestCase
         self::assertSame('t3://page?uid=2', $redirects[0]['target'] ?? null);
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function resolvesUidRedirectConflicts(): void
     {
         $this->importCSVDataSet(__DIR__ . '/../../Fixtures/be_users.csv');
@@ -230,9 +225,7 @@ final class ResolveRedirectConflictTest extends FunctionalTestCase
         self::assertEquals(0, $redirectConnection->count('*', 'sys_redirect', []));
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function skipsPagesWithoutSite(): void
     {
         $this->importCSVDataSet(__DIR__ . '/../../Fixtures/be_users.csv');
@@ -264,9 +257,7 @@ final class ResolveRedirectConflictTest extends FunctionalTestCase
         self::assertEquals(0, $redirectConnection->count('*', 'sys_redirect', []));
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function skipsInactivePages(): void
     {
         $this->importCSVDataSet(__DIR__ . '/../../Fixtures/be_users.csv');
