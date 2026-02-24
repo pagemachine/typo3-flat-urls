@@ -45,7 +45,7 @@ final class StaticSlugElement extends AbstractFormElement
 
         $config = $parameterArray['fieldConf']['config'];
         $size = MathUtility::forceIntegerInRange($config['size'] ?? $this->defaultInputWidth, $this->minimumInputWidth, $this->maxInputWidth);
-        $width = (int)$this->formMaxWidth($size);
+        $width = $this->formMaxWidth($size);
 
         $view = GeneralUtility::makeInstance(StandaloneView::class);
 
