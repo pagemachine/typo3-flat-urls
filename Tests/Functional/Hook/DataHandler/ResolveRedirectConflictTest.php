@@ -10,6 +10,7 @@ use TYPO3\CMS\Core\Configuration\SiteConfiguration;
 use TYPO3\CMS\Core\Configuration\SiteWriter;
 use TYPO3\CMS\Core\Database\ConnectionPool;
 use TYPO3\CMS\Core\DataHandling\DataHandler;
+use TYPO3\CMS\Core\Information\Typo3Version;
 use TYPO3\CMS\Core\Localization\LanguageServiceFactory;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\TestingFramework\Core\Functional\FunctionalTestCase;
@@ -43,8 +44,13 @@ final class ResolveRedirectConflictTest extends FunctionalTestCase
         ]);
         $this->setUpFrontendRootPage(1);
 
-        $siteWriter = GeneralUtility::makeInstance(SiteWriter::class);
-        $siteWriter->createNewBasicSite('1', 1, '/');
+        if ((new Typo3Version())->getMajorVersion() > 12) {
+            $siteWriter = GeneralUtility::makeInstance(SiteWriter::class);
+            $siteWriter->createNewBasicSite('1', 1, '/');
+        } else {
+            $siteConfiguration = GeneralUtility::makeInstance(SiteConfiguration::class);
+            $siteConfiguration->createNewBasicSite('1', 1, '/');
+        }
 
         $pageConnection->insert('pages', [
             'uid' => 2,
@@ -121,22 +127,39 @@ final class ResolveRedirectConflictTest extends FunctionalTestCase
         ]);
         $this->setUpFrontendRootPage(1);
 
-        $siteWriter = GeneralUtility::makeInstance(SiteWriter::class);
-        $siteWriter->createNewBasicSite('1', 1, 'http://localhost/');
-        // Enforce trailing slash for generated page URIs
-        $siteConfiguration = GeneralUtility::makeInstance(SiteConfiguration::class);
-        $siteConfigurationData = $siteConfiguration->load('1');
-        $siteConfigurationData['routeEnhancers'] = [
-            'pageTypeSuffix' => [
-                'type' => 'PageType',
-                'default' => '/',
-                'index' => '',
-                'map' => [
-                    '/' => 0,
+        if ((new Typo3Version())->getMajorVersion() > 12) {
+            $siteWriter = GeneralUtility::makeInstance(SiteWriter::class);
+            $siteWriter->createNewBasicSite('1', 1, 'http://localhost/');
+            // Enforce trailing slash for generated page URIs
+            $siteConfiguration = GeneralUtility::makeInstance(SiteConfiguration::class);
+            $siteConfigurationData = $siteConfiguration->load('1');
+            $siteConfigurationData['routeEnhancers'] = [
+                'pageTypeSuffix' => [
+                    'type' => 'PageType',
+                    'default' => '/',
+                    'index' => '',
+                    'map' => [
+                        '/' => 0,
+                    ],
                 ],
-            ],
-        ];
-        $siteWriter->write('1', $siteConfigurationData);
+            ];
+            $siteWriter->write('1', $siteConfigurationData);
+        } else {
+            $siteConfiguration = GeneralUtility::makeInstance(SiteConfiguration::class);
+            $siteConfiguration->createNewBasicSite('1', 1, '/');
+            $siteConfigurationData = $siteConfiguration->load('1');
+            $siteConfigurationData['routeEnhancers'] = [
+                'pageTypeSuffix' => [
+                    'type' => 'PageType',
+                    'default' => '/',
+                    'index' => '',
+                    'map' => [
+                        '/' => 0,
+                    ],
+                ],
+            ];
+            $siteConfiguration->write('1', $siteConfigurationData);
+        }
 
         $pageConnection->insert('pages', [
             'uid' => 2,

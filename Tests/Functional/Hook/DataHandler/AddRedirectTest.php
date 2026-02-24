@@ -10,6 +10,7 @@ use TYPO3\CMS\Core\Configuration\SiteConfiguration;
 use TYPO3\CMS\Core\Configuration\SiteWriter;
 use TYPO3\CMS\Core\Database\ConnectionPool;
 use TYPO3\CMS\Core\DataHandling\DataHandler;
+use TYPO3\CMS\Core\Information\Typo3Version;
 use TYPO3\CMS\Core\Localization\LanguageServiceFactory;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\TestingFramework\Core\Functional\FunctionalTestCase;
@@ -44,24 +45,46 @@ final class AddRedirectTest extends FunctionalTestCase
         ]);
         $this->setUpFrontendRootPage(1);
 
-        $siteWriter = GeneralUtility::makeInstance(SiteWriter::class);
-        $siteWriter->createNewBasicSite('1', 1, '/');
         $siteConfiguration = GeneralUtility::makeInstance(SiteConfiguration::class);
-        $siteConfigurationData = $siteConfiguration->load('1');
-        $siteConfigurationData['languages'][1] = [
-            'title' => 'German',
-            'enabled' => true,
-            'languageId' => 1,
-            'base' => '/de/',
-            'typo3Language' => 'default',
-            'locale' => 'de_DE.UTF-8',
-            'iso-639-1' => 'de',
-            'navigationTitle' => 'Deutsch',
-            'hreflang' => 'de-de',
-            'direction' => 'ltr',
-            'flag' => 'de',
-        ];
-        $siteWriter->write('1', $siteConfigurationData);
+
+        if ((new Typo3Version())->getMajorVersion() > 12) {
+            $siteWriter = GeneralUtility::makeInstance(SiteWriter::class);
+            $siteWriter->createNewBasicSite('1', 1, '/');
+            $siteConfiguration = GeneralUtility::makeInstance(SiteConfiguration::class);
+            $siteConfigurationData = $siteConfiguration->load('1');
+            $siteConfigurationData['languages'][1] = [
+                'title' => 'German',
+                'enabled' => true,
+                'languageId' => 1,
+                'base' => '/de/',
+                'typo3Language' => 'default',
+                'locale' => 'de_DE.UTF-8',
+                'iso-639-1' => 'de',
+                'navigationTitle' => 'Deutsch',
+                'hreflang' => 'de-de',
+                'direction' => 'ltr',
+                'flag' => 'de',
+            ];
+            $siteWriter->write('1', $siteConfigurationData);
+        } else {
+            $siteConfiguration = GeneralUtility::makeInstance(SiteConfiguration::class);
+            $siteConfiguration->createNewBasicSite('1', 1, '/');
+            $siteConfigurationData = $siteConfiguration->load('1');
+            $siteConfigurationData['languages'][1] = [
+                'title' => 'German',
+                'enabled' => true,
+                'languageId' => 1,
+                'base' => '/de/',
+                'typo3Language' => 'default',
+                'locale' => 'de_DE.UTF-8',
+                'iso-639-1' => 'de',
+                'navigationTitle' => 'Deutsch',
+                'hreflang' => 'de-de',
+                'direction' => 'ltr',
+                'flag' => 'de',
+            ];
+            $siteConfiguration->write('1', $siteConfigurationData);
+        }
 
         $pageConnection->bulkInsert(
             'pages',
