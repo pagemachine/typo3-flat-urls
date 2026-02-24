@@ -4,11 +4,14 @@ declare(strict_types=1);
 
 namespace Pagemachine\FlatUrls\Tests\Functional\Hook\DataHandler;
 
+use PHPUnit\Framework\Attributes\Test;
 use TYPO3\CMS\Core\Cache\CacheManager;
 use TYPO3\CMS\Core\Configuration\SiteConfiguration;
-use TYPO3\CMS\Core\Core\Bootstrap;
+use TYPO3\CMS\Core\Configuration\SiteWriter;
 use TYPO3\CMS\Core\Database\ConnectionPool;
 use TYPO3\CMS\Core\DataHandling\DataHandler;
+use TYPO3\CMS\Core\Information\Typo3Version;
+use TYPO3\CMS\Core\Localization\LanguageServiceFactory;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\TestingFramework\Core\Functional\FunctionalTestCase;
 
@@ -25,15 +28,12 @@ final class ResolveRedirectConflictTest extends FunctionalTestCase
         'pagemachine/typo3-flat-urls',
     ];
 
-    /**
-     * @test
-     */
+    #[Test]
     public function resolvesPagePathRedirectConflicts(): void
     {
         $this->importCSVDataSet(__DIR__ . '/../../Fixtures/be_users.csv');
-        $this->setUpBackendUser(1);
-
-        Bootstrap::initializeLanguageObject();
+        $backendUser = $this->setUpBackendUser(1);
+        $GLOBALS['LANG'] = $this->get(LanguageServiceFactory::class)->createFromUserPreferences($backendUser);
 
         $pageConnection = GeneralUtility::makeInstance(ConnectionPool::class)
             ->getConnectionForTable('pages');
@@ -44,8 +44,13 @@ final class ResolveRedirectConflictTest extends FunctionalTestCase
         ]);
         $this->setUpFrontendRootPage(1);
 
-        $siteConfiguration = GeneralUtility::makeInstance(SiteConfiguration::class);
-        $siteConfiguration->createNewBasicSite('1', 1, 'http://localhost/');
+        if ((new Typo3Version())->getMajorVersion() > 12) {
+            $siteWriter = GeneralUtility::makeInstance(SiteWriter::class);
+            $siteWriter->createNewBasicSite('1', 1, '/');
+        } else {
+            $siteConfiguration = GeneralUtility::makeInstance(SiteConfiguration::class);
+            $siteConfiguration->createNewBasicSite('1', 1, '/');
+        }
 
         $pageConnection->insert('pages', [
             'uid' => 2,
@@ -75,7 +80,7 @@ final class ResolveRedirectConflictTest extends FunctionalTestCase
 
         $redirects = $redirectConnection
             ->select(['source_path', 'target'], 'sys_redirect', [], [], ['uid' => 'ASC'])
-            ->fetchAll();
+            ->fetchAllAssociative();
 
         self::assertCount(2, $redirects);
         self::assertSame('/foo', $redirects[0]['source_path'] ?? null);
@@ -97,7 +102,7 @@ final class ResolveRedirectConflictTest extends FunctionalTestCase
 
         $redirects = $redirectConnection
             ->select(['source_path', 'target'], 'sys_redirect', [], [], ['uid' => 'ASC'])
-            ->fetchAll();
+            ->fetchAllAssociative();
 
         self::assertCount(2, $redirects);
         self::assertSame('/foo', $redirects[0]['source_path'] ?? null);
@@ -106,15 +111,12 @@ final class ResolveRedirectConflictTest extends FunctionalTestCase
         self::assertSame('t3://page?uid=2', $redirects[1]['target'] ?? null);
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function normalizesPagePath(): void
     {
         $this->importCSVDataSet(__DIR__ . '/../../Fixtures/be_users.csv');
-        $this->setUpBackendUser(1);
-
-        Bootstrap::initializeLanguageObject();
+        $backendUser = $this->setUpBackendUser(1);
+        $GLOBALS['LANG'] = $this->get(LanguageServiceFactory::class)->createFromUserPreferences($backendUser);
 
         $pageConnection = GeneralUtility::makeInstance(ConnectionPool::class)
             ->getConnectionForTable('pages');
@@ -125,21 +127,39 @@ final class ResolveRedirectConflictTest extends FunctionalTestCase
         ]);
         $this->setUpFrontendRootPage(1);
 
-        $siteConfiguration = GeneralUtility::makeInstance(SiteConfiguration::class);
-        $siteConfiguration->createNewBasicSite('1', 1, 'http://localhost/');
-        // Enforce trailing slash for generated page URIs
-        $siteConfigurationData = $siteConfiguration->load('1');
-        $siteConfigurationData['routeEnhancers'] = [
-            'pageTypeSuffix' => [
-                'type' => 'PageType',
-                'default' => '/',
-                'index' => '',
-                'map' => [
-                    '/' => 0,
+        if ((new Typo3Version())->getMajorVersion() > 12) {
+            $siteWriter = GeneralUtility::makeInstance(SiteWriter::class);
+            $siteWriter->createNewBasicSite('1', 1, 'http://localhost/');
+            // Enforce trailing slash for generated page URIs
+            $siteConfiguration = GeneralUtility::makeInstance(SiteConfiguration::class);
+            $siteConfigurationData = $siteConfiguration->load('1');
+            $siteConfigurationData['routeEnhancers'] = [
+                'pageTypeSuffix' => [
+                    'type' => 'PageType',
+                    'default' => '/',
+                    'index' => '',
+                    'map' => [
+                        '/' => 0,
+                    ],
                 ],
-            ],
-        ];
-        $siteConfiguration->write('1', $siteConfigurationData);
+            ];
+            $siteWriter->write('1', $siteConfigurationData);
+        } else {
+            $siteConfiguration = GeneralUtility::makeInstance(SiteConfiguration::class);
+            $siteConfiguration->createNewBasicSite('1', 1, '/');
+            $siteConfigurationData = $siteConfiguration->load('1');
+            $siteConfigurationData['routeEnhancers'] = [
+                'pageTypeSuffix' => [
+                    'type' => 'PageType',
+                    'default' => '/',
+                    'index' => '',
+                    'map' => [
+                        '/' => 0,
+                    ],
+                ],
+            ];
+            $siteConfiguration->write('1', $siteConfigurationData);
+        }
 
         $pageConnection->insert('pages', [
             'uid' => 2,
@@ -175,7 +195,7 @@ final class ResolveRedirectConflictTest extends FunctionalTestCase
 
         $redirects = $redirectConnection
             ->select(['source_path', 'target'], 'sys_redirect')
-            ->fetchAll();
+            ->fetchAllAssociative();
 
         $expected = [
             [
@@ -189,15 +209,12 @@ final class ResolveRedirectConflictTest extends FunctionalTestCase
         self::assertSame('t3://page?uid=2', $redirects[0]['target'] ?? null);
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function resolvesUidRedirectConflicts(): void
     {
         $this->importCSVDataSet(__DIR__ . '/../../Fixtures/be_users.csv');
-        $this->setUpBackendUser(1);
-
-        Bootstrap::initializeLanguageObject();
+        $backendUser = $this->setUpBackendUser(1);
+        $GLOBALS['LANG'] = $this->get(LanguageServiceFactory::class)->createFromUserPreferences($backendUser);
 
         $pageConnection = GeneralUtility::makeInstance(ConnectionPool::class)
             ->getConnectionForTable('pages');
@@ -231,15 +248,12 @@ final class ResolveRedirectConflictTest extends FunctionalTestCase
         self::assertEquals(0, $redirectConnection->count('*', 'sys_redirect', []));
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function skipsPagesWithoutSite(): void
     {
         $this->importCSVDataSet(__DIR__ . '/../../Fixtures/be_users.csv');
-        $this->setUpBackendUser(1);
-
-        Bootstrap::initializeLanguageObject();
+        $backendUser = $this->setUpBackendUser(1);
+        $GLOBALS['LANG'] = $this->get(LanguageServiceFactory::class)->createFromUserPreferences($backendUser);
 
         $pageConnection = GeneralUtility::makeInstance(ConnectionPool::class)
             ->getConnectionForTable('pages');
@@ -266,15 +280,12 @@ final class ResolveRedirectConflictTest extends FunctionalTestCase
         self::assertEquals(0, $redirectConnection->count('*', 'sys_redirect', []));
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function skipsInactivePages(): void
     {
         $this->importCSVDataSet(__DIR__ . '/../../Fixtures/be_users.csv');
-        $this->setUpBackendUser(1);
-
-        Bootstrap::initializeLanguageObject();
+        $backendUser = $this->setUpBackendUser(1);
+        $GLOBALS['LANG'] = $this->get(LanguageServiceFactory::class)->createFromUserPreferences($backendUser);
 
         $pageConnection = GeneralUtility::makeInstance(ConnectionPool::class)
             ->getConnectionForTable('pages');

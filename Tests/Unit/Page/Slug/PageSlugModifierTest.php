@@ -65,7 +65,7 @@ final class PageSlugModifierTest extends UnitTestCase
         self::assertEquals('/test', $result);
     }
 
-    public function pagesWithoutUid(): \Generator
+    public static function pagesWithoutUid(): \Generator
     {
         yield 'new page' => [
             [
@@ -98,7 +98,7 @@ final class PageSlugModifierTest extends UnitTestCase
         self::assertEquals('/10/test', $result);
     }
 
-    public function pages(): \Generator
+    public static function pages(): \Generator
     {
         yield 'page' => [
             [

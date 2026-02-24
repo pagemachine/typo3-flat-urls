@@ -6,8 +6,10 @@ namespace Pagemachine\FlatUrls\Tests\Functional\Page\Slug;
 
 use Pagemachine\FlatUrls\Page\Page;
 use Pagemachine\FlatUrls\Page\Slug\PageSlugProcessor;
-use TYPO3\CMS\Core\Core\Bootstrap;
+use PHPUnit\Framework\Attributes\DataProvider;
+use PHPUnit\Framework\Attributes\Test;
 use TYPO3\CMS\Core\Database\ConnectionPool;
+use TYPO3\CMS\Core\Localization\LanguageServiceFactory;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\TestingFramework\Core\Functional\FunctionalTestCase;
 
@@ -24,16 +26,13 @@ final class PageSlugProcessorTest extends FunctionalTestCase
         'pagemachine/typo3-flat-urls',
     ];
 
-    /**
-     * @test
-     * @dataProvider pages
-     */
+    #[Test]
+    #[DataProvider('pages')]
     public function updatesPageSlugs(array $pages, int $pageUid, string $expected): void
     {
         $this->importCSVDataSet(__DIR__ . '/../../Fixtures/be_users.csv');
-        $this->setUpBackendUser(1);
-
-        Bootstrap::initializeLanguageObject();
+        $backendUser = $this->setUpBackendUser(1);
+        $GLOBALS['LANG'] = $this->get(LanguageServiceFactory::class)->createFromUserPreferences($backendUser);
 
         $connection = GeneralUtility::makeInstance(ConnectionPool::class)
             ->getConnectionForTable('pages');
@@ -53,12 +52,12 @@ final class PageSlugProcessorTest extends FunctionalTestCase
             ['slug'],
             'pages',
             ['uid' => $pageUid]
-        )->fetch();
+        )->fetchAssociative();
 
         self::assertEquals($expected, $updatedPage['slug']);
     }
 
-    public function pages(): \Generator
+    public static function pages(): \Generator
     {
         foreach (['', '/test/'] as $slug) {
             $without = $slug ? 'with' : 'without';

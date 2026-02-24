@@ -4,9 +4,11 @@ declare(strict_types=1);
 
 namespace Pagemachine\FlatUrls\Tests\Functional\Hook\DataHandler;
 
-use TYPO3\CMS\Core\Core\Bootstrap;
+use PHPUnit\Framework\Attributes\DataProvider;
+use PHPUnit\Framework\Attributes\Test;
 use TYPO3\CMS\Core\Database\ConnectionPool;
 use TYPO3\CMS\Core\DataHandling\DataHandler;
+use TYPO3\CMS\Core\Localization\LanguageServiceFactory;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Core\Utility\StringUtility;
 use TYPO3\TestingFramework\Core\Functional\FunctionalTestCase;
@@ -24,16 +26,13 @@ final class AmendSlugTest extends FunctionalTestCase
         'pagemachine/typo3-flat-urls',
     ];
 
-    /**
-     * @test
-     * @dataProvider pages
-     */
+    #[Test]
+    #[DataProvider('pages')]
     public function ensuresFlatUrls(array $changes, int $pageUid, string $expected): void
     {
         $this->importCSVDataSet(__DIR__ . '/../../Fixtures/be_users.csv');
-        $this->setUpBackendUser(1);
-
-        Bootstrap::initializeLanguageObject();
+        $backendUser = $this->setUpBackendUser(1);
+        $GLOBALS['LANG'] = $this->get(LanguageServiceFactory::class)->createFromUserPreferences($backendUser);
 
         $connection = GeneralUtility::makeInstance(ConnectionPool::class)
             ->getConnectionForTable('pages');
@@ -57,13 +56,13 @@ final class AmendSlugTest extends FunctionalTestCase
             ->select('slug')
             ->from('pages')
             ->where($queryBuilder->expr()->eq('uid', $pageUid))
-            ->execute()
-            ->fetch();
+            ->executeQuery()
+            ->fetchAssociative();
 
         self::assertEquals($expected, $page['slug']);
     }
 
-    public function pages(): \Generator
+    public static function pages(): \Generator
     {
         foreach (['new page', 'hidden new page'] as $hidden => $name) {
             yield $name => [

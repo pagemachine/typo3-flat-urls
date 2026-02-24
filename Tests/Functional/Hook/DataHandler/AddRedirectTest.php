@@ -4,10 +4,14 @@ declare(strict_types=1);
 
 namespace Pagemachine\FlatUrls\Tests\Functional\Hook\DataHandler;
 
+use PHPUnit\Framework\Attributes\DataProvider;
+use PHPUnit\Framework\Attributes\Test;
 use TYPO3\CMS\Core\Configuration\SiteConfiguration;
-use TYPO3\CMS\Core\Core\Bootstrap;
+use TYPO3\CMS\Core\Configuration\SiteWriter;
 use TYPO3\CMS\Core\Database\ConnectionPool;
 use TYPO3\CMS\Core\DataHandling\DataHandler;
+use TYPO3\CMS\Core\Information\Typo3Version;
+use TYPO3\CMS\Core\Localization\LanguageServiceFactory;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\TestingFramework\Core\Functional\FunctionalTestCase;
 
@@ -24,16 +28,13 @@ final class AddRedirectTest extends FunctionalTestCase
         'pagemachine/typo3-flat-urls',
     ];
 
-    /**
-     * @test
-     * @dataProvider redirectPages
-     */
+    #[Test]
+    #[DataProvider('redirectPages')]
     public function addsRedirectsOnSlugChange(array $pages, array $changes, array $expected): void
     {
         $this->importCSVDataSet(__DIR__ . '/../../Fixtures/be_users.csv');
-        $this->setUpBackendUser(1);
-
-        Bootstrap::initializeLanguageObject();
+        $backendUser = $this->setUpBackendUser(1);
+        $GLOBALS['LANG'] = $this->get(LanguageServiceFactory::class)->createFromUserPreferences($backendUser);
 
         $pageConnection = GeneralUtility::makeInstance(ConnectionPool::class)
             ->getConnectionForTable('pages');
@@ -45,22 +46,45 @@ final class AddRedirectTest extends FunctionalTestCase
         $this->setUpFrontendRootPage(1);
 
         $siteConfiguration = GeneralUtility::makeInstance(SiteConfiguration::class);
-        $siteConfiguration->createNewBasicSite('1', 1, '/');
-        $siteConfigurationData = $siteConfiguration->load('1');
-        $siteConfigurationData['languages'][1] = [
-            'title' => 'German',
-            'enabled' => true,
-            'languageId' => 1,
-            'base' => '/de/',
-            'typo3Language' => 'default',
-            'locale' => 'de_DE.UTF-8',
-            'iso-639-1' => 'de',
-            'navigationTitle' => 'Deutsch',
-            'hreflang' => 'de-de',
-            'direction' => 'ltr',
-            'flag' => 'de',
-        ];
-        $siteConfiguration->write('1', $siteConfigurationData);
+
+        if ((new Typo3Version())->getMajorVersion() > 12) {
+            $siteWriter = GeneralUtility::makeInstance(SiteWriter::class);
+            $siteWriter->createNewBasicSite('1', 1, '/');
+            $siteConfiguration = GeneralUtility::makeInstance(SiteConfiguration::class);
+            $siteConfigurationData = $siteConfiguration->load('1');
+            $siteConfigurationData['languages'][1] = [
+                'title' => 'German',
+                'enabled' => true,
+                'languageId' => 1,
+                'base' => '/de/',
+                'typo3Language' => 'default',
+                'locale' => 'de_DE.UTF-8',
+                'iso-639-1' => 'de',
+                'navigationTitle' => 'Deutsch',
+                'hreflang' => 'de-de',
+                'direction' => 'ltr',
+                'flag' => 'de',
+            ];
+            $siteWriter->write('1', $siteConfigurationData);
+        } else {
+            $siteConfiguration = GeneralUtility::makeInstance(SiteConfiguration::class);
+            $siteConfiguration->createNewBasicSite('1', 1, '/');
+            $siteConfigurationData = $siteConfiguration->load('1');
+            $siteConfigurationData['languages'][1] = [
+                'title' => 'German',
+                'enabled' => true,
+                'languageId' => 1,
+                'base' => '/de/',
+                'typo3Language' => 'default',
+                'locale' => 'de_DE.UTF-8',
+                'iso-639-1' => 'de',
+                'navigationTitle' => 'Deutsch',
+                'hreflang' => 'de-de',
+                'direction' => 'ltr',
+                'flag' => 'de',
+            ];
+            $siteConfiguration->write('1', $siteConfigurationData);
+        }
 
         $pageConnection->bulkInsert(
             'pages',
@@ -83,14 +107,14 @@ final class AddRedirectTest extends FunctionalTestCase
 
         $redirect = $redirectConnection
             ->select(['*'], 'sys_redirect')
-            ->fetch();
+            ->fetchAssociative();
 
         foreach ($expected as $field => $value) {
             self::assertSame($value, $redirect[$field] ?? null);
         }
     }
 
-    public function redirectPages(): \Generator
+    public static function redirectPages(): \Generator
     {
         yield 'page' => [
             [
@@ -149,15 +173,12 @@ final class AddRedirectTest extends FunctionalTestCase
         ];
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function skipsPagesWithoutSite(): void
     {
         $this->importCSVDataSet(__DIR__ . '/../../Fixtures/be_users.csv');
-        $this->setUpBackendUser(1);
-
-        Bootstrap::initializeLanguageObject();
+        $backendUser = $this->setUpBackendUser(1);
+        $GLOBALS['LANG'] = $this->get(LanguageServiceFactory::class)->createFromUserPreferences($backendUser);
 
         $pageConnection = GeneralUtility::makeInstance(ConnectionPool::class)
             ->getConnectionForTable('pages');
@@ -185,15 +206,12 @@ final class AddRedirectTest extends FunctionalTestCase
         self::assertEquals(0, $redirectConnection->count('*', 'sys_redirect', []));
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function skipsInactivePages(): void
     {
         $this->importCSVDataSet(__DIR__ . '/../../Fixtures/be_users.csv');
-        $this->setUpBackendUser(1);
-
-        Bootstrap::initializeLanguageObject();
+        $backendUser = $this->setUpBackendUser(1);
+        $GLOBALS['LANG'] = $this->get(LanguageServiceFactory::class)->createFromUserPreferences($backendUser);
 
         $pageConnection = GeneralUtility::makeInstance(ConnectionPool::class)
             ->getConnectionForTable('pages');

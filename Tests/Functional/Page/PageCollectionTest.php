@@ -6,6 +6,7 @@ namespace Pagemachine\FlatUrls\Tests\Functional\Page;
 
 use Pagemachine\FlatUrls\Page\Page;
 use Pagemachine\FlatUrls\Page\PageCollection;
+use PHPUnit\Framework\Attributes\Test;
 use TYPO3\CMS\Core\Database\ConnectionPool;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\TestingFramework\Core\Functional\FunctionalTestCase;
@@ -23,9 +24,7 @@ final class PageCollectionTest extends FunctionalTestCase
         'pagemachine/typo3-flat-urls',
     ];
 
-    /**
-     * @test
-     */
+    #[Test]
     public function collectsAllPages(): void
     {
         $connection = GeneralUtility::makeInstance(ConnectionPool::class)
