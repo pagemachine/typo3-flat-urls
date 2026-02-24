@@ -1,3 +1,5 @@
+{label -> f:format.raw()}
+
 <div class="formengine-field-item t3js-formengine-field-item">
     {fieldInformation.html -> f:format.raw()}
 
@@ -6,7 +8,7 @@
             <div class="form-wizards-item-element">
                 <div class="input-group">
                     <span class="input-group-addon">{baseUrl}</span>
-                    <input value="{itemValue}" class="form-control" readonly>
+                    <input value="{itemValue}" id="{id}" class="form-control" readonly>
                 </div>
             </div>
         </div>

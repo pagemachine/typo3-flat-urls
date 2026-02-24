@@ -9,6 +9,7 @@ use TYPO3\CMS\Core\Information\Typo3Version;
 use TYPO3\CMS\Core\Site\Entity\SiteInterface;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Core\Utility\MathUtility;
+use TYPO3\CMS\Core\Utility\StringUtility;
 use TYPO3\CMS\Fluid\View\StandaloneView;
 
 final class StaticSlugElement extends AbstractFormElement
@@ -30,6 +31,7 @@ final class StaticSlugElement extends AbstractFormElement
         $row = $this->data['databaseRow'];
         $parameterArray = $this->data['parameterArray'];
 
+        $fieldId = StringUtility::getUniqueId('formengine-input-');
         $itemValue = $parameterArray['itemFormElValue'];
         // Convert UTF-8 characters back (that is important, see Slug class when sanitizing)
         $itemValue = rawurldecode($itemValue);
@@ -56,6 +58,8 @@ final class StaticSlugElement extends AbstractFormElement
         $view->assignMultiple([
             'fieldInformation' => $this->renderFieldInformation(),
             'baseUrl' => $baseUrl,
+            'label' => $this->renderLabel($fieldId),
+            'id' => $fieldId,
             'itemValue' => $itemValue,
             'width' => $width,
         ]);
