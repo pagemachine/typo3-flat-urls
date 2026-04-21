@@ -100,6 +100,7 @@
             "git reset --hard",
             "git clean -xfd",
             "@composer global require typo3/tailor",
+            "composer global exec -v -- tailor set-version $TAG",
             "composer global exec -v -- tailor ter:publish --comment \"See release at https://github.com/pagemachine/typo3-flat-urls/releases/tag/$TAG\" $TAG"
         ],
         "test": [
