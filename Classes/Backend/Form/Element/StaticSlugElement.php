@@ -6,10 +6,10 @@ namespace Pagemachine\FlatUrls\Backend\Form\Element;
 
 use TYPO3\CMS\Backend\Form\Element\AbstractFormElement;
 use TYPO3\CMS\Core\Site\Entity\SiteInterface;
-use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Core\Utility\MathUtility;
 use TYPO3\CMS\Core\Utility\StringUtility;
-use TYPO3\CMS\Fluid\View\StandaloneView;
+use TYPO3\CMS\Core\View\ViewFactoryData;
+use TYPO3\CMS\Core\View\ViewFactoryInterface;
 
 final class StaticSlugElement extends AbstractFormElement
 {
@@ -23,6 +23,10 @@ final class StaticSlugElement extends AbstractFormElement
             'renderType' => 'tcaDescription',
         ],
     ];
+
+    public function __construct(
+        private readonly ViewFactoryInterface $viewFactory,
+    ) {}
 
     public function render(): array
     {
@@ -46,8 +50,9 @@ final class StaticSlugElement extends AbstractFormElement
         $size = MathUtility::forceIntegerInRange($config['size'] ?? $this->defaultInputWidth, $this->minimumInputWidth, $this->maxInputWidth);
         $width = $this->formMaxWidth($size);
 
-        $view = GeneralUtility::makeInstance(StandaloneView::class);
-        $view->getRenderingContext()->getTemplatePaths()->setTemplatePathAndFilename('EXT:flat_urls/Resources/Private/Templates/Backend/Form/Element/StaticSlugElement.html');
+        $view = $this->viewFactory->create(new ViewFactoryData(
+            templatePathAndFilename: 'EXT:flat_urls/Resources/Private/Templates/Backend/Form/Element/StaticSlugElement.html',
+        ));
 
         $view->assignMultiple([
             'fieldInformation' => $this->renderFieldInformation(),
