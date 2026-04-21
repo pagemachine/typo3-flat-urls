@@ -31,8 +31,15 @@ final class AmendSlug
             $GLOBALS['TCA']['pages']['columns']['slug']['config']
         );
         $data['uid'] = $dataHandler->substNEWwithIDs[$uid];
-        $data['slug'] = $helper->generate($data, $data['pid']);
 
-        $dataHandler->updateDB($table, $data['uid'], $data);
+        $dataHandler = GeneralUtility::makeInstance(DataHandler::class);
+        $dataHandler->start([
+            'pages' => [
+                $data['uid'] => [
+                    'slug' => $helper->generate($data, $data['pid']),
+                ],
+            ],
+        ], []);
+        $dataHandler->process_datamap();
     }
 }
