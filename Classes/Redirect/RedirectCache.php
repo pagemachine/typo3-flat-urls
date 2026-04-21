@@ -6,7 +6,7 @@ namespace Pagemachine\FlatUrls\Redirect;
 
 use TYPO3\CMS\Redirects\Service\RedirectCacheService;
 
-final class RedirectCache
+final readonly class RedirectCache
 {
     public function __construct(
         private RedirectCacheService $redirectCacheService,

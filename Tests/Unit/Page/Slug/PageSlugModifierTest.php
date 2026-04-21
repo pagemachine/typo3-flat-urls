@@ -5,6 +5,8 @@ declare(strict_types=1);
 namespace Pagemachine\FlatUrls\Tests\Unit\Page\Slug;
 
 use Pagemachine\FlatUrls\Page\Slug\PageSlugModifier;
+use PHPUnit\Framework\Attributes\DataProvider;
+use PHPUnit\Framework\Attributes\Test;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\TestingFramework\Core\Unit\UnitTestCase;
 
@@ -34,9 +36,7 @@ final class PageSlugModifierTest extends UnitTestCase
         GeneralUtility::purgeInstances();
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function skipsUnrelatedTables(): void
     {
         $parameters = [
@@ -49,10 +49,8 @@ final class PageSlugModifierTest extends UnitTestCase
         self::assertEquals('/test', $result);
     }
 
-    /**
-     * @test
-     * @dataProvider pagesWithoutUid
-     */
+    #[DataProvider('pagesWithoutUid')]
+    #[Test]
     public function skipsNewPagesWithoutUid(array $page): void
     {
         $parameters = [
@@ -81,10 +79,8 @@ final class PageSlugModifierTest extends UnitTestCase
         ];
     }
 
-    /**
-     * @test
-     * @dataProvider pages
-     */
+    #[DataProvider('pages')]
+    #[Test]
     public function prependsPageUid(array $page): void
     {
         $parameters = [
@@ -116,9 +112,7 @@ final class PageSlugModifierTest extends UnitTestCase
         ];
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function respectsFieldSeparator(): void
     {
         $parameters = [
@@ -141,9 +135,7 @@ final class PageSlugModifierTest extends UnitTestCase
         self::assertEquals($expected, $result);
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function keepsValidSlug(): void
     {
         $parameters = [

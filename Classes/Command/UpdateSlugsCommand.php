@@ -15,8 +15,8 @@ use TYPO3\CMS\Core\Core\Bootstrap;
 final class UpdateSlugsCommand extends Command
 {
     public function __construct(
-        private PageCollection $pageCollection,
-        private PageSlugProcessor $slugProcessor,
+        private readonly PageCollection $pageCollection,
+        private readonly PageSlugProcessor $slugProcessor,
     ) {
         parent::__construct();
     }

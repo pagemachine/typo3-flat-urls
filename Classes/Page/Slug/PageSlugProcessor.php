@@ -8,7 +8,7 @@ use Pagemachine\FlatUrls\Page\Page;
 use TYPO3\CMS\Core\DataHandling\DataHandler;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 
-final class PageSlugProcessor
+final readonly class PageSlugProcessor
 {
     /**
      * Value to reset slugs and force generation

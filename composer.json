@@ -39,7 +39,9 @@
         "phpspec/prophecy-phpunit": "^2.0",
         "phpstan/phpstan": "^1.0.0 || ^2.0.0",
         "phpunit/phpunit": "^9.0 || ^10.0 || ^11.0 || ^12.0 || ^13.0",
+        "rector/rector": "^1.0 || ^2.0",
         "sclable/xml-lint": "^0.9.0",
+        "ssch/typo3-rector": "^2.0 || ^3.0",
         "typo3/coding-standards": "^0.7.1 || ^0.8.0",
         "typo3/testing-framework": "^7.0 || ^9.0"
     },
@@ -85,8 +87,11 @@
         "php:lint": [
             "@php:syntax:lint",
             "@php:style:lint",
-            "@php:static:lint"
+            "@php:static:lint",
+            "@php:rector:lint"
         ],
+        "php:rector:fix": "rector",
+        "php:rector:lint": "rector --dry-run --no-progress-bar",
         "php:static:lint": "phpstan analyse --ansi --no-progress --memory-limit=512M --configuration=phpstan.neon",
         "php:style:fix": "php-cs-fixer fix --diff",
         "php:style:lint": "php-cs-fixer fix --dry-run --diff",

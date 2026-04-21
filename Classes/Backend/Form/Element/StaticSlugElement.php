@@ -34,7 +34,7 @@ final class StaticSlugElement extends AbstractFormElement
         $fieldId = StringUtility::getUniqueId('formengine-input-');
         $itemValue = $parameterArray['itemFormElValue'];
         // Convert UTF-8 characters back (that is important, see Slug class when sanitizing)
-        $itemValue = rawurldecode($itemValue);
+        $itemValue = rawurldecode((string)$itemValue);
 
         $languageId = 0;
         if (isset($GLOBALS['TCA'][$table]['ctrl']['languageField']) && !empty($GLOBALS['TCA'][$table]['ctrl']['languageField'])) {
@@ -50,9 +50,9 @@ final class StaticSlugElement extends AbstractFormElement
         $view = GeneralUtility::makeInstance(StandaloneView::class);
 
         if ((new Typo3Version())->getMajorVersion() < 13) {
-            $view->setTemplatePathAndFilename('EXT:flat_urls/Resources/Private/Templates/Backend/Form/Element/v12/StaticSlugElement.html');
+            $view->getRenderingContext()->getTemplatePaths()->setTemplatePathAndFilename('EXT:flat_urls/Resources/Private/Templates/Backend/Form/Element/v12/StaticSlugElement.html');
         } else {
-            $view->setTemplatePathAndFilename('EXT:flat_urls/Resources/Private/Templates/Backend/Form/Element/StaticSlugElement.html');
+            $view->getRenderingContext()->getTemplatePaths()->setTemplatePathAndFilename('EXT:flat_urls/Resources/Private/Templates/Backend/Form/Element/StaticSlugElement.html');
         }
 
         $view->assignMultiple([
@@ -87,7 +87,7 @@ final class StaticSlugElement extends AbstractFormElement
             if (!empty($baseUrl) && empty($base->getScheme()) && $base->getHost() !== '') {
                 $baseUrl = 'http:' . $baseUrl;
             }
-        } catch (\InvalidArgumentException $e) {
+        } catch (\InvalidArgumentException) {
             // No site / language found
             $baseUrl = '';
         }

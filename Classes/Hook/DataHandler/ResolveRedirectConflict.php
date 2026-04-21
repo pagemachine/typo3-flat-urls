@@ -13,7 +13,7 @@ use TYPO3\CMS\Core\DataHandling\DataHandler;
 /**
  * Handle redirects conflicting with the new slug of pages
  */
-final class ResolveRedirectConflict
+final readonly class ResolveRedirectConflict
 {
     public function __construct(
         private PageCollection $pageCollection,
@@ -34,7 +34,7 @@ final class ResolveRedirectConflict
 
         try {
             $page = $this->pageCollection->get((int)$uid);
-        } catch (MissingPageException $e) {
+        } catch (MissingPageException) {
             return;
         }
 
