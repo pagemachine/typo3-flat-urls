@@ -11,7 +11,7 @@ use TYPO3\CMS\Core\Exception\SiteNotFoundException;
 use TYPO3\CMS\Core\Site\Entity\Site;
 use TYPO3\CMS\Core\Site\SiteFinder;
 
-final class RedirectConflictDetector
+final readonly class RedirectConflictDetector
 {
     public function __construct(
         private ConnectionPool $connectionPool,
@@ -25,7 +25,7 @@ final class RedirectConflictDetector
     {
         try {
             $site = $this->siteFinder->getSiteByPageId($page->getUid());
-        } catch (SiteNotFoundException $e) {
+        } catch (SiteNotFoundException) {
             return;
         }
 

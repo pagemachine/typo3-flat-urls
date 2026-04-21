@@ -10,7 +10,7 @@ use TYPO3\CMS\Core\Exception\SiteNotFoundException;
 use TYPO3\CMS\Core\Http\Uri;
 use TYPO3\CMS\Core\Site\SiteFinder;
 
-final class RedirectBuilder
+final readonly class RedirectBuilder
 {
     public function __construct(
         private ConnectionPool $connectionPool,

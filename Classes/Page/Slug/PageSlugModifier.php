@@ -25,7 +25,7 @@ final class PageSlugModifier
         $fieldSeparator = $parameters['configuration']['generatorOptions']['fieldSeparator'] ?? '/';
         $slugParts = explode(
             $fieldSeparator,
-            ltrim($parameters['slug'], $fieldSeparator)
+            ltrim((string)$parameters['slug'], $fieldSeparator)
         );
 
         if ($this->isUidPrepended($uid, $slugParts)) {

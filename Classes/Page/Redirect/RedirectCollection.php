@@ -9,7 +9,7 @@ use TYPO3\CMS\Core\DataHandling\DataHandler;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Core\Utility\StringUtility;
 
-final class RedirectCollection
+final readonly class RedirectCollection
 {
     public function __construct(
         private RedirectCache $redirectCache,

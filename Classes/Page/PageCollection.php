@@ -10,7 +10,7 @@ use TYPO3\CMS\Core\Database\Query\Restriction\DeletedRestriction;
 use TYPO3\CMS\Core\Domain\Repository\PageRepository;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 
-final class PageCollection implements \IteratorAggregate, \Countable
+final readonly class PageCollection implements \IteratorAggregate, \Countable
 {
     private Result $pages;
 

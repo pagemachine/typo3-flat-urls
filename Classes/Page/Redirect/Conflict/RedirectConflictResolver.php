@@ -8,7 +8,7 @@ use Pagemachine\FlatUrls\Redirect\RedirectCache;
 use TYPO3\CMS\Core\DataHandling\DataHandler;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 
-final class RedirectConflictResolver
+final readonly class RedirectConflictResolver
 {
     public function __construct(
         private RedirectCache $redirectCache,

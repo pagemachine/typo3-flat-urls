@@ -7,7 +7,7 @@ namespace Pagemachine\FlatUrls\Page\Redirect;
 use Pagemachine\FlatUrls\Page\Page;
 use Psr\Http\Message\UriInterface;
 
-final class Redirect
+final readonly class Redirect
 {
     public function __construct(
         private Page $page,

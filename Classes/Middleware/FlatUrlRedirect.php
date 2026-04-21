@@ -21,7 +21,7 @@ final class FlatUrlRedirect implements MiddlewareInterface, LoggerAwareInterface
     public function process(ServerRequestInterface $request, RequestHandlerInterface $handler): ResponseInterface
     {
         $tail = $request->getAttribute('routing')->getTail();
-        $pageUid = trim($tail, '/');
+        $pageUid = trim((string)$tail, '/');
 
         if (!MathUtility::canBeInterpretedAsInteger($pageUid)) {
             return $handler->handle($request);
