@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace Pagemachine\FlatUrls\Backend\Form\Element;
 
 use TYPO3\CMS\Backend\Form\Element\AbstractFormElement;
-use TYPO3\CMS\Core\Information\Typo3Version;
 use TYPO3\CMS\Core\Site\Entity\SiteInterface;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Core\Utility\MathUtility;
@@ -48,12 +47,7 @@ final class StaticSlugElement extends AbstractFormElement
         $width = $this->formMaxWidth($size);
 
         $view = GeneralUtility::makeInstance(StandaloneView::class);
-
-        if ((new Typo3Version())->getMajorVersion() < 13) {
-            $view->getRenderingContext()->getTemplatePaths()->setTemplatePathAndFilename('EXT:flat_urls/Resources/Private/Templates/Backend/Form/Element/v12/StaticSlugElement.html');
-        } else {
-            $view->getRenderingContext()->getTemplatePaths()->setTemplatePathAndFilename('EXT:flat_urls/Resources/Private/Templates/Backend/Form/Element/StaticSlugElement.html');
-        }
+        $view->getRenderingContext()->getTemplatePaths()->setTemplatePathAndFilename('EXT:flat_urls/Resources/Private/Templates/Backend/Form/Element/StaticSlugElement.html');
 
         $view->assignMultiple([
             'fieldInformation' => $this->renderFieldInformation(),
