@@ -97,18 +97,9 @@
         ],
         "php:unit:test": "phpunit --colors=always",
         "ter:deploy": [
-            "@ter:deploy:cleanup",
-            "@ter:deploy:setup",
-            "@ter:deploy:upload"
-        ],
-        "ter:deploy:cleanup": [
             "git reset --hard",
-            "git clean -xfd"
-        ],
-        "ter:deploy:setup": [
-            "@composer global require typo3/tailor"
-        ],
-        "ter:deploy:upload": [
+            "git clean -xfd",
+            "@composer global require typo3/tailor",
             "composer global exec -v -- tailor ter:publish --comment \"$(git tag -l --format='%(contents)' $TAG)\" $TAG"
         ],
         "test": [
