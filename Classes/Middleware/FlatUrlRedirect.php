@@ -12,7 +12,9 @@ use Psr\Log\LoggerAwareInterface;
 use Psr\Log\LoggerAwareTrait;
 use TYPO3\CMS\Core\Http\RedirectResponse;
 use TYPO3\CMS\Core\Routing\InvalidRouteArgumentsException;
+use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Core\Utility\MathUtility;
+use TYPO3\CMS\Frontend\Controller\ErrorController;
 
 final class FlatUrlRedirect implements MiddlewareInterface, LoggerAwareInterface
 {
@@ -41,6 +43,13 @@ final class FlatUrlRedirect implements MiddlewareInterface, LoggerAwareInterface
             $this->logger->warning(sprintf('Could not resolve full URI for "%s": %s', $tail, $e->getMessage()));
 
             return $handler->handle($request);
+        }
+
+        if ($uri->getPath() === '/') {
+            return GeneralUtility::makeInstance(ErrorController::class)->pageNotFoundAction(
+                $request,
+                sprintf('No matching route for "%s"', $tail),
+            );
         }
 
         return new RedirectResponse(
