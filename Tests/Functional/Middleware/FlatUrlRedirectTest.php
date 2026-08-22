@@ -97,4 +97,12 @@ final class FlatUrlRedirectTest extends FunctionalTestCase
 
         self::assertStringStartsNotWith('3', (string)$response->getStatusCode());
     }
+
+    #[Test]
+    public function failsOnMissingPage(): void
+    {
+        $response = $this->executeFrontendSubRequest(new InternalRequest('http://localhost/123456789'));
+
+        self::assertSame(404, $response->getStatusCode());
+    }
 }
